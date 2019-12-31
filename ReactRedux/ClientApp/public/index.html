@@ -12,11 +12,11 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <!--
-      上記のタグで％PUBLIC_URL％が使用されていることに注意してください。
+      上記のタグで%PUBLIC_URL%が使用されていることに注意してください。
       ビルド中に `public`フォルダのURLに置き換えられます。
       HTMLから参照できるのは、 `public`フォルダー内のファイルのみです。
 
-      「/favicon.ico」や「favicon.ico」とは異なり、「％PUBLIC_URL％/ favicon.ico」は
+      「/favicon.ico」や「favicon.ico」とは異なり、「%PUBLIC_URL%/favicon.ico」は
       クライアント側ルーティングと非ルートパブリックURLの両方で正しく動作します。
       「npm run build」を実行して、非ルートパブリックURLを設定する方法を学びます。
     -->
@@ -26,6 +26,7 @@
     <noscript>
         このアプリを実行するにはJavaScriptを有効にする必要があります。
     </noscript>
+    <!-- index.tsxでこのタグを取得して、ここに各コンポーネントを描画する -->
     <div id="root"></div>
     <!--
       このHTMLファイルはテンプレートです。

@@ -34,11 +34,14 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
         );
     }
 
+    // tsの方のrequestWeatherForecastsを呼び出す
     private ensureDataFetched() {
         const startDateIndex = parseInt(this.props.match.params.startDateIndex, 10) || 0;
         this.props.requestWeatherForecasts(startDateIndex);
     }
 
+    // 表を作る
+    // データ構造を指定して、それを用いて表示
     private renderForecastsTable() {
         return (
             <table className='table table-striped' aria-labelledby="tabelLabel">
@@ -63,7 +66,7 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
             </table>
         );
     }
-
+    // ページを付ける
     private renderPagination() {
         const prevStartDateIndex = (this.props.startDateIndex || 0) - 5;
         const nextStartDateIndex = (this.props.startDateIndex || 0) + 5;

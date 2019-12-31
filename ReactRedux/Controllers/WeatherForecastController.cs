@@ -23,17 +23,22 @@ namespace ReactRedux.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// データを適当に作成してクライアントに返す
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast   // 5件作成
             {
                 Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
+                TemperatureC = rng.Next(-20, 55),   // とりあえずランダムでデータ作成して返す
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
         }
+        // データ構造はサーバ・クライアントの両方に定義する
     }
 }

@@ -12,6 +12,7 @@ export interface CounterState {
 // それらには副作用はありません。彼らは起こることを説明するだけです。
 // シリアル化/逆シリアル化の後でも動作する型検出のために@typeNameとisActionTypeを使用します。
 
+// ここのinterfaceは特に余所で参照されているわけではない。単純な処理だからか？
 export interface IncrementCountAction { type: 'INCREMENT_COUNT' }
 export interface DecrementCountAction { type: 'DECREMENT_COUNT' }
 
@@ -30,7 +31,7 @@ export const actionCreators = {
 
 // ----------------
 // REDUCER - 指定された状態とアクションに対して、新しい状態を返します。タイムトラベルをサポートするために、これは古い状態を変化させてはなりません。
-
+// （※推測）reducerとstateはまとめてindex.tsで列挙されており、インジェクションのような仕組みで取り出して使われている？
 export const reducer: Reducer<CounterState> = (state: CounterState | undefined, incomingAction: Action): CounterState => {
     if (state === undefined) {
         return { count: 0 };

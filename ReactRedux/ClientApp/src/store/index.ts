@@ -2,8 +2,9 @@ import * as WeatherForecasts from './WeatherForecasts';
 import * as Counter from './Counter';
 
 // 最上位の状態オブジェクト
+// 全画面で共有できるみたい。グローバル変数みたいな感じ
 export interface ApplicationState {
-    counter: Counter.CounterState | undefined;
+    counter: Counter.CounterState | undefined;  // 現在のカウント
     weatherForecasts: WeatherForecasts.WeatherForecastsState | undefined;
 }
 

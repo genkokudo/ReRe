@@ -22,6 +22,7 @@ ReactDOM.render(
             <App />
         </ConnectedRouter>
     </Provider>,
+    // index.html‚Ìroot‚ğæ“¾‚µ‚Ä‚»‚±‚É•`‰æ‚·‚éB
     document.getElementById('root'));
 
 registerServiceWorker();

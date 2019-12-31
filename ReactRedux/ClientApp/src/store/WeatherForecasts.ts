@@ -10,6 +10,7 @@ export interface WeatherForecastsState {
     forecasts: WeatherForecast[];
 }
 
+// サーバと同名にしているけど意味あるのだろうか？フィールドの大文字小文字は違うし。
 export interface WeatherForecast {
     date: string;
     temperatureC: number;
@@ -32,7 +33,7 @@ interface ReceiveWeatherForecastsAction {
     forecasts: WeatherForecast[];
 }
 
-// 差別化された組合」型を宣言します。 これにより、「type」プロパティへのすべての参照に、
+// 「差別化された組合」型を宣言します。 これにより、「type」プロパティへのすべての参照に、
 // 宣言されたタイプ文字列のいずれかが含まれることが保証されます（他の任意の文字列は含まれません）。
 type KnownAction = RequestWeatherForecastsAction | ReceiveWeatherForecastsAction;
 
@@ -45,10 +46,10 @@ export const actionCreators = {
         // まだ持っていない（そしてまだ読み込まれていない）データのみを読み込みます
         const appState = getState();
         if (appState && appState.weatherForecasts && startDateIndex !== appState.weatherForecasts.startDateIndex) {
-            fetch(`weatherforecast`)
-                .then(response => response.json() as Promise<WeatherForecast[]>)
+            fetch(`weatherforecast`)    // どうやらfetch APIというものでサーバ側のGETメソッドを呼んでいるらしい。
+                .then(response => response.json() as Promise<WeatherForecast[]>)    // jsonを通じてサーバ側のデータ構造をクライアントで定義したものに変換。すごい。
                 .then(data => {
-                    dispatch({ type: 'RECEIVE_WEATHER_FORECASTS', startDateIndex: startDateIndex, forecasts: data });
+                    dispatch({ type: 'RECEIVE_WEATHER_FORECASTS', startDateIndex: startDateIndex, forecasts: data });   // サーバから受信？
                 });
 
             dispatch({ type: 'REQUEST_WEATHER_FORECASTS', startDateIndex: startDateIndex });
