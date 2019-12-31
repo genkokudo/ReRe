@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactRedux", "ReactRedux\ReactRedux.csproj", "{6B737B48-6C4E-4704-9CC0-04569401EDB3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B737B48-6C4E-4704-9CC0-04569401EDB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B737B48-6C4E-4704-9CC0-04569401EDB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B737B48-6C4E-4704-9CC0-04569401EDB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B737B48-6C4E-4704-9CC0-04569401EDB3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6A361838-9B5D-4E19-9647-3498EE932CF5}
+	EndGlobalSection
+EndGlobal
