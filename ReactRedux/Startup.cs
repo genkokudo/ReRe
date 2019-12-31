@@ -18,19 +18,19 @@ namespace ReactRedux
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // このメソッドはランタイムによって呼び出されます。 このメソッドを使用して、コンテナにサービスを追加します。
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
 
-            // In production, the React files will be served from this directory
+            // 本番環境では、Reactファイルはこのディレクトリから提供されます
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        // このメソッドはランタイムによって呼び出されます。 このメソッドを使用して、HTTP要求パイプラインを構成します。
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -40,12 +40,15 @@ namespace ReactRedux
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                // デフォルトのHSTS値（SSLサーバ証明書）は30日です。 実稼働シナリオでは、これを変更することをお勧めします。 https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            // パブリッシュ時にこの SPA プロジェクトもビルドして ClientApp の下にビルド結果を保持
+            // SpaStaticFiles を使用して wwwroot 下に存在しない SPA のビルド結果をレスポンスします。
             app.UseSpaStaticFiles();
 
             app.UseRouting();
@@ -57,6 +60,7 @@ namespace ReactRedux
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
+            // すべての要求をデフォルトページに書き換え、静的ファイルの提供を設定しようとします。
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";

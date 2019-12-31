@@ -1,18 +1,17 @@
-// In production, we register a service worker to serve assets from local cache.
+// 本番環境では、ローカルキャッシュからアセットを提供するサービスワーカーを登録します。
 
-// This lets the app load faster on subsequent visits in production, and gives
-// it offline capabilities. However, it also means that developers (and users)
-// will only see deployed updates on the "N+1" visit to a page, since previously
-// cached resources are updated in the background.
+// これにより、その後の実稼働時のアクセスでアプリの読み込みが速くなり、オフライン機能が提供されます。 
+// ただし、開発者（およびユーザー）は、以前にキャッシュされたリソースがバックグラウンドで更新されるため、
+// ページへの「N + 1」訪問で展開された更新のみを表示することも意味します。
 
-// To learn more about the benefits of this model, read https://goo.gl/KwvDNy.
-// This link also includes instructions on opting out of this behavior.
+// このモデルの利点について詳しくは、 https://goo.gl/KwvDNy をご覧ください。
+// このリンクには、この動作をオプトアウトする手順も含まれています。
 
 const isLocalhost = Boolean(
     window.location.hostname === 'localhost' ||
-    // [::1] is the IPv6 localhost address.
+    // [::1] はIPv6 localhostアドレスです。
     window.location.hostname === '[::1]' ||
-    // 127.0.0.1/8 is considered localhost for IPv4.
+    // 127.0.0.1/8は、IPv4のlocalhostと見なされます
     window.location.hostname.match(
         /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
     )
@@ -20,13 +19,13 @@ const isLocalhost = Boolean(
 
 export default function register() {
     if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-        // The URL constructor is available in all browsers that support SW.
+        // URLコンストラクターは、SWをサポートするすべてのブラウザーで使用できます。
         const url = process.env.PUBLIC_URL as string;
         const publicUrl = new URL(url, window.location.toString());
         if (publicUrl.origin !== window.location.origin) {
-            // Our service worker won't work if PUBLIC_URL is on a different origin
-            // from what our page is served on. This might happen if a CDN is used to
-            // serve assets; see https://github.com/facebookincubator/create-react-app/issues/2374
+            // PUBLIC_URLがページの配信元と異なる発信元にある場合、サービスワーカーは機能しません。
+            // これは、アセットの提供にCDNが使用される場合に発生する可能性があります。
+            // https://github.com/facebookincubator/create-react-app/issues/2374 を参照してください
             return;
         }
 
@@ -34,10 +33,10 @@ export default function register() {
             const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
             if (isLocalhost) {
-                // This is running on localhost. Lets check if a service worker still exists or not.
+                // これはローカルホストで実行されています。サービスワーカーがまだ存在するかどうかを確認します。
                 checkValidServiceWorker(swUrl);
             } else {
-                // Is not local host. Just register service worker
+                // ローカルホストではありません。サービスワーカーを登録するだけ
                 registerValidSW(swUrl);
             }
         });
@@ -53,46 +52,43 @@ function registerValidSW(swUrl: string) {
                 installingWorker.onstatechange = () => {
                     if (installingWorker.state === 'installed') {
                         if (navigator.serviceWorker.controller) {
-                            // At this point, the old content will have been purged and
-                            // the fresh content will have been added to the cache.
-                            // It's the perfect time to display a "New content is
-                            // available; please refresh." message in your web app.
-                            console.log('New content is available; please refresh.');
+                            // この時点で、古いコンテンツは削除され、新しいコンテンツがキャッシュに追加されます。
+                            //「新しいコンテンツが利用可能です。更新してください」と表示するのに最適なタイミングです。 Webアプリのメッセージ。
+                            console.log('新しいコンテンツが利用可能です。更新してください。');
                         } else {
-                            // At this point, everything has been precached.
-                            // It's the perfect time to display a
-                            // "Content is cached for offline use." message.
-                            console.log('Content is cached for offline use.');
+                            // この時点で、すべてが事前にキャッシュされています。
+                            // 「コンテンツはオフラインで使用するためにキャッシュされます」を表示するのに最適なタイミングです。 メッセージ。
+                            console.log('コンテンツはオフラインで使用するためにキャッシュされます。');
                         }
                     }
                 };
             };
         })
         .catch(error => {
-            console.error('Error during service worker registration:', error);
+            console.error('Service Worker登録中のエラー:', error);
         });
 }
 
 function checkValidServiceWorker(swUrl: string) {
-    // Check if the service worker can be found. If it can't reload the page.
+    // サービスワーカーが見つかるかどうかを確認します。ページをリロードできない場合。
     fetch(swUrl)
         .then(response => {
-            // Ensure service worker exists, and that we really are getting a JS file.
+            // サービスワーカーが存在し、JSファイルを取得していることを確認します。
             const contentType = response.headers.get('content-type');
             if (response.status === 404 || (contentType && contentType.indexOf('javascript') === -1)) {
-                // No service worker found. Probably a different app. Reload the page.
+                // サービスワーカーが見つかりません。おそらく別のアプリ。ページをリロードします。
                 navigator.serviceWorker.ready.then(registration => {
                     registration.unregister().then(() => {
                         window.location.reload();
                     });
                 });
             } else {
-                // Service worker found. Proceed as normal.
+                // サービスワーカーが見つかりました。通常どおり続行します。
                 registerValidSW(swUrl);
             }
         })
         .catch(() => {
-            console.log('No internet connection found. App is running in offline mode.');
+            console.log('インターネット接続が見つかりません。アプリはオフラインモードで実行されています。');
         });
 }
 

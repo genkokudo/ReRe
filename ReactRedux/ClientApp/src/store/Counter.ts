@@ -1,27 +1,27 @@
 import { Action, Reducer } from 'redux';
 
 // -----------------
-// STATE - This defines the type of data maintained in the Redux store.
+// STATE - Reduxストアで保持されるデータのタイプを定義します。
 
 export interface CounterState {
     count: number;
 }
 
 // -----------------
-// ACTIONS - These are serializable (hence replayable) descriptions of state transitions.
-// They do not themselves have any side-effects; they just describe something that is going to happen.
-// Use @typeName and isActionType for type detection that works even after serialization/deserialization.
+// ACTIONS - これらは、状態遷移のシリアル化可能な（したがって再生可能な）説明です。
+// それらには副作用はありません。彼らは起こることを説明するだけです。
+// シリアル化/逆シリアル化の後でも動作する型検出のために@typeNameとisActionTypeを使用します。
 
 export interface IncrementCountAction { type: 'INCREMENT_COUNT' }
 export interface DecrementCountAction { type: 'DECREMENT_COUNT' }
 
-// Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
-// declared type strings (and not any other arbitrary string).
+// 「差別化された共用体」型を宣言します。これにより、「type」プロパティへのすべての参照に次のいずれかが含まれることが保証されます。
+// 宣言された型文字列（他の任意の文字列ではありません）。
 export type KnownAction = IncrementCountAction | DecrementCountAction;
 
 // ----------------
-// ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
-// They don't directly mutate state, but they can have external side-effects (such as loading data).
+// アクションクリエーター-これらは、状態遷移をトリガーするUIコンポーネントに公開される関数です。
+// 状態を直接変化させることはありませんが、外部の副作用（データの読み込みなど）を引き起こす可能性があります。
 
 export const actionCreators = {
     increment: () => ({ type: 'INCREMENT_COUNT' } as IncrementCountAction),
@@ -29,7 +29,7 @@ export const actionCreators = {
 };
 
 // ----------------
-// REDUCER - For a given state and action, returns the new state. To support time travel, this must not mutate the old state.
+// REDUCER - 指定された状態とアクションに対して、新しい状態を返します。タイムトラベルをサポートするために、これは古い状態を変化させてはなりません。
 
 export const reducer: Reducer<CounterState> = (state: CounterState | undefined, incomingAction: Action): CounterState => {
     if (state === undefined) {
