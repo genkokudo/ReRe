@@ -92,9 +92,9 @@ const CreateCrud = () => {
                         </FormGroup>
                         {renderCompany()}
                         {renderAuthority()}
-                        <Button className="mt-3" onClick={() => dispatch(CreateCrudModule.actions.postData())}>Submit</Button>
+                        <Button className="mt-3 btn btn-warning" onClick={() => dispatch(CreateCrudModule.actions.postData())}>Submit</Button>
                     </Form>
-                    <button className="mt-3" onClick={() => history.push('/react/Crud-register-index')}>一覧に戻る</button>
+                    <button className={'mt-3 btn btn-primary'} onClick={() => history.push('/crud')}>一覧に戻る</button>
                 </div>
             }
         </Container>

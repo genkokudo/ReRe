@@ -40,6 +40,9 @@ const ListCrud = () => {
                         <td key={`td_crudId_${i}`}>{currentState.cruds[i].crudId}</td>
                         <td key={`td_name_${i}`}>{currentState.cruds[i].name}</td>
                         <td key={`td_companyName_${i}`}>{currentState.cruds[i].companyName}</td>
+                        <td key={`td_userAuthorities_${i}`}>{currentState.cruds[i].userAuthorities.join(', ')}</td>
+                        <td key={`td_edit_${i}`}><button className={'btn btn-sm btn-primary'} onClick={() => alert('編集')}>編集</button></td>
+                        <td key={`td_delete_${i}`}><button className={'btn btn-sm btn-danger'} onClick={() => alert('削除')}>削除</button></td>
                     </tr>
                 </tbody>
             );
@@ -55,17 +58,23 @@ const ListCrud = () => {
                 data &&
                 <React.Fragment>
                     {/* ボタン */}
-                    <button onClick={() => history.push('/crud/create')}>新規登録</button>
+                    <button className={'btn btn-primary'} onClick={() => history.push('/crud/create')}>新規登録</button>
+                    <button className={'float-right'} onClick={() => history.push('/crud/create')}>新規登録（遷移）</button>
                     {/* 一覧 */}
-                    <table>
+                    <table className={'table table-striped table-hover table-responsive'}>
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Authority</th>
+                                <th>ID</th>
+                                <th>名前</th>
+                                <th>所属</th>
+                                <th>権限</th>
+                                <th>編集</th>
+                                <th>削除</th>
                             </tr>
                         </thead>
                         {body()}
                     </table>
+                    <button className={'btn btn-warning disabled'} onClick={() => history.push('/crud/create')} disabled>確定</button>
                 </React.Fragment>
             }
         </Container>

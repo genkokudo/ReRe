@@ -13,7 +13,7 @@ const NavMenu = () => {
     return (
         <Navbar className="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <Container fluid={true}>
-                <NavbarBrand href="/">CMMP.net</NavbarBrand>
+                <NavbarBrand href="/">ReRe</NavbarBrand>
                 {/* 小さい画面の時ハンバーガーメニュー表示 */}
                 <NavbarToggler onClick={() => { setIsOpen(!isOpen); }} className="mr-2" />
                 <Collapse className="d-sm-inline-flex" isOpen={isOpen} navbar>

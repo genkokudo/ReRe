@@ -21,7 +21,7 @@ export default () => (
         <Route exact path='/' component={Home} />
         <Route path='/nazo-map' component={NazoMap} />
         <Route path='/special' render={props => <Special aaaa={34} {...props} />} />
-        <Route exact path='/crud/' component={ListCrud} />
+        <Route exact path='/crud' component={ListCrud} />
         <Route path='/crud/create' component={CreateCrud} />
     </Layout>
 );
