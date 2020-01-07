@@ -1,8 +1,8 @@
-import { Action, Reducer } from 'redux';
+﻿import { Action, Reducer } from 'redux';
 import { AppThunkAction } from './';
 
 // -----------------
-// STATE - Redux�X�g�A�ŕێ������f�[�^�̃^�C�v���`���܂��B
+// STATE - Reduxストアで保持されるデータのタイプを定義します。
 
 export interface WeatherForecastsState {
     isLoading: boolean;
@@ -10,7 +10,7 @@ export interface WeatherForecastsState {
     forecasts: WeatherForecast[];
 }
 
-// �T�[�o�Ɠ����ɂ��Ă��邯�ǈӖ�����̂��낤���H�t�B�[���h�̑啶���������͈Ⴄ���B
+// サーバと同名にしているけど意味あるのだろうか？フィールドの大文字小文字は違うし。
 export interface WeatherForecast {
     date: string;
     temperatureC: number;
@@ -19,8 +19,8 @@ export interface WeatherForecast {
 }
 
 // -----------------
-// ACTIONS - �����́A��ԑJ�ڂ̃V���A�����\�ȁi���������čĐ��\�ȁj�����ł��B
-// �����ɂ͕���p�͂���܂���B�ނ�͋N���邱�Ƃ�������邾���ł��B
+// ACTIONS - これらは、状態遷移のシリアル化可能な（したがって再生可能な）説明です。
+// それらには副作用はありません。彼らは起こることを説明するだけです。
 
 interface RequestWeatherForecastsAction {
     type: 'REQUEST_WEATHER_FORECASTS';
@@ -33,23 +33,23 @@ interface ReceiveWeatherForecastsAction {
     forecasts: WeatherForecast[];
 }
 
-// �u���ʉ����ꂽ�g���v�^��錾���܂��B ����ɂ��A�utype�v�v���p�e�B�ւ̂��ׂĂ̎Q�ƂɁA
-// �錾���ꂽ�^�C�v������̂����ꂩ���܂܂�邱�Ƃ��ۏ؂���܂��i���̔C�ӂ̕�����͊܂܂�܂���j�B
+// 「差別化された組合」型を宣言します。 これにより、「type」プロパティへのすべての参照に、
+// 宣言されたタイプ文字列のいずれかが含まれることが保証されます（他の任意の文字列は含まれません）。
 type KnownAction = RequestWeatherForecastsAction | ReceiveWeatherForecastsAction;
 
 // ----------------
-// ACTION CREATORS - �����́A��ԑJ�ڂ��g���K�[����UI�R���|�[�l���g�Ɍ��J�����֐��ł��B
-// ��Ԃ𒼐ڕω������邱�Ƃ͂���܂��񂪁A�O���̕���p�i�f�[�^�̓ǂݍ��݂Ȃǁj�������N�����\��������܂��B
+// ACTION CREATORS - これらは、状態遷移をトリガーするUIコンポーネントに公開される関数です。
+// 状態を直接変化させることはありませんが、外部の副作用（データの読み込みなど）を引き起こす可能性があります。
 
 export const actionCreators = {
     requestWeatherForecasts: (startDateIndex: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        // �܂������Ă��Ȃ��i�����Ă܂��ǂݍ��܂�Ă��Ȃ��j�f�[�^�݂̂�ǂݍ��݂܂�
+        // まだ持っていない（そしてまだ読み込まれていない）データのみを読み込みます
         const appState = getState();
         if (appState && appState.weatherForecasts && startDateIndex !== appState.weatherForecasts.startDateIndex) {
-            fetch(`weatherforecast`)    // �ǂ����fetch API�Ƃ������̂ŃT�[�o����GET���\�b�h���Ă�ł���炵���B
-                .then(response => response.json() as Promise<WeatherForecast[]>)    // json��ʂ��ăT�[�o���̃f�[�^�\�����N���C�A���g�Œ�`�������̂ɕϊ��B�������B
+            fetch(`weatherforecast`)    // どうやらfetch APIというものでサーバ側のGETメソッドを呼んでいるらしい。
+                .then(response => response.json() as Promise<WeatherForecast[]>)    // jsonを通じてサーバ側のデータ構造をクライアントで定義したものに変換。すごい。
                 .then(data => {
-                    dispatch({ type: 'RECEIVE_WEATHER_FORECASTS', startDateIndex: startDateIndex, forecasts: data });   // �T�[�o�����M�H
+                    dispatch({ type: 'RECEIVE_WEATHER_FORECASTS', startDateIndex: startDateIndex, forecasts: data });   // サーバから受信？
                 });
 
             dispatch({ type: 'REQUEST_WEATHER_FORECASTS', startDateIndex: startDateIndex });
@@ -58,8 +58,8 @@ export const actionCreators = {
 };
 
 // ----------------
-// REDUCER - �w�肳�ꂽ��ԂƃA�N�V�����ɑ΂��āA�V������Ԃ�Ԃ��܂��B
-// �^�C���g���x�����T�|�[�g���邽�߂ɁA����͌Â���Ԃ�ω������Ă͂Ȃ�܂���B
+// REDUCER - 指定された状態とアクションに対して、新しい状態を返します。
+// タイムトラベルをサポートするために、これは古い状態を変化させてはなりません。
 
 const unloadedState: WeatherForecastsState = { forecasts: [], isLoading: false };
 
@@ -77,8 +77,8 @@ export const reducer: Reducer<WeatherForecastsState> = (state: WeatherForecastsS
                 isLoading: true
             };
         case 'RECEIVE_WEATHER_FORECASTS':
-            // �ŐV�̃��N�G�X�g�Ɉ�v����ꍇ�ɂ̂݁A���M�f�[�^���󂯓���܂��B
-            // ����ɂ��A���s���̉����𐳂��������ł��܂��B
+            // 最新のリクエストに一致する場合にのみ、着信データを受け入れます。
+            // これにより、順不同の応答を正しく処理できます。
             if (action.startDateIndex === state.startDateIndex) {
                 return {
                     startDateIndex: action.startDateIndex,

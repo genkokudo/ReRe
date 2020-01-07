@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+ï»¿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -18,19 +18,19 @@ namespace ReactRedux
 
         public IConfiguration Configuration { get; }
 
-        // ‚±‚Ìƒƒ\ƒbƒh‚Íƒ‰ƒ“ƒ^ƒCƒ€‚É‚æ‚Á‚ÄŒÄ‚Ño‚³‚ê‚Ü‚·B ‚±‚Ìƒƒ\ƒbƒh‚ðŽg—p‚µ‚ÄAƒRƒ“ƒeƒi‚ÉƒT[ƒrƒX‚ð’Ç‰Á‚µ‚Ü‚·B
+        // ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã«ã‚ˆã£ã¦å‘¼ã³å‡ºã•ã‚Œã¾ã™ã€‚ ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ã€ã‚³ãƒ³ãƒ†ãƒŠã«ã‚µãƒ¼ãƒ“ã‚¹ã‚’è¿½åŠ ã—ã¾ã™ã€‚
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
 
-            // –{”ÔŠÂ‹«‚Å‚ÍAReactƒtƒ@ƒCƒ‹‚Í‚±‚ÌƒfƒBƒŒƒNƒgƒŠ‚©‚ç’ñ‹Ÿ‚³‚ê‚Ü‚·
+            // æœ¬ç•ªç’°å¢ƒã§ã¯ã€Reactãƒ•ã‚¡ã‚¤ãƒ«ã¯ã“ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‹ã‚‰æä¾›ã•ã‚Œã¾ã™
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
             });
         }
 
-        // ‚±‚Ìƒƒ\ƒbƒh‚Íƒ‰ƒ“ƒ^ƒCƒ€‚É‚æ‚Á‚ÄŒÄ‚Ño‚³‚ê‚Ü‚·B ‚±‚Ìƒƒ\ƒbƒh‚ðŽg—p‚µ‚ÄAHTTP—v‹ƒpƒCƒvƒ‰ƒCƒ“‚ð\¬‚µ‚Ü‚·B
+        // ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ã«ã‚ˆã£ã¦å‘¼ã³å‡ºã•ã‚Œã¾ã™ã€‚ ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã—ã¦ã€HTTPè¦æ±‚ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚’æ§‹æˆã—ã¾ã™ã€‚
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -40,15 +40,15 @@ namespace ReactRedux
             else
             {
                 app.UseExceptionHandler("/Error");
-                // ƒfƒtƒHƒ‹ƒg‚ÌHSTS’liSSLƒT[ƒoØ–¾‘j‚Í30“ú‚Å‚·B ŽÀ‰Ò“­ƒVƒiƒŠƒI‚Å‚ÍA‚±‚ê‚ð•ÏX‚·‚é‚±‚Æ‚ð‚¨Š©‚ß‚µ‚Ü‚·B https://aka.ms/aspnetcore-hsts.
+                // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®HSTSå€¤ï¼ˆSSLã‚µãƒ¼ãƒè¨¼æ˜Žæ›¸ï¼‰ã¯30æ—¥ã§ã™ã€‚ å®Ÿç¨¼åƒã‚·ãƒŠãƒªã‚ªã§ã¯ã€ã“ã‚Œã‚’å¤‰æ›´ã™ã‚‹ã“ã¨ã‚’ãŠå‹§ã‚ã—ã¾ã™ã€‚ https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            // ƒpƒuƒŠƒbƒVƒ…Žž‚É‚±‚Ì SPA ƒvƒƒWƒFƒNƒg‚àƒrƒ‹ƒh‚µ‚Ä ClientApp ‚Ì‰º‚Éƒrƒ‹ƒhŒ‹‰Ê‚ð•ÛŽ
-            // SpaStaticFiles ‚ðŽg—p‚µ‚Ä wwwroot ‰º‚É‘¶Ý‚µ‚È‚¢ SPA ‚Ìƒrƒ‹ƒhŒ‹‰Ê‚ðƒŒƒXƒ|ƒ“ƒX‚µ‚Ü‚·B
+            // ãƒ‘ãƒ–ãƒªãƒƒã‚·ãƒ¥æ™‚ã«ã“ã® SPA ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚‚ãƒ“ãƒ«ãƒ‰ã—ã¦ ClientApp ã®ä¸‹ã«ãƒ“ãƒ«ãƒ‰çµæžœã‚’ä¿æŒ
+            // SpaStaticFiles ã‚’ä½¿ç”¨ã—ã¦ wwwroot ä¸‹ã«å­˜åœ¨ã—ãªã„ SPA ã®ãƒ“ãƒ«ãƒ‰çµæžœã‚’ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã—ã¾ã™ã€‚
             app.UseSpaStaticFiles();
 
             app.UseRouting();
@@ -60,7 +60,7 @@ namespace ReactRedux
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            // ‚·‚×‚Ä‚Ì—v‹‚ðƒfƒtƒHƒ‹ƒgƒy[ƒW‚É‘‚«Š·‚¦AÃ“Iƒtƒ@ƒCƒ‹‚Ì’ñ‹Ÿ‚ðÝ’è‚µ‚æ‚¤‚Æ‚µ‚Ü‚·B
+            // ã™ã¹ã¦ã®è¦æ±‚ã‚’ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒšãƒ¼ã‚¸ã«æ›¸ãæ›ãˆã€é™çš„ãƒ•ã‚¡ã‚¤ãƒ«ã®æä¾›ã‚’è¨­å®šã—ã‚ˆã†ã¨ã—ã¾ã™ã€‚
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";

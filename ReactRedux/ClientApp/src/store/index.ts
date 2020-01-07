@@ -1,23 +1,23 @@
-import * as WeatherForecasts from './WeatherForecasts';
+ï»¿import * as WeatherForecasts from './WeatherForecasts';
 import * as Counter from './Counter';
 
-// ÅãˆÊ‚Ìó‘ÔƒIƒuƒWƒFƒNƒg
-// ‘S‰æ–Ê‚Å‹¤—L‚Å‚«‚é‚İ‚½‚¢BƒOƒ[ƒoƒ‹•Ï”‚İ‚½‚¢‚ÈŠ´‚¶
+// æœ€ä¸Šä½ã®çŠ¶æ…‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
+// å…¨ç”»é¢ã§å…±æœ‰ã§ãã‚‹ã¿ãŸã„ã€‚ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°ã¿ãŸã„ãªæ„Ÿã˜
 export interface ApplicationState {
-    counter: Counter.CounterState | undefined;  // Œ»İ‚ÌƒJƒEƒ“ƒg
+    counter: Counter.CounterState | undefined;  // ç¾åœ¨ã®ã‚«ã‚¦ãƒ³ãƒˆ
     weatherForecasts: WeatherForecasts.WeatherForecastsState | undefined;
 }
 
-// ƒAƒNƒVƒ‡ƒ“‚ªƒfƒBƒXƒpƒbƒ`‚³‚ê‚é‚½‚Ñ‚ÉARedux‚ÍA–¼‘O‚ªˆê’v‚·‚éƒŠƒfƒ…[ƒT[‚ğg—p‚µ‚ÄŠeƒgƒbƒvƒŒƒxƒ‹‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ó‘ÔƒvƒƒpƒeƒB‚ğXV‚µ‚Ü‚·B
-// –¼‘O‚ª³Šm‚Éˆê’v‚·‚é‚±‚ÆA‚¨‚æ‚ÑƒŒƒfƒ…[ƒT[‚ªd—v‚Å‚·B
-// ‘Î‰‚·‚éApplicationStateƒvƒƒpƒeƒBƒ^ƒCƒv‚Éì—p‚µ‚Ü‚·B
+// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãŒãƒ‡ã‚£ã‚¹ãƒ‘ãƒƒãƒã•ã‚Œã‚‹ãŸã³ã«ã€Reduxã¯ã€åå‰ãŒä¸€è‡´ã™ã‚‹ãƒªãƒ‡ãƒ¥ãƒ¼ã‚µãƒ¼ã‚’ä½¿ç”¨ã—ã¦å„ãƒˆãƒƒãƒ—ãƒ¬ãƒ™ãƒ«ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³çŠ¶æ…‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’æ›´æ–°ã—ã¾ã™ã€‚
+// åå‰ãŒæ­£ç¢ºã«ä¸€è‡´ã™ã‚‹ã“ã¨ã€ãŠã‚ˆã³ãƒ¬ãƒ‡ãƒ¥ãƒ¼ã‚µãƒ¼ãŒé‡è¦ã§ã™ã€‚
+// å¯¾å¿œã™ã‚‹ApplicationStateãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚¿ã‚¤ãƒ—ã«ä½œç”¨ã—ã¾ã™ã€‚
 export const reducers = {
     counter: Counter.reducer,
     weatherForecasts: WeatherForecasts.reducer
 };
 
-// ‚±‚Ìƒ^ƒCƒv‚ÍAƒAƒNƒVƒ‡ƒ“ƒNƒŠƒG[ƒ^[‚Ìƒqƒ“ƒg‚Æ‚µ‚Äg—p‚Å‚«‚é‚½‚ßA
-// udispatchv‚¨‚æ‚ÑugetStatevƒpƒ‰ƒ[ƒ^[‚ªƒXƒgƒA‚Éˆê’v‚·‚é‚æ‚¤‚É³‚µ‚­“ü—Í‚³‚ê‚Ü‚·B
+// ã“ã®ã‚¿ã‚¤ãƒ—ã¯ã€ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒªã‚¨ãƒ¼ã‚¿ãƒ¼ã®ãƒ’ãƒ³ãƒˆã¨ã—ã¦ä½¿ç”¨ã§ãã‚‹ãŸã‚ã€
+// ã€Œdispatchã€ãŠã‚ˆã³ã€ŒgetStateã€ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼ãŒã‚¹ãƒˆã‚¢ã«ä¸€è‡´ã™ã‚‹ã‚ˆã†ã«æ­£ã—ãå…¥åŠ›ã•ã‚Œã¾ã™ã€‚
 export interface AppThunkAction<TAction> {
     (dispatch: (action: TAction) => void, getState: () => ApplicationState): void;
 }

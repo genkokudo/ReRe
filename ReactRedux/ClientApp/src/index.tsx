@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.css';
+ï»¿import 'bootstrap/dist/css/bootstrap.css';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -9,11 +9,11 @@ import configureStore from './store/configureStore';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
-// ReduxƒXƒgƒA‚Åg—p‚·‚éƒuƒ‰ƒEƒU—š—ğ‚ğì¬‚µ‚Ü‚·
+// Reduxã‚¹ãƒˆã‚¢ã§ä½¿ç”¨ã™ã‚‹ãƒ–ãƒ©ã‚¦ã‚¶å±¥æ­´ã‚’ä½œæˆã—ã¾ã™
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as string;
 const history = createBrowserHistory({ basename: baseUrl });
 
-// ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‘S‘Ì‚ÌƒXƒgƒAƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚µA—˜—p‰Â”\‚Èê‡‚ÍƒT[ƒo[‚©‚çó‘Ô‚ğ–‘O“ü—Í‚µ‚Ü‚·B
+// ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³å…¨ä½“ã®ã‚¹ãƒˆã‚¢ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã—ã€åˆ©ç”¨å¯èƒ½ãªå ´åˆã¯ã‚µãƒ¼ãƒãƒ¼ã‹ã‚‰çŠ¶æ…‹ã‚’äº‹å‰å…¥åŠ›ã—ã¾ã™ã€‚
 const store = configureStore(history);
 
 ReactDOM.render(
@@ -22,7 +22,7 @@ ReactDOM.render(
             <App />
         </ConnectedRouter>
     </Provider>,
-    // index.html‚Ìroot‚ğæ“¾‚µ‚Ä‚»‚±‚É•`‰æ‚·‚éB
+    // index.htmlã®rootã‚’å–å¾—ã—ã¦ãã“ã«æç”»ã™ã‚‹ã€‚
     document.getElementById('root'));
 
 registerServiceWorker();

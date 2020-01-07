@@ -1,45 +1,45 @@
-import * as React from 'react';
+ï»¿import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 import { ApplicationState } from '../store';
 import * as CounterStore from '../store/Counter';
 
-// CounterStore.CounterState‚ÆCounterStore.actionCreators‚ğ‡‘Ì‚³‚¹‚Ä‚é‚İ‚½‚¢
-// CounterState‚ÍinterfaceAactionCreators‚Í‚È‚ñ‚©ƒƒ\ƒbƒh‚ÌW‚Ü‚è
+// CounterStore.CounterStateã¨CounterStore.actionCreatorsã‚’åˆä½“ã•ã›ã¦ã‚‹ã¿ãŸã„
+// CounterStateã¯interfaceã€actionCreatorsã¯ãªã‚“ã‹ãƒ¡ã‚½ãƒƒãƒ‰ã®é›†ã¾ã‚Š
 type CounterProps =
     CounterStore.CounterState &
     typeof CounterStore.actionCreators &
     RouteComponentProps<{}>;
-// CounterState‚Íó‘Ô‚ğ•\‚µ‚Ä‚¨‚èA‚±‚±‚Å‚ÍƒNƒŠƒbƒN‚µ‚½‰ñ”‚Æ‚È‚éB‚±‚ê‚ğ‡‘Ì‚µ‚½actionCreators‚ÅƒJƒEƒ“ƒgƒAƒbƒvB
-// Redux‚Íó‘Ô‚ğXV‚·‚éê‡Aí‚ÉV‚µ‚¢ó‘Ô‚ğ•Ô‚·Bã‘‚«‚Å‚Í‚È‚¢B
+// CounterStateã¯çŠ¶æ…‹ã‚’è¡¨ã—ã¦ãŠã‚Šã€ã“ã“ã§ã¯ã‚¯ãƒªãƒƒã‚¯ã—ãŸå›æ•°ã¨ãªã‚‹ã€‚ã“ã‚Œã‚’åˆä½“ã—ãŸactionCreatorsã§ã‚«ã‚¦ãƒ³ãƒˆã‚¢ãƒƒãƒ—ã€‚
+// Reduxã¯çŠ¶æ…‹ã‚’æ›´æ–°ã™ã‚‹å ´åˆã€å¸¸ã«æ–°ã—ã„çŠ¶æ…‹ã‚’è¿”ã™ã€‚ä¸Šæ›¸ãã§ã¯ãªã„ã€‚
 
-// ã‚Åì¬‚µ‚½CounterProps‚ğg—p‚µ‚ÄƒNƒ‰ƒX‚ğ’è‹`
+// ä¸Šã§ä½œæˆã—ãŸCounterPropsã‚’ä½¿ç”¨ã—ã¦ã‚¯ãƒ©ã‚¹ã‚’å®šç¾©
 class Counter extends React.PureComponent<CounterProps> {
-    // ‚Ç‚¤‚â‚çimportæ‚Å‘‚©‚È‚­‚Ä‚àƒNƒ‰ƒX‚ğexport‚µ‚½ê‡‚Írender()‚ğŒÄ‚Ô‚±‚Æ‚É‚È‚Á‚Ä‚é‚ç‚µ‚¢B
-    // this.props‚É‚ÍCounterProps‚ª“ü‚Á‚Ä‚é‚Ì‚ÅA‚»‚Ì’†‚ÌCounterStore.actionCreators‚Æ‚©‚É’è‹`‚³‚ê‚½‚à‚Ì‚ªŒÄ‚×‚é
-    // this.props.count‚ÍCounterStore.CounterState‚É“ü‚Á‚Ä‚¢‚é‚¼
+    // ã©ã†ã‚„ã‚‰importå…ˆã§æ›¸ã‹ãªãã¦ã‚‚ã‚¯ãƒ©ã‚¹ã‚’exportã—ãŸå ´åˆã¯render()ã‚’å‘¼ã¶ã“ã¨ã«ãªã£ã¦ã‚‹ã‚‰ã—ã„ã€‚
+    // this.propsã«ã¯CounterPropsãŒå…¥ã£ã¦ã‚‹ã®ã§ã€ãã®ä¸­ã®CounterStore.actionCreatorsã¨ã‹ã«å®šç¾©ã•ã‚ŒãŸã‚‚ã®ãŒå‘¼ã¹ã‚‹
+    // this.props.countã¯CounterStore.CounterStateã«å…¥ã£ã¦ã„ã‚‹ã
     public render() {
         return (
             <React.Fragment>
                 <h1>Counter</h1>
 
-                <p>‚±‚ê‚ÍAReactƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌŠÈ’P‚È—á‚Å‚·B</p>
+                <p>ã“ã‚Œã¯ã€Reactã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®ç°¡å˜ãªä¾‹ã§ã™ã€‚</p>
 
-                <p aria-live="polite">Œ»İ‚ÌƒJƒEƒ“ƒg: <strong>{this.props.count}</strong></p>
+                <p aria-live="polite">ç¾åœ¨ã®ã‚«ã‚¦ãƒ³ãƒˆ: <strong>{this.props.count}</strong></p>
 
                 <button type="button"
                     className="btn btn-primary btn-lg"
                     onClick={() => { this.props.increment(); }}>
-                    ‘‚â‚·
+                    å¢—ã‚„ã™
                 </button>
             </React.Fragment>
         );
     }
 };
 
-// HOME‚Æˆá‚Á‚ÄAComponent‚ğŒp³‚µ‚½ƒNƒ‰ƒX‚ğ•Ô‚·
-// ‰æ–Ê•\¦‚·‚é’l‚ğó‘Ô‚É‘ã“ü‚·‚éŠ‚ğˆø”‚Éİ’è‚·‚é
-export default connect( // ‚Ç‚¤‚â‚çindex.ts‚ÅŠo‚¦‚Ä‚¢‚éApplicationState‚Ì’l‚ğ“n‚·‚ç‚µ‚¢B‚±‚±‚ÉŒ»İ‚ÌƒJƒEƒ“ƒ^‚ğ‚½‚¹‚Ä‚¢‚éB
-    (state: ApplicationState) => state.counter, // ‚Ç‚Ìó‘ÔƒvƒƒpƒeƒB‚ğƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì¬“¹‹ï‚Éƒ}[ƒW‚·‚é‚©‚ğ‘I‘ğ‚µ‚Ü‚·
-    CounterStore.actionCreators // ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì¬“¹‹ï‚Éƒ}[ƒW‚·‚éƒAƒNƒVƒ‡ƒ“ì¬Ò‚ğ‘I‘ğ‚µ‚Ü‚·
+// HOMEã¨é•ã£ã¦ã€Componentã‚’ç¶™æ‰¿ã—ãŸã‚¯ãƒ©ã‚¹ã‚’è¿”ã™
+// ç”»é¢è¡¨ç¤ºã™ã‚‹å€¤ã‚’çŠ¶æ…‹ã«ä»£å…¥ã™ã‚‹æ‰€ã‚’å¼•æ•°ã«è¨­å®šã™ã‚‹
+export default connect( // ã©ã†ã‚„ã‚‰index.tsã§è¦šãˆã¦ã„ã‚‹ApplicationStateã®å€¤ã‚’æ¸¡ã™ã‚‰ã—ã„ã€‚ã“ã“ã«ç¾åœ¨ã®ã‚«ã‚¦ãƒ³ã‚¿ã‚’æŒãŸã›ã¦ã„ã‚‹ã€‚
+    (state: ApplicationState) => state.counter, // ã©ã®çŠ¶æ…‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å°é“å…·ã«ãƒãƒ¼ã‚¸ã™ã‚‹ã‹ã‚’é¸æŠã—ã¾ã™
+    CounterStore.actionCreators // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å°é“å…·ã«ãƒãƒ¼ã‚¸ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ä½œæˆè€…ã‚’é¸æŠã—ã¾ã™
 )(Counter);

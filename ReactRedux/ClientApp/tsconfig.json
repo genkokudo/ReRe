@@ -1,17 +1,17 @@
-{
+﻿{
   "compilerOptions": {
-    "target": "es5", // ECMAScript target version���w��
-    "allowJs": true, //JS�t�@�C���̃r���h���\��
-    "esModuleInterop": true, // CommonJS���W���[����ES���W���[���Ԃ̑��݉^�p����,���ׂẴC���|�[�g�p�ɖ��O��ԃI�u�W�F�N�g���쐬���邱�Ƃŉ\��
-    "allowSyntheticDefaultImports": true, //�G�L�X�|�[�g���Ȃ����W���[������̃C���|�[�g�������邩�i�^�`�F�b�N�݂̂ɉe���j
-    "strict": true, //�����Ȍ^�`�F�b�N�I�v�V������L����
-    "forceConsistentCasingInFileNames": true, //�啶������������ʂ��ĎQ�Ƃ���������悤�ɂ���
-    "module": "esnext", //��������郂�W���[���R�[�h���w��iesnext�F�܂��g���Ȃ��̂��܂߂��ŐV��JS�̂��Ɓj
-    "moduleResolution": "node", //���W���[�������헪���w�肷��: 'node'�iNode.js�j�܂��� 'classic'
-    "resolveJsonModule": true, //�����Ō^��`���s���K�v�Ȃ� json �t�@�C�����������Ƃ��\��
-    "isolatedModules": true, //�e�X�̃t�@�C����ʂ̃��W���[���Ƃ��ĕϊ�
-    "noEmit": true, // �o�͂��s���܂���B
-    "jsx": "preserve", //tsx�g���q�ɂ�����JSX�T�|�[�g���s����
+    "target": "es5", // ECMAScript target versionを指定
+    "allowJs": true, //JSファイルのビルドを可能に
+    "esModuleInterop": true, // CommonJSモジュールとESモジュール間の相互運用性を,すべてのインポート用に名前空間オブジェクトを作成することで可能に
+    "allowSyntheticDefaultImports": true, //エキスポートしないモジュールからのインポートを許可するか（型チェックのみに影響）
+    "strict": true, //厳密な型チェックオプションを有効に
+    "forceConsistentCasingInFileNames": true, //大文字小文字を区別して参照を解決するようにする
+    "module": "esnext", //生成されるモジュールコードを指定（esnext：まだ使えないのも含めた最新のJSのこと）
+    "moduleResolution": "node", //モジュール解決戦略を指定する: 'node'（Node.js）または 'classic'
+    "resolveJsonModule": true, //自分で型定義を行う必要なく json ファイルを扱うことを可能に
+    "isolatedModules": true, //各々のファイルを別のモジュールとして変換
+    "noEmit": true, // 出力を行いません。
+    "jsx": "preserve", //tsx拡張子においてJSXサポートを行うか
     "lib": [
       "es2015",
       "dom"

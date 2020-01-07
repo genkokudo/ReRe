@@ -1,4 +1,4 @@
-import * as React from 'react';
+ï»¿import * as React from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
@@ -17,7 +17,7 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                         <NavbarToggler onClick={this.toggle} className="mr-2"/>
                         <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
                             <ul className="navbar-nav flex-grow">
-                                {/* to‚Å‚Ç‚ÌtsxƒRƒ“ƒ|[ƒlƒ“ƒg‚É”ò‚Ô‚©‚ÍAApp.tsx‚Åİ’è‚·‚éB */}
+                                {/* toã§ã©ã®tsxã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«é£›ã¶ã‹ã¯ã€App.tsxã§è¨­å®šã™ã‚‹ã€‚ */}
                                 <NavItem>
                                     <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
                                 </NavItem>

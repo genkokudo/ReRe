@@ -1,28 +1,28 @@
-import { Action, Reducer } from 'redux';
+﻿import { Action, Reducer } from 'redux';
 
 // -----------------
-// STATE - Redux�X�g�A�ŕێ������f�[�^�̃^�C�v���`���܂��B
+// STATE - Reduxストアで保持されるデータのタイプを定義します。
 
 export interface CounterState {
     count: number;
 }
 
 // -----------------
-// ACTIONS - �����́A��ԑJ�ڂ̃V���A�����\�ȁi���������čĐ��\�ȁj�����ł��B
-// �����ɂ͕���p�͂���܂���B�ނ�͋N���邱�Ƃ�������邾���ł��B
-// �V���A����/�t�V���A�����̌�ł����삷��^���o�̂��߂�@typeName��isActionType���g�p���܂��B
+// ACTIONS - これらは、状態遷移のシリアル化可能な（したがって再生可能な）説明です。
+// それらには副作用はありません。彼らは起こることを説明するだけです。
+// シリアル化/逆シリアル化の後でも動作する型検出のために@typeNameとisActionTypeを使用します。
 
-// ������interface�͓��ɗ]���ŎQ�Ƃ���Ă���킯�ł͂Ȃ��B�P���ȏ��������炩�H
+// ここのinterfaceは特に余所で参照されているわけではない。単純な処理だからか？
 export interface IncrementCountAction { type: 'INCREMENT_COUNT' }
 export interface DecrementCountAction { type: 'DECREMENT_COUNT' }
 
-// �u���ʉ����ꂽ���p�́v�^��錾���܂��B����ɂ��A�utype�v�v���p�e�B�ւ̂��ׂĂ̎Q�ƂɎ��̂����ꂩ���܂܂�邱�Ƃ��ۏ؂���܂��B
-// �錾���ꂽ�^������i���̔C�ӂ̕�����ł͂���܂���j�B
+// 「差別化された共用体」型を宣言します。これにより、「type」プロパティへのすべての参照に次のいずれかが含まれることが保証されます。
+// 宣言された型文字列（他の任意の文字列ではありません）。
 export type KnownAction = IncrementCountAction | DecrementCountAction;
 
 // ----------------
-// �A�N�V�����N���G�[�^�[-�����́A��ԑJ�ڂ��g���K�[����UI�R���|�[�l���g�Ɍ��J�����֐��ł��B
-// ��Ԃ𒼐ڕω������邱�Ƃ͂���܂��񂪁A�O���̕���p�i�f�[�^�̓ǂݍ��݂Ȃǁj�������N�����\��������܂��B
+// アクションクリエーター-これらは、状態遷移をトリガーするUIコンポーネントに公開される関数です。
+// 状態を直接変化させることはありませんが、外部の副作用（データの読み込みなど）を引き起こす可能性があります。
 
 export const actionCreators = {
     increment: () => ({ type: 'INCREMENT_COUNT' } as IncrementCountAction),
@@ -30,8 +30,8 @@ export const actionCreators = {
 };
 
 // ----------------
-// REDUCER - �w�肳�ꂽ��ԂƃA�N�V�����ɑ΂��āA�V������Ԃ�Ԃ��܂��B�^�C���g���x�����T�|�[�g���邽�߂ɁA����͌Â���Ԃ�ω������Ă͂Ȃ�܂���B
-// �i�������jreducer��state�͂܂Ƃ߂�index.ts�ŗ񋓂���Ă���A�C���W�F�N�V�����̂悤�Ȏd�g�݂Ŏ��o���Ďg���Ă���H
+// REDUCER - 指定された状態とアクションに対して、新しい状態を返します。タイムトラベルをサポートするために、これは古い状態を変化させてはなりません。
+// （※推測）reducerとstateはまとめてindex.tsで列挙されており、インジェクションのような仕組みで取り出して使われている？
 export const reducer: Reducer<CounterState> = (state: CounterState | undefined, incomingAction: Action): CounterState => {
     if (state === undefined) {
         return { count: 0 };
