@@ -17,7 +17,7 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                         <NavbarToggler onClick={this.toggle} className="mr-2"/>
                         <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
                             <ul className="navbar-nav flex-grow">
-                                {/* to�łǂ�tsx�R���|�[�l���g�ɔ�Ԃ��́AApp.tsx�Őݒ肷��B */}
+                                {/* toでどのtsxコンポーネントに飛ぶかは、App.tsxで設定する。 */}
                                 <NavItem>
                                     <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
                                 </NavItem>

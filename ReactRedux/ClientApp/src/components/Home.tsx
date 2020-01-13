@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-// ’Pƒ‚ÉŒÅ’è‚ÌHTML‚ğ•Ô‚·—á
-// ‚±‚Ì’è‹`‚ğexport‚·‚é‚±‚Æ‚ÅASPA‚Ì•”•ª•\¦‚É‚Å‚«‚é
+// å˜ç´”ã«å›ºå®šã®HTMLã‚’è¿”ã™ä¾‹
+// ã“ã®å®šç¾©ã‚’exportã™ã‚‹ã“ã¨ã§ã€SPAã®éƒ¨åˆ†è¡¨ç¤ºã«ã§ãã‚‹
 const Home = () => (
-    // •’Ê‚ÉHTML‚ğ‘‚­
+    // æ™®é€šã«HTMLã‚’æ›¸ã
     <div>
         <h1>Hello, work!</h1>
         <p>Welcome to your new single-page application, built with:</p>
@@ -23,5 +23,5 @@ const Home = () => (
     </div>
 );
 
-// ã‚Å’è‹`‚µ‚½•\¦‚ğexport‚µ‚ÄŠO‚©‚çŒÄ‚Ño‚·
+// ä¸Šã§å®šç¾©ã—ãŸè¡¨ç¤ºã‚’exportã—ã¦å¤–ã‹ã‚‰å‘¼ã³å‡ºã™
 export default connect()(Home);
