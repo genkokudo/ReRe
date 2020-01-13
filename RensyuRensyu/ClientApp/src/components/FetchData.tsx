@@ -5,20 +5,20 @@ import { Link } from 'react-router-dom';
 import { ApplicationState } from '../store';
 import * as WeatherForecastsStore from '../store/WeatherForecasts';
 
-// Às‚ÉARedux‚Íƒ}[ƒW‚³‚ê‚Ü‚·...
+// å®Ÿè¡Œæ™‚ã«ã€Reduxã¯ãƒãƒ¼ã‚¸ã•ã‚Œã¾ã™...
 type WeatherForecastProps =
-    WeatherForecastsStore.WeatherForecastsState // ... ReduxƒXƒgƒA‚©‚çƒŠƒNƒGƒXƒg‚µ‚½ó‘Ô
-    & typeof WeatherForecastsStore.actionCreators // ... ‚³‚ç‚ÉƒŠƒNƒGƒXƒg‚µ‚½ƒAƒNƒVƒ‡ƒ“ƒNƒŠƒG[ƒ^[
-    & RouteComponentProps<{ startDateIndex: string }>; // ... ‚¨‚æ‚Ñ’…Mƒ‹[ƒeƒBƒ“ƒOƒpƒ‰ƒ[ƒ^
+    WeatherForecastsStore.WeatherForecastsState // ... Reduxã‚¹ãƒˆã‚¢ã‹ã‚‰ãƒªã‚¯ã‚¨ã‚¹ãƒˆã—ãŸçŠ¶æ…‹
+    & typeof WeatherForecastsStore.actionCreators // ... ã•ã‚‰ã«ãƒªã‚¯ã‚¨ã‚¹ãƒˆã—ãŸã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã‚¯ãƒªã‚¨ãƒ¼ã‚¿ãƒ¼
+    & RouteComponentProps<{ startDateIndex: string }>; // ... ãŠã‚ˆã³ç€ä¿¡ãƒ«ãƒ¼ãƒ†ã‚£ãƒ³ã‚°ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 
 
 class FetchData extends React.PureComponent<WeatherForecastProps> {
-    // ‚±‚Ìƒƒ\ƒbƒh‚ÍAƒRƒ“ƒ|[ƒlƒ“ƒg‚ªƒhƒLƒ…ƒƒ“ƒg‚ÉÅ‰‚É’Ç‰Á‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·
+    // ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã«æœ€åˆã«è¿½åŠ ã•ã‚ŒãŸã¨ãã«å‘¼ã³å‡ºã•ã‚Œã¾ã™
     public componentDidMount() {
         this.ensureDataFetched();
     }
 
-    // ‚±‚Ìƒƒ\ƒbƒh‚ÍAƒ‹[ƒgƒpƒ‰ƒ[ƒ^‚ª•ÏX‚³‚ê‚é‚ÆŒÄ‚Ño‚³‚ê‚Ü‚·
+    // ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã€ãƒ«ãƒ¼ãƒˆãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãŒå¤‰æ›´ã•ã‚Œã‚‹ã¨å‘¼ã³å‡ºã•ã‚Œã¾ã™
     public componentDidUpdate() {
         this.ensureDataFetched();
     }
@@ -26,22 +26,22 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
     public render() {
         return (
             <React.Fragment>
-                <h1 id="tabelLabel">“V‹C—\•ñ</h1>
-                <p>‚±‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚ÍAƒT[ƒo[‚©‚çƒf[ƒ^‚ğæ“¾‚µAURLƒpƒ‰ƒ[ƒ^[‚ğ‘€ì‚·‚é•û–@‚ğ¦‚µ‚Ä‚¢‚Ü‚·B</p>
+                <h1 id="tabelLabel">å¤©æ°—äºˆå ±</h1>
+                <p>ã“ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¯ã€ã‚µãƒ¼ãƒãƒ¼ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’å–å¾—ã—ã€URLãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼ã‚’æ“ä½œã™ã‚‹æ–¹æ³•ã‚’ç¤ºã—ã¦ã„ã¾ã™ã€‚</p>
                 {this.renderForecastsTable()}
                 {this.renderPagination()}
             </React.Fragment>
         );
     }
 
-    // ts‚Ì•û‚ÌrequestWeatherForecasts‚ğŒÄ‚Ño‚·
+    // tsã®æ–¹ã®requestWeatherForecastsã‚’å‘¼ã³å‡ºã™
     private ensureDataFetched() {
         const startDateIndex = parseInt(this.props.match.params.startDateIndex, 10) || 0;
         this.props.requestWeatherForecasts(startDateIndex);
     }
 
-    // •\‚ğì‚é
-    // ƒf[ƒ^\‘¢‚ğw’è‚µ‚ÄA‚»‚ê‚ğ—p‚¢‚Ä•\¦
+    // è¡¨ã‚’ä½œã‚‹
+    // ãƒ‡ãƒ¼ã‚¿æ§‹é€ ã‚’æŒ‡å®šã—ã¦ã€ãã‚Œã‚’ç”¨ã„ã¦è¡¨ç¤º
     private renderForecastsTable() {
         return (
             <table className='table table-striped' aria-labelledby="tabelLabel">
@@ -66,7 +66,7 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
             </table>
         );
     }
-    // ƒy[ƒW‚ğ•t‚¯‚é
+    // ãƒšãƒ¼ã‚¸ã‚’ä»˜ã‘ã‚‹
     private renderPagination() {
         const prevStartDateIndex = (this.props.startDateIndex || 0) - 5;
         const nextStartDateIndex = (this.props.startDateIndex || 0) + 5;
@@ -82,6 +82,6 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
 }
 
 export default connect(
-    (state: ApplicationState) => state.weatherForecasts, // ‚Ç‚Ìó‘ÔƒvƒƒpƒeƒB‚ğƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì¬“¹‹ï‚Éƒ}[ƒW‚·‚é‚©‚ğ‘I‘ğ‚µ‚Ü‚·
-    WeatherForecastsStore.actionCreators // ƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì¬“¹‹ï‚Éƒ}[ƒW‚·‚éƒAƒNƒVƒ‡ƒ“ì¬Ò‚ğ‘I‘ğ‚µ‚Ü‚·
+    (state: ApplicationState) => state.weatherForecasts, // ã©ã®çŠ¶æ…‹ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å°é“å…·ã«ãƒãƒ¼ã‚¸ã™ã‚‹ã‹ã‚’é¸æŠã—ã¾ã™
+    WeatherForecastsStore.actionCreators // ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®å°é“å…·ã«ãƒãƒ¼ã‚¸ã™ã‚‹ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ä½œæˆè€…ã‚’é¸æŠã—ã¾ã™
 )(FetchData as any);

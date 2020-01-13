@@ -1,17 +1,17 @@
-// �{�Ԋ��ł́A���[�J���L���b�V������A�Z�b�g��񋟂���T�[�r�X���[�J�[��o�^���܂��B
+// 本番環境では、ローカルキャッシュからアセットを提供するサービスワーカーを登録します。
 
-// ����ɂ��A���̌�̎��ғ����̃A�N�Z�X�ŃA�v���̓ǂݍ��݂������Ȃ�A�I�t���C���@�\���񋟂���܂��B 
-// �������A�J���ҁi����у��[�U�[�j�́A�ȑO�ɃL���b�V�����ꂽ���\�[�X���o�b�N�O���E���h�ōX�V����邽�߁A
-// �y�[�W�ւ́uN + 1�v�K��œW�J���ꂽ�X�V�݂̂�\�����邱�Ƃ��Ӗ����܂��B
+// これにより、その後の実稼働時のアクセスでアプリの読み込みが速くなり、オフライン機能が提供されます。 
+// ただし、開発者（およびユーザー）は、以前にキャッシュされたリソースがバックグラウンドで更新されるため、
+// ページへの「N + 1」訪問で展開された更新のみを表示することも意味します。
 
-// ���̃��f���̗��_�ɂ��ďڂ����́A https://goo.gl/KwvDNy ���������������B
-// ���̃����N�ɂ́A���̓�����I�v�g�A�E�g����菇���܂܂�Ă��܂��B
+// このモデルの利点について詳しくは、 https://goo.gl/KwvDNy をご覧ください。
+// このリンクには、この動作をオプトアウトする手順も含まれています。
 
 const isLocalhost = Boolean(
     window.location.hostname === 'localhost' ||
-    // [::1] ��IPv6 localhost�A�h���X�ł��B
+    // [::1] はIPv6 localhostアドレスです。
     window.location.hostname === '[::1]' ||
-    // 127.0.0.1/8�́AIPv4��localhost�ƌ��Ȃ���܂�
+    // 127.0.0.1/8は、IPv4のlocalhostと見なされます
     window.location.hostname.match(
         /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
     )
@@ -19,13 +19,13 @@ const isLocalhost = Boolean(
 
 export default function register() {
     if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-        // URL�R���X�g���N�^�[�́ASW���T�|�[�g���邷�ׂẴu���E�U�[�Ŏg�p�ł��܂��B
+        // URLコンストラクターは、SWをサポートするすべてのブラウザーで使用できます。
         const url = process.env.PUBLIC_URL as string;
         const publicUrl = new URL(url, window.location.toString());
         if (publicUrl.origin !== window.location.origin) {
-            // PUBLIC_URL���y�[�W�̔z�M���ƈقȂ锭�M���ɂ���ꍇ�A�T�[�r�X���[�J�[�͋@�\���܂���B
-            // ����́A�A�Z�b�g�̒񋟂�CDN���g�p�����ꍇ�ɔ�������\��������܂��B
-            // https://github.com/facebookincubator/create-react-app/issues/2374 ���Q�Ƃ��Ă�������
+            // PUBLIC_URLがページの配信元と異なる発信元にある場合、サービスワーカーは機能しません。
+            // これは、アセットの提供にCDNが使用される場合に発生する可能性があります。
+            // https://github.com/facebookincubator/create-react-app/issues/2374 を参照してください
             return;
         }
 
@@ -33,10 +33,10 @@ export default function register() {
             const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
             if (isLocalhost) {
-                // ����̓��[�J���z�X�g�Ŏ��s����Ă��܂��B�T�[�r�X���[�J�[���܂����݂��邩�ǂ������m�F���܂��B
+                // これはローカルホストで実行されています。サービスワーカーがまだ存在するかどうかを確認します。
                 checkValidServiceWorker(swUrl);
             } else {
-                // ���[�J���z�X�g�ł͂���܂���B�T�[�r�X���[�J�[��o�^���邾��
+                // ローカルホストではありません。サービスワーカーを登録するだけ
                 registerValidSW(swUrl);
             }
         });
@@ -52,43 +52,43 @@ function registerValidSW(swUrl: string) {
                 installingWorker.onstatechange = () => {
                     if (installingWorker.state === 'installed') {
                         if (navigator.serviceWorker.controller) {
-                            // ���̎��_�ŁA�Â��R���e���c�͍폜����A�V�����R���e���c���L���b�V���ɒǉ�����܂��B
-                            //�u�V�����R���e���c�����p�\�ł��B�X�V���Ă��������v�ƕ\������̂ɍœK�ȃ^�C�~���O�ł��B Web�A�v���̃��b�Z�[�W�B
-                            console.log('�V�����R���e���c�����p�\�ł��B�X�V���Ă��������B');
+                            // この時点で、古いコンテンツは削除され、新しいコンテンツがキャッシュに追加されます。
+                            //「新しいコンテンツが利用可能です。更新してください」と表示するのに最適なタイミングです。 Webアプリのメッセージ。
+                            console.log('新しいコンテンツが利用可能です。更新してください。');
                         } else {
-                            // ���̎��_�ŁA���ׂĂ����O�ɃL���b�V������Ă��܂��B
-                            // �u�R���e���c�̓I�t���C���Ŏg�p���邽�߂ɃL���b�V������܂��v��\������̂ɍœK�ȃ^�C�~���O�ł��B ���b�Z�[�W�B
-                            console.log('�R���e���c�̓I�t���C���Ŏg�p���邽�߂ɃL���b�V������܂��B');
+                            // この時点で、すべてが事前にキャッシュされています。
+                            // 「コンテンツはオフラインで使用するためにキャッシュされます」を表示するのに最適なタイミングです。 メッセージ。
+                            console.log('コンテンツはオフラインで使用するためにキャッシュされます。');
                         }
                     }
                 };
             };
         })
         .catch(error => {
-            console.error('Service Worker�o�^���̃G���[:', error);
+            console.error('Service Worker登録中のエラー:', error);
         });
 }
 
 function checkValidServiceWorker(swUrl: string) {
-    // �T�[�r�X���[�J�[�������邩�ǂ������m�F���܂��B�y�[�W�������[�h�ł��Ȃ��ꍇ�B
+    // サービスワーカーが見つかるかどうかを確認します。ページをリロードできない場合。
     fetch(swUrl)
         .then(response => {
-            // �T�[�r�X���[�J�[�����݂��AJS�t�@�C�����擾���Ă��邱�Ƃ��m�F���܂��B
+            // サービスワーカーが存在し、JSファイルを取得していることを確認します。
             const contentType = response.headers.get('content-type');
             if (response.status === 404 || (contentType && contentType.indexOf('javascript') === -1)) {
-                // �T�[�r�X���[�J�[��������܂���B�����炭�ʂ̃A�v���B�y�[�W�������[�h���܂��B
+                // サービスワーカーが見つかりません。おそらく別のアプリ。ページをリロードします。
                 navigator.serviceWorker.ready.then(registration => {
                     registration.unregister().then(() => {
                         window.location.reload();
                     });
                 });
             } else {
-                // �T�[�r�X���[�J�[��������܂����B�ʏ�ǂ��葱�s���܂��B
+                // サービスワーカーが見つかりました。通常どおり続行します。
                 registerValidSW(swUrl);
             }
         })
         .catch(() => {
-            console.log('�C���^�[�l�b�g�ڑ���������܂���B�A�v���̓I�t���C�����[�h�Ŏ��s����Ă��܂��B');
+            console.log('インターネット接続が見つかりません。アプリはオフラインモードで実行されています。');
         });
 }
 
