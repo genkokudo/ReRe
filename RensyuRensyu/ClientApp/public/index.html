@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="theme-color" content="#000000">
+        <base href="%PUBLIC_URL%/" />
+        <!--
+          manifest.jsonは、WebアプリがAndroidのホーム画面に追加されるときに使用されるメタデータを提供します。
+          https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/ をご覧ください
+        -->
+        <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+        <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+        <!--
+          上記のタグで%PUBLIC_URL%が使用されていることに注意してください。
+          ビルド中に `public`フォルダのURLに置き換えられます。
+          HTMLから参照できるのは、 `public`フォルダー内のファイルのみです。
+
+          「/favicon.ico」や「favicon.ico」とは異なり、「%PUBLIC_URL%/favicon.ico」は
+          クライアント側ルーティングと非ルートパブリックURLの両方で正しく動作します。
+          「npm run build」を実行して、非ルートパブリックURLを設定する方法を学びます。
+        -->
+        <title>ReactRedux</title>
+    </head>
+    <body>
+        <noscript>
+            このアプリを実行するにはJavaScriptを有効にする必要があります。
+        </noscript>
+        <!-- index.tsxでこのタグを取得して、ここに各コンポーネントを描画する -->
+        <div id="root"></div>
+        <!--
+          このHTMLファイルはテンプレートです。
+          ブラウザで直接開くと、空のページが表示されます。
+          このファイルにWebフォント、メタタグ、または分析を追加できます。
+          ビルドステップでは、バンドルされたスクリプトを<body>タグに配置します。
+          開発を開始するには、「npm start」または「yarn start」を実行します。
+          本番バンドルを作成するには、「npm run build」または「yarn build」を使用します。
+        -->
+    </body>
+</html>
