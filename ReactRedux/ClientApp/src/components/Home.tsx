@@ -1,4 +1,4 @@
-import * as React from 'react';
+﻿import * as React from 'react';
 import { connect } from 'react-redux';
 
 // 単純に固定のHTMLを返す例

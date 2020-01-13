@@ -1,4 +1,4 @@
-import * as WeatherForecasts from './WeatherForecasts';
+﻿import * as WeatherForecasts from './WeatherForecasts';
 import * as Counter from './Counter';
 
 // 最上位の状態オブジェクト

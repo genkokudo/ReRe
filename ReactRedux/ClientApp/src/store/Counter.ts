@@ -1,4 +1,4 @@
-import { Action, Reducer } from 'redux';
+﻿import { Action, Reducer } from 'redux';
 
 // -----------------
 // STATE - Reduxストアで保持されるデータのタイプを定義します。
