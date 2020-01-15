@@ -22,6 +22,7 @@ namespace RensyuRensyu
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // 本番環境では、Reactファイルはこのディレクトリから提供されます
             services.AddSpaStaticFiles(configuration =>
