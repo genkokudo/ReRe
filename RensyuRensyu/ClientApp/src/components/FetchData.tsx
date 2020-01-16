@@ -4,6 +4,9 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { ApplicationState } from '../store';
 import * as WeatherForecastsStore from '../store/WeatherForecasts';
+/*
+ * 天気予報画面の表示
+ */
 
 // 実行時に、Reduxはマージされます...
 type WeatherForecastProps =
@@ -47,10 +50,10 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Temp. (C)</th>
-                        <th>Temp. (F)</th>
-                        <th>Summary</th>
+                        <th>日付</th>
+                        <th>摂氏(C)</th>
+                        <th>華氏(F)</th>
+                        <th>結果</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,6 +69,7 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
             </table>
         );
     }
+
     // ページを付ける
     private renderPagination() {
         const prevStartDateIndex = (this.props.startDateIndex || 0) - 5;
