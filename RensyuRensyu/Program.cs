@@ -49,15 +49,18 @@ namespace RensyuRensyu
             host.Run();
         }
 
-
-        /// <summary> 
-        /// WebHost‚ğì¬‚µ‚Ü‚·B 
-        /// </summary> 
-        /// <param name="args"></param> 
-        /// <returns></returns> 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+        /// <summary>
+        /// WebHost‚ğì¬‚µ‚Ü‚·B
+        /// 3.0ˆÈ~‚Ì‘‚«•û
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                })
                 .ConfigureLogging((hostingContext, logging) =>
                 {
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
