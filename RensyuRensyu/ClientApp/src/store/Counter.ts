@@ -14,6 +14,7 @@ export interface CounterState {
 // それらには副作用はありません。彼らは起こることを説明するだけです。
 // シリアル化/逆シリアル化の後でも動作する型検出のために@typeNameとisActionTypeを使用します。
 
+// 要するに、メソッドの種類名と引数を定義している。これは引数がない例なので分かりにくい。
 export interface IncrementCountAction { type: 'INCREMENT_COUNT' }
 export interface DecrementCountAction { type: 'DECREMENT_COUNT' }
 

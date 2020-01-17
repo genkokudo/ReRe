@@ -10,11 +10,13 @@ import * as WeatherForecastsStore from '../store/WeatherForecasts';
 
 // 実行時に、Reduxはマージされます...
 type WeatherForecastProps =
-    WeatherForecastsStore.WeatherForecastsState // ... Reduxストアからリクエストした状態
-    & typeof WeatherForecastsStore.actionCreators // ... さらにリクエストしたアクションクリエーター
-    & RouteComponentProps<{ startDateIndex: string }>; // ... および着信ルーティングパラメータ
+    WeatherForecastsStore.WeatherForecastsState // ... Reduxストアからリクエストした状態（子にWeatherForecastという状態配列を持つ）
+    & typeof WeatherForecastsStore.actionCreators // ... リクエストしたアクションクリエーター
+    & RouteComponentProps<{ startDateIndex: string }>; // ... 着信ルーティングパラメータ（アドレスの引数）
 
-
+/*
+ * 天気予報画面
+ */
 class FetchData extends React.PureComponent<WeatherForecastProps> {
     // このメソッドは、コンポーネントがドキュメントに最初に追加されたときに呼び出されます
     public componentDidMount() {
@@ -31,16 +33,16 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
             <React.Fragment>
                 <h1 id="tabelLabel">天気予報</h1>
                 <p>このコンポーネントは、サーバーからデータを取得し、URLパラメーターを操作する方法を示しています。</p>
-                {this.renderForecastsTable()}
-                {this.renderPagination()}
+                {this.renderForecastsTable() /* 表 */}
+                {this.renderPagination() /* ページ送りボタン */}
             </React.Fragment>
         );
     }
 
     // tsの方のrequestWeatherForecastsを呼び出す
     private ensureDataFetched() {
-        const startDateIndex = parseInt(this.props.match.params.startDateIndex, 10) || 0;
-        this.props.requestWeatherForecasts(startDateIndex);
+        const startDateIndex = parseInt(this.props.match.params.startDateIndex, 10) || 0;   // this.props.match.params.startDateIndexでアドレスの引数が取れる
+        this.props.requestWeatherForecasts(startDateIndex); // 引数のデータ番号でサーバからデータ取得
     }
 
     // 表を作る
@@ -57,6 +59,7 @@ class FetchData extends React.PureComponent<WeatherForecastProps> {
                     </tr>
                 </thead>
                 <tbody>
+                    {/* 現在の状態を使用してデータを表示 */}
                     {this.props.forecasts.map((forecast: WeatherForecastsStore.WeatherForecast) =>
                         <tr key={forecast.date}>
                             <td>{forecast.date}</td>
