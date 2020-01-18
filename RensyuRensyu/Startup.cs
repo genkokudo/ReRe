@@ -23,7 +23,12 @@ namespace RensyuRensyu
         // このメソッドはランタイムによって呼び出されます。 このメソッドを使用して、コンテナにサービスを追加します。
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddRazorPages();
+            services.AddControllersWithViews().AddRazorPagesOptions(options =>
+            {
+                // Loginフォルダーは[AllowAnonymous]にする 
+                options.Conventions.AllowAnonymousToFolder("/Login");
+            });
             services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
             // 本番環境では、Reactファイルはこのディレクトリから提供されます
@@ -61,6 +66,7 @@ namespace RensyuRensyu
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
 
             // すべての要求をデフォルトページに書き換え、静的ファイルの提供を設定しようとします。
