@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
@@ -23,13 +25,16 @@ namespace RensyuRensyu
         // このメソッドはランタイムによって呼び出されます。 このメソッドを使用して、コンテナにサービスを追加します。
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
-            services.AddControllersWithViews().AddRazorPagesOptions(options =>
-            {
-                // Loginフォルダーは[AllowAnonymous]にする 
-                options.Conventions.AllowAnonymousToFolder("/Login");
-            });
             services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddRazorPages();
+            services.AddControllersWithViews()
+            //    .AddRazorPagesOptions(options =>
+            //{
+            //    // Loginフォルダーは[AllowAnonymous]にする 
+            //    options.Conventions.AllowAnonymousToFolder("/Login");
+            //})
+                ;
 
             // 本番環境では、Reactファイルはこのディレクトリから提供されます
             services.AddSpaStaticFiles(configuration =>
@@ -44,6 +49,7 @@ namespace RensyuRensyu
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -60,6 +66,9 @@ namespace RensyuRensyu
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
