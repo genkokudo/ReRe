@@ -41,6 +41,9 @@ namespace RensyuRensyu
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            // cshtml修正後、リロードですぐブラウザに反映する
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
         }
 
         // このメソッドはランタイムによって呼び出されます。 このメソッドを使用して、HTTP要求パイプラインを構成します。
