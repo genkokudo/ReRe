@@ -1,9 +1,13 @@
 import * as WeatherForecasts from './WeatherForecasts';
 import * as Counter from './Counter';
+import * as NazoChart from './chart/NazoChart';
+import * as NazoMap from './leaflet/NazoMap';
 
 // 最上位の状態オブジェクト
 // 全画面で共有できる。グローバル変数みたいな感じ
 export interface ApplicationState {
+    nazochart: NazoChart.NazoChartState | undefined;
+    nazomap: NazoMap.NazoMapState | undefined;
     counter: Counter.CounterState | undefined;  // 現在のカウント
     weatherForecasts: WeatherForecasts.WeatherForecastsState | undefined;   // 取得した各地の天気
 }
@@ -12,6 +16,8 @@ export interface ApplicationState {
 // 名前が正確に一致すること、およびREDUCERが重要です。
 // 対応するApplicationStateプロパティタイプに作用します。
 export const reducers = {
+    nazochart: NazoChart.reducer,
+    nazomap: NazoMap.reducer,
     counter: Counter.reducer,   // カウンター画面の処理
     weatherForecasts: WeatherForecasts.reducer   // 天気予報画面の処理
 };
