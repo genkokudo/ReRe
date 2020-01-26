@@ -8,6 +8,8 @@ import NazoChart from './components/chart/NazoChart';
 import NazoMap from './components/leaflet/NazoMap';
 
 import './custom.css'
+import './leaflet.css'
+import 'leaflet/dist/leaflet.css'
 
 /**
  * ここでデフォルトの画面表示を設定する
