@@ -10,7 +10,71 @@
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
+<button id="BtnB" class="btn btn-success btn-sm">Fetch API Test Get</button>
+
+<button id="BtnE" class="btn btn-success btn-sm" key="1">Fetch API Test Post</button>
 
 @section Scripts {
+    @*@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script src="~/src/js/doodle.js"></script>*@
 
+    <script>
+        // ページを全て読み込み終わった後に実行する
+        $(function () {
+        });
+
+        // TODO:ダメだったら認証データを送信しなければならないのかも？ajaxと違って、fetchはURLが違うと送らないとか。
+        // credentials: 'include' を method: 'post'の後に付けると出来るらしい。
+
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.0.0/fetch.min.js"></script>*@
+        // 引数なしでgetする
+        $('#BtnB').on('click', function () {
+            fetch('/Aaaa/Bbbb', {
+                method: 'get'
+            }).then(function (response) {
+                if (response.status !== 200) {
+                    alert('サーバ処理で何か失敗したようです');
+                }
+                // JSONメッセージを取り出す
+                response.json().then(function (data) {
+                    // TODO:サーバでmessageというフィールドで設定すること。
+                    alert(data.message);
+                }).catch(function (err) {
+                    alert(`レスポンスデータはありませんでした: ${err}`);
+                });
+            }).catch(function (err) {
+                alert(`error: ${err}`);
+            });
+        });
+
+        // アップロードしたデータや、配列を送る
+        var formData = new FormData();
+        formData.append('Ids', 1);
+        formData.append('Addresses', '住所A');
+        formData.append('Ids', 2);
+        formData.append('Addresses', '住所B');
+
+        $('#BtnE').on('click', function () {
+            fetch('/Aaaa/Eeee', {
+                method: 'post',
+                body: formData,
+                credentials: 'include'
+            }).then(function (response) {
+                if (response.status !== 200) {
+                    alert('サーバ処理で何か失敗したようです');
+                }
+                // JSONメッセージを取り出す
+                response.json().then(function (data) {
+                    // TODO:サーバでmessageというフィールドで設定すること。
+                    alert(data.message);
+                }).catch(function (err) {
+                    alert(`レスポンスデータはありませんでした: ${err}`);
+                });
+            }).catch(function (err) {
+                alert(`error: ${err}`);
+            });
+        });
+
+    </script>
 }
+

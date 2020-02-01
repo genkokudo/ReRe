@@ -42,18 +42,19 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2019 - DigitalMegaFlare - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2019 - ReRe - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/3.0.0/fetch.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @if (ViewData["React"] != null) 
+    @if (ViewData["React"] != null)
     {
-    <script src="/static/js/bundle.js"></script>
-    <script src="/static/js/0.chunk.js"></script>
-    <script src="/static/js/main.chunk.js"></script>
+        <script src="/static/js/bundle.js"></script>
+        <script src="/static/js/0.chunk.js"></script>
+        <script src="/static/js/main.chunk.js"></script>
     }
     @RenderSection("Scripts", required: false)
 </body>

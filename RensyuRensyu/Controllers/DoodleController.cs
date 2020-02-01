@@ -3,84 +3,81 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RensyuRensyu.Controllers
 {
-    // ApiController属性は、こういうのを省略できるようになる。
-    //if (!ModelState.IsValid)
-    //{
-    //    return BadRequest(ModelState);
-    //}
-    // また、以下が使用できる
-    //[FromBody] は複合型パラメーターに対して推論されます。 [FromBody] 推論規則に対する例外は、IFormCollection や CancellationToken など、特殊な意味を持つ組み込みの複合型です。 バインディング ソース推論コードでは、そのような特殊な型は無視されます。
-    //[FromForm] は IFormFile および IFormFileCollection 型のアクション パラメーターに対して推論されます。 簡易型またはユーザー定義型に対しては推論されません。
-    //[FromRoute] は、ルート テンプレート内のパラメーターと一致する任意のアクション パラメーター名に対して推論されます。 複数のルートがアクション パラメーターと一致する場合、ルート値はいずれも[FromRoute] と見なされます。
-    //[FromQuery] は他の任意のアクション パラメーターに対して推論されます。
+    // asp_controller
 
-    //[ApiController] // API に固有の動作を有効にする、無くても動く、ある場合は[Route]を書かないとダメ
-    //[Route("[controller]")] // ルーティング設定
-    public class DoodleController : Controller  // WebPage処理も行う場合はControllerを使用する、MVC時代のやり方でActionResultとしてViewを返す感じ。
+    public class AaaaController : ControllerBase
     {
-        // 基本的にもうこの方法は使わないはず。
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+        // ※https://localhost:44301/Aaaa/Aaaa/1 みたいにする場合は別のスニペットを使用
 
-        //[HttpGet]
-        public string Get() // [Route]書いてない場合はダメ
+        /// <summary>
+        /// https://localhost:44301/Aaaa/Aaaa?id=1
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public IEnumerable<string> Aaaa(long id)
         {
-            return "aaaa";
+            return Enumerable.Range(1, 5).Select(index => $"Data{index}_{id}")
+            .ToArray();
         }
 
-        // https://localhost:44301/Doodle/Aaaa で処理できる
-        //[HttpGet] // 無くてもOK
-        public string Aaaa()
+        /// <summary>
+        /// https://localhost:44301/Aaaa/Bbbb
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Bbbb()
         {
-            return "aaaa";  // OK
+            // return File(いろいろ);
+            // return PhysicalFile(いろいろ);
+            // return BadRequest(Object);
+            // return RedirectToPage(いろいろ);
+            return Ok(new { message = "正常終了" });
+        }
+
+        /// <summary>
+        /// https://localhost:44301/Aaaa/Cccc
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Cccc(long id)
+        {
+            return Ok(new { message = $"正常終了:{id}" });
+        }
+
+        /// <summary>
+        /// https://localhost:44301/Aaaa/Dddd
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Dddd([FromBody] Person person)  // [FromBody]が無いとダメ
+        {
+            return Ok(new { message = $"正常終了:{person.Id}{person.Address}" });
+        }
+
+        public class Person
+        {
+            // longにした場合、JS側を'1'ではなく1にしないと認識しないので注意
+            public long Id { get; set; }
+            public string Address { get; set; }
+        }
+
+        /// <summary>
+        /// https://localhost:44301/Aaaa/Eeee
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Eeee(long[] Ids, string[] Addresses)
+        {
+            var result = string.Empty;
+            for (int i = 0; i < Ids.Length; i++)
+            {
+                result = $"{result}\nID:{Ids[i]}, Address:{Addresses[i]}";
+            }
+            return Ok(new { message = $"正常終了:{result}" });
         }
 
     }
 
-    //[ApiController]
-    //[Route("[controller]")] // これが無いとルーティングされない。前は要らなかったのに何で？
-    public class AaaaController : ControllerBase    // Web APIの処理だけの場合はControllerBaseを使用する
-    {
-        // これは、[Route]書いてない場合はダメ
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast   // 5件作成
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = "aaaa"
-            })
-            .ToArray();
-        }
-
-        // https://localhost:44301/Aaaa/Aaaa でできる。
-        public IEnumerable<WeatherForecast> Aaaa()
-        {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast   // 5件作成
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = "aaaa"
-            })
-            .ToArray();
-        }
-
-        // TODO:JSONを返す方法
-
-        //Ok(Object)
-        //File(いろいろ)
-        //PhysicalFile(いろいろ)
-        //BadRequest(Object)
-        //RedirectToPage(いろいろ)
-    }
 }
