@@ -68,6 +68,7 @@ namespace RensyuRensyu
             // SpaStaticFiles を使用して wwwroot 下に存在しない SPA のビルド結果をレスポンスします。
             app.UseSpaStaticFiles();
 
+            // UseEndpointsによるルーティングを有効化
             app.UseRouting();
 
             app.UseAuthentication();

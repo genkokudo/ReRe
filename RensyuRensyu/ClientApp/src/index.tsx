@@ -26,4 +26,6 @@ ReactDOM.render(
     // index.htmlのrootを取得してそこに描画する。
     document.getElementById('root'));
 
-registerServiceWorker();
+// 有効にするとデプロイ環境ではReactスクリプトがきゃっしゅされ高速化されるが
+// RazorPagesが表示できなくなるのでRazorPagesとのハイブリッドにする場合は封印する
+// registerServiceWorker();
