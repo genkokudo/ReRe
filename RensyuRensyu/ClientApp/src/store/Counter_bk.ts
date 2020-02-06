@@ -1,4 +1,4 @@
-//import { Action, Reducer } from 'redux';
+import { Action, Reducer } from 'redux';
 
 //// Reduxを使った方法。各関数とStateを定義してしまう。
 
