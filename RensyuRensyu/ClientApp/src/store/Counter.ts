@@ -9,7 +9,7 @@ export interface CounterState {
 
 // 初期値
 const counterInitialState: CounterState = {
-    count: 0
+    count: 1
 };
 
 // createSlice() で actions と reducers を一気に生成する
@@ -18,9 +18,9 @@ const CounterModule = createSlice({
     name: "counter",    // 名前、そんなに重要じゃない
     initialState: counterInitialState,  // 初期値
     reducers:   // 処理の定義
-    { 
-        increment: (state, action) => { state.count++ },
-        decrement: (state, action) => { state.count-- },
+    {
+        increment: (state, action) => { state.count++; },
+        decrement: (state, action) => { state.count--; },
         test: (state, action: PayloadAction<number>) => {   // PayloadActionで引数の型を指定する
             state.count = action.payload    // createSlice内なのでstate書き換えOK
         },
