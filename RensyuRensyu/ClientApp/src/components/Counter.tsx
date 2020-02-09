@@ -5,7 +5,7 @@ import CounterModule from "../store/Counter";
 /*
  * △△画面の表示
  */
-const Counter = (props: any) => {
+const Counter = () => {
     // useDispatch で store に紐付いた dispatch が取得できます。
     const dispatch = useDispatch();
 
@@ -15,8 +15,9 @@ const Counter = (props: any) => {
     return (
         <React.Fragment>
             <p> count: {counter} </p>
+            {/*
             <button onClick={dispatch(CounterModule.actions.increment)}>increment</button>
-            <button onClick={dispatch(CounterModule.actions.decrement)}>decrement</button>
+            <button onClick={dispatch(CounterModule.actions.decrement)}>decrement</button>*/}
         </React.Fragment>
     );
 };
