@@ -1,42 +1,93 @@
-import { connect } from 'react-redux';
-import { RouteComponentProps } from 'react-router';
-import { ApplicationState } from '../store';
-import * as CounterModule from '../store/Counter';
-import React from 'react';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CounterState } from "../store/Counter";
+import CounterModule from "../store/Counter";
 /*
- * カウンター画面の表示
+ * △△画面の表示
  */
+const Counter = (props: any) => {
+    // useDispatch で store に紐付いた dispatch が取得できます。
+    const dispatch = useDispatch();
 
-// Reduxの機能
-// Reduxで保持する値、メソッド、ルーティング設定を組み合わせる
-// CounterStateはinterface、actionCreatorsはメソッドの列挙
-type CounterProps =
-    CounterModule.CounterState & // count
-    typeof CounterModule.default.actions &    // increment, decrement
-    RouteComponentProps<{}>;    // URLにパラメータがある場合は{userId: string}のように引数を書く
+    // useSelector で store の state が取得できます。
+    const counter = useSelector((state: CounterState) => state.count);      // TODO:表示されないんですけど？？
 
-// 上で作成したCounterPropsを使用してクラスを定義
-class Counter extends React.PureComponent<CounterProps> {   // このように引数にtype指定するとthis.propsでアクセスできる
-    public render() {
-        return (
-            <React.Fragment>
-                <h1>カウンター</h1>
-                <p>これは、Reactコンポーネントの簡単な例です。</p>
-
-                {/* aria-live="polite" はスクリーンリーダー関係の設定 */}
-                <p aria-live="polite">現在のカウント: <strong>{this.props.count}</strong></p>
-
-                <button type="button" className="btn btn-primary btn-lg" onClick={() => { this.props.increment(1); }}>増やす</button>
-            </React.Fragment>
-        );
-    }
+    return (
+        <React.Fragment>
+            <p> count: {counter} </p>
+            <button onClick={dispatch(CounterModule.actions.increment)}>increment</button>
+            <button onClick={dispatch(CounterModule.actions.decrement)}>decrement</button>
+        </React.Fragment>
+    );
 };
 
-// connect関数：ReactコンポーネントをRedux storeに接続します。
-// ※Reduxを使用する場合、Reactとstoreは分断されているためにComponentは値の取得と変更が行えない。そのためにconnect関数が必要。
-export default connect(
-    // 接続するstore情報を書く
-    (state: ApplicationState) => state.counter,    // ApplicationStateはindex.tsで定義している全画面共有の状態から、CounterStateを持ってくる。propsに入れて子コンポーネントに渡す。
-    CounterModule.default.actions // dispatchを呼び出す関数をpropsに入れて子コンポーネントに渡す
-)(Counter);
-// こうすることで、this.props.increment();でActionが呼び出される
+export default Counter;
+
+
+
+
+
+
+
+//// --------------- Counter.tsx --------------- 
+//// Redux不使用パターン
+//import React, { useState, useEffect } from 'react'
+
+///*
+// * △△画面の表示
+// */
+//const Counter = (props: CounterProps) => {
+//    // 注意：Hooksは必ず関数の中のトップレベルに書くこと
+
+//    // React本体に関数コンポーネント専用の保存領域を作成してもらい、そこにあるデータを読み書きできる
+//    const [count, setCount] = useState(props.initialCount);    // フィールド名、セッター名、初期値
+
+//    // レンダリングの後に処理を動作させることができます（レンダリングの前はuseLayoutEffect）
+//    useEffect(() => {
+//        console.log('hello useEffect');
+//        // returnを使うと、クリーンアップ関数を登録できる
+//        //const timerId = setInterval(() => setTime(new Date().getTime()), 1000);
+//        //return () => clearInterval(timerId);
+//    }, []); // この第2引数にcountをセットすると、count変更時に再びRenderされる
+
+//    // 任意の関数
+//    const helloWork = () => {
+//        console.log('Hello Work');
+//        return 'aaaa';
+//    }
+
+//    return (
+//        <React.Fragment>
+//            <p>{helloWork()}</p>
+//            <p>You clicked {count} times</p>
+//            <button onClick={() => setCount(count + 1)}>
+//                Click me
+//            </button>
+//        </React.Fragment>
+//    );
+
+//    // 他に値を送るための入れ物を使う場合は useContext を使用する
+//    // コストの大きい計算結果をキャッシュする場合は、useMemoを使用する
+//    // const calcResult = useMemo(() => expensiveFunc(), []);
+//    // 関数をキャッシュする場合はuseCallbackを使う
+//    // const onClick = useCallback(() => alert('Hi!'), []);
+//    // DOMから値を取りたい場合はuseRefを使用する
+//};
+
+//// 引数の型を指定、いらなかったら消す
+//type CounterProps = {
+//    initialCount: number;
+//}
+
+//// デフォルト値
+//Counter.defaultProps = {
+//    initialCount: 100
+//};
+
+//export default Counter;
+
+//// --------------- NavMenu.tsx --------------- 
+////<NavItem>
+////    <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
+////</NavItem>
+
