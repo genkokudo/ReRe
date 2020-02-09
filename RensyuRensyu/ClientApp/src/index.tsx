@@ -8,6 +8,7 @@ import { createBrowserHistory } from 'history';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import { setupStore } from './store/setupStore';
+import Counter from './components/Counter';
 
 // Reduxストアで使用するブラウザHistoryを作成します
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as string;    // public urlを取得
@@ -27,6 +28,9 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
-// 有効にするとデプロイ環境ではReactスクリプトがきゃっしゅされ高速化されるが
-// RazorPagesが表示できなくなるのでRazorPagesとのハイブリッドにする場合は封印する
-// registerServiceWorker();
+
+
+
+
+
+

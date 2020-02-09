@@ -10,14 +10,13 @@ const Counter = () => {
     const dispatch = useDispatch();
 
     // useSelector で store の state が取得できます。
-    const counter = useSelector((state: CounterState) => state.count);      // TODO:表示されないんですけど？？
-
+    const counter = useSelector((state: any) => state.counter.count);   // counterはStoreに登録したreducerの名前
     return (
         <React.Fragment>
             <p> count: {counter} </p>
-            {/*
-            <button onClick={dispatch(CounterModule.actions.increment)}>increment</button>
-            <button onClick={dispatch(CounterModule.actions.decrement)}>decrement</button>*/}
+            {/* 引数の数は、reducersの関数の引数で決まります。 */}
+            <button onClick={() => dispatch(CounterModule.actions.increment())}>increment</button>
+            <button onClick={() => dispatch(CounterModule.actions.decrement(1))}>decrement</button>
         </React.Fragment>
     );
 };

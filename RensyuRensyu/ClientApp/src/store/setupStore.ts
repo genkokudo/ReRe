@@ -40,6 +40,7 @@ import { reducers } from './';
 //}
 
 import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
+import CounterModule from './Counter';
 
 // store‚Ìì¬
 export const setupStore = (history: History) => {
@@ -51,7 +52,8 @@ export const setupStore = (history: History) => {
 
     // –{“–‚Íindex.ts‚É‘‚­
     const rootReducer = combineReducers({
-        ...reducers,
+        //...reducers,
+        counter: CounterModule.reducer,
         router: connectRouter(history)  // Routeg‚¤ê‡‚Í‚±‚ê‚ª–³‚¢‚Æƒ_ƒ
     });
 

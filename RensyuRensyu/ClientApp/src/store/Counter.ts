@@ -19,7 +19,7 @@ const CounterModule = createSlice({
     initialState: counterInitialState,  // 初期値
     reducers:   // 処理の定義
     {
-        increment: (state, action) => { state.count++; },
+        increment: (state) => { state.count++; },
         decrement: (state, action) => { state.count--; },
         test: (state, action: PayloadAction<number>) => {   // PayloadActionで引数の型を指定する
             state.count = action.payload    // createSlice内なのでstate書き換えOK
