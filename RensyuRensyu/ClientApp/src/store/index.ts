@@ -2,6 +2,7 @@
 //import * as NazoChart from './chart/NazoChart';
 //import * as NazoMap from './leaflet/NazoMap';
 import * as CounterModule from '../store/Counter';
+import NazoMap from '../store/leaflet/NazoMap';
 
 // hooksのみで書く場合不要なはず
 // 最上位の状態オブジェクト
@@ -19,6 +20,7 @@ export interface ApplicationState {
 export const reducers = {
     //nazochart: NazoChart.reducer,
     //nazomap: NazoMap.reducer,
+    nazoMap: NazoMap.reducer,   // △△画面の処理
     counter: CounterModule.default.reducer   // カウンター画面の処理
     //weatherForecasts: WeatherForecasts.reducer   // 天気予報画面の処理
 };
