@@ -61,6 +61,15 @@ const NazoMap = () => {
 //              //      zoomTo.setView([37.8, -96], 3);
 //              //}).addTo(zoomTo);
 
+
+    // 本当はこういう風にLに追加していってるのを、タグで囲む形で表現している。
+    //let map = L.map('map')
+    //let basemapLayer = new L.TileLayer('http://{s}.tiles.mapbox.com/v3/github.map-xgq2svrz/{z}/{x}/{y}.png');
+    //map.addLayer(basemapLayer);
+    //map.setView([35.6693863, 139.6012974], 5);
+
+    // TODO: 「react-leaflet control button」でググること。easy-buttonじゃなくて。
+
     // 描画処理
     return (
         <React.Fragment>
