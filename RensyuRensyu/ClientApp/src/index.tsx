@@ -7,8 +7,8 @@ import { ConnectedRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
-import { setupStore } from './store/setupStore';
 import Counter from './components/Counter';
+import setupStore from './store/setupStore';
 
 // Reduxストアで使用するブラウザHistoryを作成します
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as string;    // public urlを取得

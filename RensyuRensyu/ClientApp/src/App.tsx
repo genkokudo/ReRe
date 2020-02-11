@@ -21,6 +21,7 @@ export default () => (
     <Layout>
         <Route exact path='/' component={Home} />
         <Route path='/counter' component={Counter} />
+        <Route path='/counter34' render={props => <Counter aaaa={34} {...props} />}/>
         {/*
         <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
         <Route path='/nazo-chart' component={NazoChart} />
