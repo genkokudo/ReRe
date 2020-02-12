@@ -37,10 +37,10 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                                 </NavItem>
                                 <NavItem>
                                     <NavLink tag={Link} className="text-dark" to="/nazo-chart">NazoChart</NavLink>
-                                </NavItem>
+                                </NavItem> */}
                                 <NavItem>
                                     <NavLink tag={Link} className="text-dark" to="/nazo-map">NazoMap</NavLink>
-                                </NavItem> */}
+                                </NavItem>
                             </ul>
                         </Collapse>
                     </Container>
