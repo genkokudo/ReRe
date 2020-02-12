@@ -1,14 +1,14 @@
 ﻿import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Module from '../../store/leaflet/NazoMap';
-import { Map, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
+import { Map, TileLayer, Marker, Popup, ZoomControl } from 'react-leaflet';
 
 import { RouteComponentProps } from 'react-router';
-import * as NazoMapStore from '../../store/leaflet/NazoMap';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../store';
-import 'leaflet-easybutton/src/easy-button';
+
+import Control from 'react-leaflet-control';
+import NazoMapModule from "../../store/leaflet/NazoMap";
 
 /*
  * △△画面の表示
@@ -84,7 +84,11 @@ const NazoMap = () => {
                     <Popup>
                         A pretty CSS3 popup. <br /> Easily customizable.
                     </Popup>
-                </Marker>               
+                </Marker>
+
+                <Control position="topleft" >
+                    <button onClick={() => dispatch(NazoMapModule.actions.increment())}>Reset View</button>
+                </Control>
             </Map>
         </React.Fragment>
     );
