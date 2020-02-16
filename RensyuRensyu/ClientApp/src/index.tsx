@@ -10,6 +10,14 @@ import registerServiceWorker from './registerServiceWorker';
 import Counter from './components/Counter';
 import setupStore from './store/setupStore';
 
+// font-awesomeを使う
+import { library } from '@fortawesome/fontawesome-svg-core'; //fontawesomeのコアファイル
+import { fab } from '@fortawesome/free-brands-svg-icons'; //fontawesomeのbrandアイコンのインポート
+import { fas } from '@fortawesome/free-solid-svg-icons'; //fontawesomeのsolidアイコンのインポート
+import { far } from '@fortawesome/free-regular-svg-icons'; //fontawesomeのregularアイコンのインポート
+
+library.add(fab, fas, far); //他のコンポーネントから簡単に呼び出せるようにするための登録処理
+
 // Reduxストアで使用するブラウザHistoryを作成します
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') as string;    // public urlを取得
 const history = createBrowserHistory({ basename: baseUrl });
