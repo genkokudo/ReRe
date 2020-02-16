@@ -40,7 +40,7 @@ const NazoMap = () => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {/* クリックしたらメッセージを吹き出し表示するようになる */}
-                {/* TODO:白い四角形消したい */}
+                {/* TODO:白い四角形消したい → 無理なので、ライブラリ使わずに普通にCDNして描画する方法を使う。 */}
                 <Marker position={[34.96841, 136.62732]} onClick={() => alert('マーカーのクリック')} icon={customMarkerIcon}>
                     <Popup>
                         <FontAwesomeIcon icon={['fas', 'minus-circle']} />
