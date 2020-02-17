@@ -8,9 +8,10 @@ import NazoMap from './components/leaflet/NazoMap';
 //import NazoChart from './components/chart/NazoChart';
 //import NazoMap from './components/leaflet/NazoMap';
 
-import './custom.css'
-import './leaflet.css'
 import 'leaflet/dist/leaflet.css'
+import './leaflet.css'  // ライブラリ付属のCSSを読み込んでから、本プロジェクトのカスタムCSSを読み込む
+
+import './custom.css'
 
 /**
  * ここでデフォルトの画面表示を設定する

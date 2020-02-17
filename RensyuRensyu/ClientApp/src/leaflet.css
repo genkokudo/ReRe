@@ -1,9 +1,16 @@
 /*
 	leafletの設定
-	画面ごとに以下のような設定を書く必要がある
+    App.tsxでインポートすることで全画面に適用される。
+    画面ごとに設定を変える場合は画面ごとにcssを作成する必要がある。
+    また、App.tsxにimport 'leaflet/dist/leaflet.css'が必要。
 */
 .leaflet-container {
     height: 600px;
     width: 80%;
     margin: 0 auto;
 }
+
+.leaflet-div-icon {
+    background: transparent;
+    border: none;
+} 
