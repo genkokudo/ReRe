@@ -4,6 +4,8 @@ import Layout from './components/Layout';
 import Home from './components/Home';
 import Counter from './components/Counter';
 import NazoMap from './components/leaflet/NazoMap';
+import Special from './components/Special';
+
 //import FetchData from './components/FetchData';
 //import NazoChart from './components/chart/NazoChart';
 //import NazoMap from './components/leaflet/NazoMap';
@@ -24,6 +26,7 @@ export default () => (
         <Route path='/counter' component={Counter} />
         <Route path='/counter34' render={props => <Counter aaaa={34} {...props} />} />
         <Route path='/nazo-map' component={NazoMap} />
+        <Route path='/special' render={props => <Special aaaa={34} {...props} />} />
         {/*
         <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
         <Route path='/nazo-chart' component={NazoChart} />
