@@ -7,9 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { divIcon } from 'leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import '../../leaflet.css'
-//import L from 'leaflet'
-
 /*
  * △△画面の表示
  */
