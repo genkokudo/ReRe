@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using RensyuRensyu.Infrastructure.Services;
 
 // TODO:編集と削除は後回し
 namespace RensyuRensyu.Controllers
@@ -276,7 +277,7 @@ namespace RensyuRensyu.Controllers
             }
 
             // 権限リストの取得
-            var authorities = UserAuthority.Administrator.GetSelectList(typeof(UserAuthority));
+            var authorities = UserAuthorityTypes.Administrator.GetSelectList(typeof(UserAuthority));
 
             // 検索結果の格納
             var result = new CrudCreateResult

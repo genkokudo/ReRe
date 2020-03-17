@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RensyuRensyu.Infrastructure.Database;
+using RensyuRensyu.Infrastructure.Services;
 
 namespace RensyuRensyu
 {
@@ -44,6 +45,7 @@ namespace RensyuRensyu
 
             // cshtml修正後、リロードですぐブラウザに反映する
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddTransient<IPasswordService, PasswordService>();
         }
 
         // このメソッドはランタイムによって呼び出されます。 このメソッドを使用して、HTTP要求パイプラインを構成します。

@@ -12,6 +12,8 @@ namespace RensyuRensyu.Infrastructure.Database
     {
         public DbSet<TestData> TestDatas { get; set; }
         public DbSet<Crud> Cruds { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<UserAuthority> UserAuthorities { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
