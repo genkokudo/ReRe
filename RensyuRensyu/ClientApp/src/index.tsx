@@ -1,13 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.css';
-
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
-import Counter from './components/Counter';
 import setupStore from './store/setupStore';
 
 // font-awesomeを使う
@@ -15,7 +12,6 @@ import { library } from '@fortawesome/fontawesome-svg-core'; //fontawesomeのコ
 import { fab } from '@fortawesome/free-brands-svg-icons'; //fontawesomeのbrandアイコンのインポート
 import { fas } from '@fortawesome/free-solid-svg-icons'; //fontawesomeのsolidアイコンのインポート
 import { far } from '@fortawesome/free-regular-svg-icons'; //fontawesomeのregularアイコンのインポート
-
 library.add(fab, fas, far); //他のコンポーネントから簡単に呼び出せるようにするための登録処理
 
 // Reduxストアで使用するブラウザHistoryを作成します
@@ -36,9 +32,6 @@ ReactDOM.render(
     document.getElementById('root')
 );
 
-
-
-
-
-
-
+// サービスワーカーを登録
+// 本番環境でローカルキャッシュからアセットを提供するようになり、アプリの読み込みが速くなり、オフライン機能が提供されるようになる。
+//registerServiceWorker();

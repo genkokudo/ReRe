@@ -6,51 +6,35 @@ import './NavMenu.css'; // CSSを読み込める
 /**
  * 画面上部のNavMenuを定義する
  */
-export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }> {
-    // Reduxを使用するので、Componentは基本的にstateは持たない。
-    public state = {
-        // ハンバーガーメニュー表示状態
-        isOpen: false
-    };
+const NavMenu = () => {
+    // ハンバーガーメニューのトグル
+    const [isOpen, setIsOpen] = React.useState(false);    // フィールド名、セッター名、初期値
+    // 描画処理
+    return (
+        <Navbar className="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <Container fluid={true}>
+                <NavbarBrand href="/">CMMP.net</NavbarBrand>
+                {/* 小さい画面の時ハンバーガーメニュー表示 */}
+                <NavbarToggler onClick={() => { setIsOpen(!isOpen); }} className="mr-2" />
+                <Collapse className="d-sm-inline-flex" isOpen={isOpen} navbar>
+                    <ul className="navbar-nav flex-grow">
+                        {/* toでどのtsxコンポーネントに飛ぶかは、App.tsxで設定する。 */}
+                        <NavItem>
+                            <NavLink tag={Link} className="text-dark" to="/nazo-map">NazoMap</NavLink>
+                        </NavItem>
+                        {/* 管理者のみ表示 */}
+                        <NavItem>
+                            <NavLink tag={Link} className="" to="/react/user-register-index">ユーザ管理</NavLink>
+                        </NavItem>
+                    </ul>
+                    {/* TODO:うまくいかない、あとで。
+                    <form className="form-inline my-2 my-lg-0 no-ajax" id="LogoutForm" method="post" asp-controller="Logout" asp-action="Index">
+                        <button className="btn btn-outline-light my-2 my-sm-0" type="submit"><i className="fas fa-sign-out-alt"></i> ログオフ</button>
+                    </form> */}
+                </Collapse>
+            </Container>
+        </Navbar>
+    );
+};
 
-    public render() {
-        return (
-            <header>
-                <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light>
-                    <Container>
-                        {/* ブランド表示 */}
-                        <NavbarBrand tag={Link} to="/">ReactRedux</NavbarBrand>
-                        {/* 小さい画面の時ハンバーガーメニュー表示 */}
-                        <NavbarToggler onClick={this.toggle} className="mr-2"/>
-                        <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
-                            <ul className="navbar-nav flex-grow">
-                                {/* toでどのtsxコンポーネントに飛ぶかは、App.tsxで設定する。 */}
-                                <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
-                                </NavItem>
-                                {/* 
-                                <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/nazo-chart">NazoChart</NavLink>
-                                </NavItem> */}
-                                <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/nazo-map">NazoMap</NavLink>
-                                </NavItem>
-                            </ul>
-                        </Collapse>
-                    </Container>
-                </Navbar>
-            </header>
-        );
-    }
-    private toggle = () => {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
-    }
-}
+export default NavMenu;
