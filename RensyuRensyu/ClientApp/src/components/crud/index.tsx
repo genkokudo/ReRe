@@ -1,6 +1,6 @@
 ﻿import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CrudRegisterModule, CrudRegisterState } from '../../store/admin/CrudRegister';
+import { IndexCrudModule, IndexState } from '../../store/crud';
 import { Container, Row, Col } from 'reactstrap';
 import { useFetch } from '../../store/useFetch';
 import { useHistory } from 'react-router';
@@ -9,7 +9,7 @@ import { useHistory } from 'react-router';
 /*
  * ユーザ一覧画面の表示
  */
-const CrudRegister = () => {
+const IndexCrud = () => {
     // hooksセットアップ
     const dispatch = useDispatch();
 
@@ -17,13 +17,13 @@ const CrudRegister = () => {
     const history = useHistory();
 
     // fetchでデータ取得する
-    const { loading, error, data } = useFetch('/CrudRegister/Index');
+    const { loading, error, data } = useFetch('/Crud/Index');
 
     // stateにデータを反映させる
-    dispatch(CrudRegisterModule.actions.setData(data));
+    dispatch(IndexCrudModule.actions.setData(data));
 
     // state取得
-    const currentState: CrudRegisterState = useSelector((state: any) => state.CrudRegister);
+    const currentState: IndexState = useSelector((state: any) => state.CrudRegister);
 
     // 本体
     function body() {
@@ -58,4 +58,4 @@ const CrudRegister = () => {
     );
 };
 
-export default CrudRegister;
+export default IndexCrud;

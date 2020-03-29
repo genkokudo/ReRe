@@ -1,7 +1,7 @@
 ﻿import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // state
-export interface CrudRegisterState {
+export interface IndexState {
     // もし、interfaceの配列を使用する場合：正しく読めないので、JSON.parse(JSON.stringify(datasets))で読み直して使用すること
     Cruds: Crud[];
 }
@@ -16,19 +16,19 @@ interface Crud {
 }
 
 // 初期値
-const CrudRegisterInitialState: CrudRegisterState = {
+const IndexInitialState: IndexState = {
     Cruds: []
 };
 
 // createSlice() の中では、stateの更新を行っても良い（他ではだめ）
 // 同じ画面で同じhooksを複数使用する場合、このSliceを複数にすること。同じStateを呼んでしまい、エラーになるため。
-export let CrudRegisterModule = createSlice({
-    name: "CrudRegister",
-    initialState: CrudRegisterInitialState,
+export let IndexCrudModule = createSlice({
+    name: "IndexCrud",
+    initialState: IndexInitialState,
     reducers:   // 処理の定義
     {
         // Fetchしたデータをstateに反映させる
-        setData: (state, action: PayloadAction<CrudRegisterState>) => {
+        setData: (state, action: PayloadAction<IndexState>) => {
             if (action.payload) {
                 // stateに代入する方法では更新できない
                 //state = action.payload;

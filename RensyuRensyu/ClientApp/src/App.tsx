@@ -4,6 +4,8 @@ import Layout from './components/Layout';
 import Home from './components/Home';
 import NazoMap from './components/leaflet/NazoMap';
 import Special from './components/Special';
+import IndexCrud from './components/crud';
+import CreateCrud from './components/crud/Create';
 import 'leaflet/dist/leaflet.css'
 import './leaflet.css'  // ライブラリ付属のCSSを読み込んでから、本プロジェクトのカスタムCSSを読み込む
 import './custom.css'
@@ -19,5 +21,7 @@ export default () => (
         <Route exact path='/' component={Home} />
         <Route path='/nazo-map' component={NazoMap} />
         <Route path='/special' render={props => <Special aaaa={34} {...props} />} />
+        <Route path='/crud/index' component={IndexCrud} />
+        <Route path='/crud/create' component={CreateCrud} />
     </Layout>
 );

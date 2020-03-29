@@ -20,11 +20,14 @@ const NavMenu = () => {
                     <ul className="navbar-nav flex-grow">
                         {/* toでどのtsxコンポーネントに飛ぶかは、App.tsxで設定する。 */}
                         <NavItem>
-                            <NavLink tag={Link} className="text-dark" to="/nazo-map">NazoMap</NavLink>
+                            <NavLink tag={Link} className="" to="/nazo-map">NazoMap</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink tag={Link} className="" to="/crud/index">CRUD登録</NavLink>
                         </NavItem>
                         {/* 管理者のみ表示 */}
                         <NavItem>
-                            <NavLink tag={Link} className="" to="/react/user-register-index">ユーザ管理</NavLink>
+                            <NavLink tag={Link} className="" to="/react/user-register-index">ユーザ管理（未実装）</NavLink>
                         </NavItem>
                     </ul>
                     {/* TODO:うまくいかない、あとで。

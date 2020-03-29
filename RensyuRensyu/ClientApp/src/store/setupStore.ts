@@ -1,7 +1,7 @@
 import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { History } from 'history';
-import { ApplicationState, reducers } from './';
+import { reducers } from './';
 import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 
 /**
@@ -9,7 +9,7 @@ import { combineReducers, configureStore, getDefaultMiddleware } from "@reduxjs/
  * @param history
  * @param initialState
  */
-export default function setupStore(history: History, initialState?: ApplicationState) {
+export default function setupStore(history: History) {
     const middlewares = [
         ...getDefaultMiddleware(),  // toolkitのデフォルトミドルウェア：状態の比較などを行うらしい
         thunk,  // 引数から関数を作る仕組み
@@ -23,8 +23,7 @@ export default function setupStore(history: History, initialState?: ApplicationS
 
     const store = configureStore({
         reducer: rootReducer,
-        middleware: middlewares,
-        preloadedState: initialState
+        middleware: middlewares
     });
 
     return store;

@@ -61,7 +61,7 @@ namespace RensyuRensyu.Controllers
         /// ユーザを作成します。
         /// </summary>
         /// <returns></returns>
-        public async Task<CrudCreateResult> GetCrudCreate()
+        public async Task<CrudCreateResult> GetCreate()
         {
             return await _mediator.Send(new GetCrudCreateQuery { });
         }
@@ -71,7 +71,7 @@ namespace RensyuRensyu.Controllers
         /// ユーザを作成します。
         /// </summary>
         /// <returns></returns>
-        public async Task<ActionResult> PostCrudCreate(string id, string password, string companyId, List<string> authorities)
+        public async Task<ActionResult> PostCreate(string id, string password, string companyId, List<string> authorities)
         {
             return Ok(new { Message = $"更新が完了しました。" });
             //try

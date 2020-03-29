@@ -1,7 +1,7 @@
 ﻿import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // ----- state -----
-export interface CrudRegisterCreateState {
+export interface CreateState {
     companies: SelectListItem[];
     authorities: SelectListItem[];
 
@@ -18,7 +18,7 @@ interface SelectListItem {
 }
 
 // 初期値
-const CrudRegisterCreateInitialState: CrudRegisterCreateState = {
+const CreateInitialState: CreateState = {
     companies: [],
     authorities: [],
 
@@ -30,13 +30,13 @@ const CrudRegisterCreateInitialState: CrudRegisterCreateState = {
 
 // createSlice() の中では、stateの更新を行っても良い（他ではだめ）
 // 同じ画面で同じhooksを複数使用する場合、このSliceを複数にすること。同じStateを呼んでしまい、エラーになるため。
-export let CrudRegisterCreateModule = createSlice({
-    name: "CrudRegisterCreate",
-    initialState: CrudRegisterCreateInitialState,
+export let CreateCrudModule = createSlice({
+    name: "CrudCreate",
+    initialState: CreateInitialState,
     reducers:   // 処理の定義
     {
         // Fetchしたデータをstateに反映させる
-        setData: (state, action: PayloadAction<CrudRegisterCreateState>) => {
+        setData: (state, action: PayloadAction<CreateState>) => {
             if (action.payload) {
                 state.companies = action.payload.companies;
                 state.authorities = action.payload.authorities;
@@ -53,7 +53,7 @@ export let CrudRegisterCreateModule = createSlice({
             //formData.append('Ids', 2);
             //formData.append('Addresses', '住所B');
 
-            fetch('/CrudRegister/PostCrudRegisterCreate', {
+            fetch('/Crud/PostCreate', {
                 method: 'post',
                 body: formData,
                 credentials: 'include'
