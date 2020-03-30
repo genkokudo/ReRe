@@ -1,6 +1,6 @@
 ﻿import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IndexCrudModule, IndexState } from '../../store/crud';
+import { ListCrudModule, ListState } from '../../store/crud/List';
 import { Container, Row, Col } from 'reactstrap';
 import { useFetch } from '../../store/useFetch';
 import { useHistory } from 'react-router';
@@ -9,7 +9,7 @@ import { useHistory } from 'react-router';
 /*
  * ユーザ一覧画面の表示
  */
-const IndexCrud = () => {
+const ListCrud = () => {
     // hooksセットアップ
     const dispatch = useDispatch();
 
@@ -17,13 +17,13 @@ const IndexCrud = () => {
     const history = useHistory();
 
     // fetchでデータ取得する
-    const { loading, error, data } = useFetch('/Crud/Index');
+    const { loading, error, data } = useFetch('/Crud/GetList');
 
     // stateにデータを反映させる
-    dispatch(IndexCrudModule.actions.setData(data));
+    dispatch(ListCrudModule.actions.setData(data));
 
     // state取得
-    const currentState: IndexState = useSelector((state: any) => state.CrudRegister);
+    const currentState: ListState = useSelector((state: any) => state.CrudRegister);
 
     // 本体
     function body() {
@@ -58,4 +58,4 @@ const IndexCrud = () => {
     );
 };
 
-export default IndexCrud;
+export default ListCrud;

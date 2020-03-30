@@ -40,10 +40,10 @@ namespace RensyuRensyu.Controllers
 
         /// <summary>
         /// Crud/Index
-        /// ユーザ一覧を取得します。
+        /// △△一覧を取得します。
         /// </summary>
         /// <returns></returns>
-        public async Task<CrudIndexResult> IndexAsync()
+        public async Task<CrudIndexResult> GetListAsync()
         {
             return await _mediator.Send(new CrudIndexQuery { });
         }
@@ -58,7 +58,7 @@ namespace RensyuRensyu.Controllers
         }
 
         /// <summary>
-        /// ユーザを作成します。
+        /// △△を作成します。
         /// </summary>
         /// <returns></returns>
         public async Task<CrudCreateResult> GetCreate()
@@ -68,7 +68,7 @@ namespace RensyuRensyu.Controllers
 
         // POST: Crud/Create
         /// <summary>
-        /// ユーザを作成します。
+        /// △△を作成します。
         /// </summary>
         /// <returns></returns>
         public async Task<ActionResult> PostCreate(string id, string password, string companyId, List<string> authorities)

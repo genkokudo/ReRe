@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 const Home = () => (
     // 普通にHTMLを書く
     <div>
-        <h1>Hello, work!</h1>
+        <h1>Hello Work!</h1>
     </div>
 );
 
