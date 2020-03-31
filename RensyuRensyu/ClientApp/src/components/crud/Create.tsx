@@ -22,10 +22,10 @@ const CreateCrud = () => {
     dispatch(CreateCrudModule.actions.setData(data));
 
     // state取得
-    const currentState: CreateState = useSelector((state: any) => state.CrudRegisterCreate);
-    const id: string = useSelector((state: any) => state.CrudRegisterCreate.id);
-    const password: string = useSelector((state: any) => state.CrudRegisterCreate.password);
-    const companyId: string = useSelector((state: any) => state.CrudRegisterCreate.companyId);
+    const currentState: CreateState = useSelector((state: any) => state.createCrud);
+    const id: string = useSelector((state: any) => state.createCrud.id);
+    const password: string = useSelector((state: any) => state.createCrud.password);
+    const companyId: string = useSelector((state: any) => state.createCrud.companyId);
 
     // 所属会社
     function renderCompany() {

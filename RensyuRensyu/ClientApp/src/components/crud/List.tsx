@@ -17,23 +17,24 @@ const ListCrud = () => {
     const history = useHistory();
 
     // fetchでデータ取得する
-    const { loading, error, data } = useFetch('/Crud/GetList');
+    const { loading, error, data } = useFetch('/Crud/GetList'); // Getは省略できない
 
     // stateにデータを反映させる
+    // ここで行った反映は状態変化のたびに適用されるので注意、つまり表示後の画面操作で書き換わらない
     dispatch(ListCrudModule.actions.setData(data));
 
     // state取得
-    const currentState: ListState = useSelector((state: any) => state.CrudRegister);
+    const currentState: ListState = useSelector((state: any) => state.listCrud);
 
     // 本体
     function body() {
         var list = [];
 
-        for (var i in currentState.Cruds.values) {
+        for (var i in currentState.Cruds) {
             list.push(
                 <tbody key={'tbody' + '_' + i}>
                     <tr key={'tr' + '_' + i}>
-                        <td key={'td' + '_' + i}>currentState.Cruds.values[i].name</td>
+                        <td key={'td' + '_' + i}>currentState.Cruds[i].name</td>
                     </tr>
                 </tbody>
             );
@@ -48,7 +49,7 @@ const ListCrud = () => {
             {
                 data &&
                 <React.Fragment>
-                    <button onClick={() => history.push('/react/Crud-register-create')}>新規登録</button>
+                    <button onClick={() => history.push('/crud/create')}>新規登録</button>
                     <table>
                         {body()}
                     </table>

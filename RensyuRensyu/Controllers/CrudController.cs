@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -15,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using RensyuRensyu.Infrastructure.Services;
 
 // TODO:編集と削除は後回し
+// AutomapperとMediatorが必要
 namespace RensyuRensyu.Controllers
 {
     /// <summary>
@@ -23,11 +23,6 @@ namespace RensyuRensyu.Controllers
     //[Authorize(Roles = "Administrator")]  // TODO:管理者ユーザを作ったらこっちに切り替え
     public class CrudController : ControllerBase
     {
-        /// <summary>
-        /// パスワードのハッシュ化を行う
-        /// </summary>
-        private readonly IPasswordService _passwordService;
-
         private readonly ILogger<CrudController> _logger;
         private readonly IMediator _mediator;
 
@@ -35,21 +30,34 @@ namespace RensyuRensyu.Controllers
         {
             _logger = logger;
             _mediator = mediator;
-            _passwordService = passwordService;
         }
 
         /// <summary>
-        /// Crud/Index
+        /// https://localhost:44301/Crud/Bbbb
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Bbbb()
+        {
+            // return File(いろいろ);
+            // return PhysicalFile(いろいろ);
+            // return BadRequest(Object);
+            // return RedirectToPage(いろいろ);
+            return Ok(new { message = "正常終了" });
+        }
+
+        /// <summary>
+        /// Crud/List
         /// △△一覧を取得します。
         /// </summary>
         /// <returns></returns>
         public async Task<CrudIndexResult> GetListAsync()
         {
-            return await _mediator.Send(new CrudIndexQuery { });
+            return await _mediator.Send(new CrudIndexQuery());
         }
 
         /// <summary>
         /// Crud/Detail
+        /// 詳細を取得します。
         /// </summary>
         /// <returns></returns>
         public async Task<CrudDetailResult> DetailAsync(long id)
@@ -63,7 +71,7 @@ namespace RensyuRensyu.Controllers
         /// <returns></returns>
         public async Task<CrudCreateResult> GetCreate()
         {
-            return await _mediator.Send(new GetCrudCreateQuery { });
+            return await _mediator.Send(new GetCrudCreateQuery());
         }
 
         // POST: Crud/Create
@@ -119,7 +127,7 @@ namespace RensyuRensyu.Controllers
         }
     }
 
-    #region Index
+    #region List
     public class UserIndexViewModel
     {
         public long UserId { get; set; }
@@ -128,6 +136,7 @@ namespace RensyuRensyu.Controllers
         public List<string> UserAuthoritiesName { get; set; }
         public bool IsDeleted { get; set; }
     }
+
     /// <summary>検索条件</summary>
     public class CrudIndexQuery : IRequest<CrudIndexResult>
     {
@@ -237,7 +246,6 @@ namespace RensyuRensyu.Controllers
     /// <summary>検索結果</summary>
     public class CrudCreateResult
     {
-        // Get情報 //
         /// <summary>所属会社の入力</summary> 
         public List<SelectListItem> Companies { get; set; }
 
@@ -269,7 +277,7 @@ namespace RensyuRensyu.Controllers
             // DB検索
             var companies = _db.Companies.AsNoTracking().ToArray();
 
-            // 所属会社の選択
+            // リストボックス選択肢
             var companySelectList = new List<SelectListItem>();
             foreach (var company in companies)
             {

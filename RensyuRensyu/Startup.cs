@@ -1,3 +1,5 @@
+using AutoMapper;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -46,6 +48,12 @@ namespace RensyuRensyu
             // cshtml修正後、リロードですぐブラウザに反映する
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddTransient<IPasswordService, PasswordService>();
+
+            // AutoMapperを使用する
+            services.AddAutoMapper(typeof(Startup));
+
+            // MediatRを使用する
+            services.AddMediatR(typeof(Startup));
         }
 
         // このメソッドはランタイムによって呼び出されます。 このメソッドを使用して、HTTP要求パイプラインを構成します。
