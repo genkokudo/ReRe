@@ -23,9 +23,11 @@ const CreateCrud = () => {
 
     // state取得
     const currentState: CreateState = useSelector((state: any) => state.createCrud);
+
+    // ↓この辺いらんと思うので、登録できることを確認したら、消してみること。
     const id: string = useSelector((state: any) => state.createCrud.id);
     const password: string = useSelector((state: any) => state.createCrud.password);
-    const companyId: string = useSelector((state: any) => state.createCrud.companyId);
+    const companyId: string = useSelector((state: any) => state.createCrud.companyId);  
 
     // 所属会社
     function renderCompany() {
@@ -38,7 +40,7 @@ const CreateCrud = () => {
         }
         return (
             <FormGroup>
-                <Label for="selectCompany">所属会社</Label>
+                <Label for="selectCompany">会社</Label>
                 <Input type="select" name="select" id="selectCompany" value={companyId} onChange={(e) => { dispatch(CreateCrudModule.actions.changeCompanyId(e.target.value)) }}>
                     {list}
                 </Input>

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RensyuRensyu.Infrastructure.Database;
 
 namespace RensyuRensyu
 {
@@ -24,9 +25,9 @@ namespace RensyuRensyu
                 var services = scope.ServiceProvider;
                 try
                 {
-                    //var context = services.GetRequiredService<ApplicationDbContext>();
+                    var context = services.GetRequiredService<ApplicationDbContext>();
                     //context.Database.Migrate();
-                    //DbInitializer.Initialize(context);
+                    DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)
                 {

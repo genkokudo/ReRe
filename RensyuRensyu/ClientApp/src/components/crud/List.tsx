@@ -20,8 +20,8 @@ const ListCrud = () => {
     const { loading, error, data } = useFetch('/Crud/GetList'); // Getは省略できない
 
     // stateにデータを反映させる
-    // ここで行った反映は状態変化のたびに適用されるので注意、つまり表示後の画面操作で書き換わらない
     dispatch(ListCrudModule.actions.setData(data));
+    // ↑reduxは状態変化させたい場合、必ずdispatchメソッドを呼ぶ。
 
     // state取得
     const currentState: ListState = useSelector((state: any) => state.listCrud);

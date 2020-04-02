@@ -32,56 +32,37 @@ namespace RensyuRensyu.Controllers
             _mediator = mediator;
         }
 
+        #region List
         /// <summary>
-        /// https://localhost:44301/Crud/Bbbb
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult Bbbb()
-        {
-            // return File(いろいろ);
-            // return PhysicalFile(いろいろ);
-            // return BadRequest(Object);
-            // return RedirectToPage(いろいろ);
-            return Ok(new { message = "正常終了" });
-        }
-
-        /// <summary>
-        /// Crud/List
+        /// Crud/GetList
         /// △△一覧を取得します。
         /// </summary>
         /// <returns></returns>
         public async Task<CrudIndexResult> GetListAsync()
         {
+            _logger.LogInformation("GetList");
             return await _mediator.Send(new CrudIndexQuery());
         }
+        #endregion
 
-        /// <summary>
-        /// Crud/Detail
-        /// 詳細を取得します。
-        /// </summary>
-        /// <returns></returns>
-        public async Task<CrudDetailResult> DetailAsync(long id)
-        {
-            return await _mediator.Send(new CrudDetailQuery { Id = id });
-        }
-
+        #region Create
         /// <summary>
         /// △△を作成します。
         /// </summary>
         /// <returns></returns>
-        public async Task<CrudCreateResult> GetCreate()
+        public async Task<CrudCreateResult> GetCreateAsync()
         {
+            _logger.LogInformation("GetCreate");
             return await _mediator.Send(new GetCrudCreateQuery());
         }
 
-        // POST: Crud/Create
         /// <summary>
         /// △△を作成します。
         /// </summary>
         /// <returns></returns>
-        public async Task<ActionResult> PostCreate(string id, string password, string companyId, List<string> authorities)
+        public async Task<ActionResult> PostCreateAsync(string id, string password, string companyId, List<string> authorities)
         {
-            return Ok(new { Message = $"更新が完了しました。" });
+            _logger.LogInformation("PostCreate");
             //try
             //{
             //    // TODO:更新
@@ -92,6 +73,18 @@ namespace RensyuRensyu.Controllers
             //{
             //    return BadRequest(new { Message = $"登録に失敗しました。{e.Message}" });
             //}
+            return Ok(new { Message = $"更新が完了しました。" });
+        }
+        #endregion
+
+        /// <summary>
+        /// Crud/GetDetail
+        /// 詳細を取得します。
+        /// </summary>
+        /// <returns></returns>
+        public async Task<CrudDetailResult> GetDetailAsync(long id)
+        {
+            return await _mediator.Send(new CrudDetailQuery { Id = id });
         }
 
         // POST: Crud/Edit/5
@@ -246,7 +239,7 @@ namespace RensyuRensyu.Controllers
     /// <summary>検索結果</summary>
     public class CrudCreateResult
     {
-        /// <summary>所属会社の入力</summary> 
+        /// <summary>会社の入力</summary> 
         public List<SelectListItem> Companies { get; set; }
 
         /// <summary>権限の種類</summary> 
@@ -285,7 +278,7 @@ namespace RensyuRensyu.Controllers
             }
 
             // 権限リストの取得
-            var authorities = UserAuthorityTypes.Administrator.GetSelectList(typeof(UserAuthority));
+            var authorities = UserAuthorityTypes.Administrator.GetSelectList(typeof(UserAuthorityTypes));
 
             // 検索結果の格納
             var result = new CrudCreateResult

@@ -24,7 +24,7 @@ namespace RensyuRensyu.Models
 		{
 			get
 			{
-				var names = new[] { "管理者" };
+				var names = new[] { "管理者", "銀兵堂" };
 				var result = new List<Company>();
 				foreach (var name in names)
 				{
