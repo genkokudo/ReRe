@@ -26,15 +26,20 @@ const ListCrud = () => {
     // state取得
     const currentState: ListState = useSelector((state: any) => state.listCrud);
 
-    // 本体
+    // データ一覧表示
     function body() {
         var list = [];
 
-        for (var i in currentState.Cruds) {
+        // 件数分繰り返し
+        for (var i in currentState.cruds) {
             list.push(
-                <tbody key={'tbody' + '_' + i}>
-                    <tr key={'tr' + '_' + i}>
-                        <td key={'td' + '_' + i}>currentState.Cruds[i].name</td>
+                <tbody key={`tbody_${i}`}>
+                    {/* 1行 */}
+                    <tr key={`tr_${i}`}>
+                        {/* 各項目 */}
+                        <td key={`td_crudId_${i}`}>{currentState.cruds[i].crudId}</td>
+                        <td key={`td_name_${i}`}>{currentState.cruds[i].name}</td>
+                        <td key={`td_companyName_${i}`}>{currentState.cruds[i].companyName}</td>
                     </tr>
                 </tbody>
             );
@@ -49,8 +54,16 @@ const ListCrud = () => {
             {
                 data &&
                 <React.Fragment>
+                    {/* ボタン */}
                     <button onClick={() => history.push('/crud/create')}>新規登録</button>
+                    {/* 一覧 */}
                     <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Authority</th>
+                            </tr>
+                        </thead>
                         {body()}
                     </table>
                 </React.Fragment>

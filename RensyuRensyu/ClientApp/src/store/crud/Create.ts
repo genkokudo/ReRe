@@ -24,7 +24,7 @@ const CreateInitialState: CreateState = {
 
     id: '',
     password: '',
-    companyId: '',
+    companyId: '1',
     authority: []
 };
 

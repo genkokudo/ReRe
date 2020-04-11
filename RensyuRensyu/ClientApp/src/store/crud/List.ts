@@ -3,21 +3,21 @@
 // state
 export interface ListState {
     // もし、interfaceの配列を使用する場合：正しく読めないので、JSON.parse(JSON.stringify(datasets))で読み直して使用すること
-    Cruds: Crud[];
+    cruds: Crud[];
 }
 
 // 補助データ
 interface Crud {
-    CrudId: number;
-    name: number;
-    CrudCompanyName: string;
-    CrudAuthoritiesName: string;
+    crudId: number;
+    name: string;
+    companyName: string;
+    userAuthorities: string[];
     isDeleted: boolean;
 }
 
 // 初期値
 const ListInitialState: ListState = {
-    Cruds: []
+    cruds: []
 };
 
 // createSlice() の中では、stateの更新を行っても良い（他ではだめ）
