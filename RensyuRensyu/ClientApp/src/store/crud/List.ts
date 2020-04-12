@@ -4,7 +4,6 @@
 export interface ListState {
     // もし、interfaceの配列を使用する場合：正しく読めないので、JSON.parse(JSON.stringify(datasets))で読み直して使用すること
     cruds: Crud[];
-    aaaa: string;
 }
 
 // 補助データ
@@ -19,8 +18,7 @@ interface Crud {
 
 // 初期値
 const ListInitialState: ListState = {
-    cruds: [],
-    aaaa: ''
+    cruds: []
 };
 
 // createSlice() の中では、stateの更新を行っても良い（他ではだめ）
@@ -44,7 +42,6 @@ export let ListCrudModule = createSlice({
         // 行を削除する
         removeLine: (state, action: PayloadAction<string>) => {
             state.cruds[Number(action.payload)].isDeleted = true;
-            state.aaaa = action.payload;
             return state;
         },
         // 現在のテーブルをサーバに反映させる

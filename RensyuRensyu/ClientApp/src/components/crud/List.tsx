@@ -77,7 +77,6 @@ const ListCrud = () => {
                     </table>
                     {/* <button className={'btn btn-warning disabled'} onClick={() => dispatch(ListCrudModule.actions.submitData(currentState))} disabled>確定</button> */}
                     <button className={'btn btn-warning disabled'} onClick={() => dispatch(ListCrudModule.actions.submitData(currentState))}>確定</button>
-                    <Input type="text" value={currentState.aaaa} />
                 </React.Fragment>
             }
         </Container>
