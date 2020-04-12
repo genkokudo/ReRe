@@ -4,6 +4,7 @@
 export interface ListState {
     // もし、interfaceの配列を使用する場合：正しく読めないので、JSON.parse(JSON.stringify(datasets))で読み直して使用すること
     cruds: Crud[];
+    aaaa: string;
 }
 
 // 補助データ
@@ -12,16 +13,17 @@ interface Crud {
     name: string;
     companyName: string;
     userAuthorities: string[];
-    isDeleted: boolean;
+    isDeleted: boolean;  // この画面で編集したか
+    isEdited: boolean;  // この画面で編集したか
 }
 
 // 初期値
 const ListInitialState: ListState = {
-    cruds: []
+    cruds: [],
+    aaaa: ''
 };
 
 // createSlice() の中では、stateの更新を行っても良い（他ではだめ）
-// 同じ画面で同じhooksを複数使用する場合、このSliceを複数にすること。同じStateを呼んでしまい、エラーになるため。
 export let ListCrudModule = createSlice({
     name: "ListCrud",
     initialState: ListInitialState,
@@ -29,24 +31,52 @@ export let ListCrudModule = createSlice({
     {
         // Fetchしたデータをstateに反映させる
         setData: (state, action: PayloadAction<ListState>) => {
+            // 画面読み込み時に呼ぶので、ここでセットしたstateは書き換えられない
             if (action.payload) {
-                // stateに代入する方法では更新できない
-                //state = action.payload;
-
-                // CrudRegisterStateにdataという構造体があるとすると、以下のようにセット可能。
-                // state.data = payload.data
-                // ただし上記の場合、useSelector((state: any) => state.CrudRegister.data);は可能だが、
-                // useSelector((state: any) => state.CrudRegister.data.label);は不可能。
-                // セレクタで取得してからlabelにアクセスすることは可能。
-                // どっちが綺麗かの問題なので、好きな方を選択する。
-
-                // こうやって、1つずつフィールドを転記すると確実
-                //state.label = action.payload.label;
-                //state.cost = action.payload.cost;
-
-                // または、丸ごとreturnする（APIと関係ないフィールドが無い場合のみ）
-                return action.payload;
+                state.cruds = action.payload.cruds
             }
+            return state;
+        },
+        // 行を追加する
+        addLine: (state, action: PayloadAction<ListState>) => {
+            return state;
+        },
+        // 行を削除する
+        removeLine: (state, action: PayloadAction<string>) => {
+            state.cruds[Number(action.payload)].isDeleted = true;
+            state.aaaa = action.payload;
+            return state;
+        },
+        // 現在のテーブルをサーバに反映させる
+        submitData: (state, action: PayloadAction<ListState>) => {
+            // TODO:isEditedのみ追加すること
+            var formData = new FormData();
+            state.cruds.forEach(crud => {
+                formData.append('ids', crud.crudId.toString());
+                formData.append('names', crud.name);
+                formData.append('isDeleteds', crud.isDeleted.toString());
+            });
+
+            fetch('/Crud/PostListTable', {
+                method: 'post',
+                body: formData,
+                credentials: 'include'
+            }).then(function (response) {
+                if (response.status !== 200) {
+                    alert('サーバ処理で何か失敗したようです');
+                }
+                // JSONメッセージを取り出す
+                response.json().then(function (data) {
+                    // 成功時の処理
+                    alert(data.message);
+                }).catch(function (err) {
+                    alert(`レスポンスデータはありませんでした: ${err}`);
+                });
+            }).catch(function (err) {
+                alert(`error: ${err}`);
+            });
+
+            return state;
         }
 
     }

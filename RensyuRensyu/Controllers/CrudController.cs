@@ -47,8 +47,45 @@ namespace RensyuRensyu.Controllers
         public async Task<GetCrudListResult> GetListAsync()
         {
             _logger.LogInformation("GetList");
-
             return await _mediator.Send(new GetCrudListQuery());
+        }
+
+        /// <summary>
+        /// Crud/PostList
+        /// △△一覧をDBに反映します。
+        /// </summary>
+        /// <param name="ids">0:追加</param>
+        /// <param name="isDeleteds">trueならば削除</param>
+        /// <returns></returns>
+        public async Task<ActionResult> PostListTableAsync(List<long> ids, List<string> names, List<bool> isDeleteds)    // , List<string> passwords, List<long> companyIds, List<List<string>> authorities  // この辺は複雑版でなければ対応できない
+        {
+            _logger.LogInformation("PostList");
+
+            var results = new List<string>();
+            for (int i = 0; i < ids.Count; i++)
+            {
+                ObjectResult tempResult;
+                if (isDeleteds[i])
+                {
+                    // 削除
+                    tempResult = await PostDeleteAsync(ids[i]) as ObjectResult;
+                }
+                else if (ids[i] == 0)
+                {
+                    //// 追加
+                    //tempResult = await PostCreateAsync(names[i], passwords[i], companyIds[i], authorities[i]) as ObjectResult;
+                    tempResult = Ok(new { Message = "追加は未実装です。" });
+                }
+                else
+                {
+                    //// 更新
+                    //tempResult = await PostUpdateAsync(ids[i], names[i], passwords[i], companyIds[i], authorities[i]) as ObjectResult;
+                    tempResult = Ok(new { Message = "更新は未実装です。" });
+                }
+                results.Add((tempResult.Value as dynamic).Message);
+                
+            }
+            return Ok(new { Message = string.Join(',', results)});
         }
         #endregion
 
@@ -86,6 +123,36 @@ namespace RensyuRensyu.Controllers
         }
         #endregion
 
+        #region Edit
+
+        #region Post
+        /// <summary>
+        /// △△を更新します。
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ActionResult> PostUpdateAsync(long id, string name, string password, long companyId, List<string> authorities)
+        {
+            _logger.LogInformation($"PostEdit");
+
+            var result = await _mediator.Send(new PostCrudUpdateQuery
+            {
+                Id = id,
+                Name = name,
+                Password = password,
+                CompanyId = companyId,
+                Authorities = authorities
+            });
+            if (!result.IsSuccess)
+            {
+                return BadRequest(new { Message = $"更新に失敗しました。{string.Join(',', result.Messages) }" });
+            }
+            return Ok(new { Message = $"更新が完了しました。 ID={id}" });
+        }
+        #endregion
+
+        #endregion
+
+        #region Delete
         /// <summary>
         /// Crud/PostDelete
         /// 削除します。
@@ -104,39 +171,24 @@ namespace RensyuRensyu.Controllers
             {
                 return BadRequest(new { Message = $"削除に失敗しました。{string.Join(',', result.Messages) }" });
             }
-            return Ok(new { Message = $"削除が完了しました。" });
+            return Ok(new { Message = $"削除が完了しました。 ID={id}" });
         }
+        #endregion
 
-        ///// <summary>
-        ///// Crud/GetDetail
-        ///// 詳細を取得します。
-        ///// </summary>
-        ///// <returns></returns>
-        //public async Task<CrudDetailResult> GetDetailAsync(long id)
-        //{
-        //    return await _mediator.Send(new CrudDetailQuery { Id = id });
-        //}
-
-        //// POST: Crud/Edit/5
-        //public async Task<ActionResult> PostEditAsync(long id/* パラメータ */)
-        //{
-        //    try
-        //    {
-        //        // TODO:更新
-        //        await _mediator.Send(new PostCrudUpdateQuery { Id = id });
-        //        return Ok(new { Message = $"更新が完了しました。" });
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return BadRequest(new { Message = $"更新に失敗しました。{e.Message}" });
-        //    }
-        //}
-
-        //// IFormCollection collectionって何だろう？
     }
 
     #region List
+    /// <summary>共通の処理結果</summary>
+    public class PostCrudResult
+    {
+        /// <summary>結果</summary> 
+        public bool IsSuccess { get; set; } = true;
 
+        /// <summary>メッセージ</summary> 
+        public List<string> Messages { get; set; } = new List<string>();
+    }
+
+    #region Get
     /// <summary>検索条件</summary>
     public class GetCrudListQuery : IRequest<GetCrudListResult>
     {
@@ -182,6 +234,66 @@ namespace RensyuRensyu.Controllers
             return await Task.FromResult(result);
         }
     }
+    #endregion
+
+    #region Post（いらない気がする）
+    ///// <summary>条件</summary>
+    //public class PostCrudListQuery : IRequest<PostCrudListResult>
+    //{
+    //    public List<long> Ids { get; set; }
+    //    public List<string> Names { get; set; }
+    //    public List<string> Passwords { get; set; }
+    //    public List<long> CompanyIds { get; set; }
+    //    public List<string> Authorities { get; set; }
+    //    public List<bool> IsDeleteds { get; set; }
+    //}
+
+    ///// <summary>検索結果</summary>
+    //public class PostCrudListResult
+    //{
+    //    /// <summary>結果</summary> 
+    //    public bool IsSuccess { get; set; } = true;
+
+    //    /// <summary>メッセージ</summary> 
+    //    public List<string> Messages { get; set; } = new List<string>();
+    //}
+
+    ///// <summary> 
+    ///// 検索ハンドラ 
+    ///// PostCrudListQueryをSendすると動作し、PostCrudListResultを返す 
+    ///// </summary> 
+    //public class PostCrudListQueryHandler : IRequestHandler<PostCrudListQuery, PostCrudListResult>
+    //{
+    //    private readonly ApplicationDbContext _db;
+
+    //    public PostCrudListQueryHandler(ApplicationDbContext db)
+    //    {
+    //        _db = db;
+    //    }
+
+    //    /// <summary>
+    //    /// 検索の方法を定義する
+    //    /// IRequestHandlerで実装することになっている
+    //    /// </summary>
+    //    /// <param name="query">検索条件</param>
+    //    /// <param name="token"></param>
+    //    /// <returns></returns>
+    //    public async Task<PostCrudListResult> Handle(PostCrudListQuery query, CancellationToken token)
+    //    {
+    //        // DB検索
+    //        var datas = _db.TestDatas.AsNoTracking().ToArray();
+
+    //        // 検索結果の格納
+    //        var result = new PostCrudListResult
+    //        {
+    //            Datas = datas
+    //        };
+    //        return await Task.FromResult(result);
+    //    }
+    //}
+
+    #endregion
+
     #endregion
 
     #region Detail（単純版では不要）
@@ -299,7 +411,7 @@ namespace RensyuRensyu.Controllers
 
     #region Post
     /// <summary>処理条件</summary>
-    public class PostCrudCreateQuery : IRequest<PostCrudCreateResult>
+    public class PostCrudCreateQuery : IRequest<PostCrudResult>
     {
         public string Name { get; set; }
         public string Password { get; set; }
@@ -307,21 +419,11 @@ namespace RensyuRensyu.Controllers
         public List<string> Authorities { get; set; }
     }
 
-    /// <summary>処理結果</summary>
-    public class PostCrudCreateResult
-    {
-        /// <summary>結果</summary> 
-        public bool IsSuccess { get; set; } = true;
-
-        /// <summary>メッセージ</summary> 
-        public List<string> Messages { get; set; } = new List<string>();
-    }
-
     /// <summary> 
     /// ハンドラ 
     /// PostCrudCreateQueryをSendすると動作し、CrudCreateResultを返す 
     /// </summary> 
-    public class PostCrudCreateQueryHandler : IRequestHandler<PostCrudCreateQuery, PostCrudCreateResult>
+    public class PostCrudCreateQueryHandler : IRequestHandler<PostCrudCreateQuery, PostCrudResult>
     {
         private readonly ApplicationDbContext _db;
         private readonly IPasswordService _passwordService;
@@ -338,9 +440,9 @@ namespace RensyuRensyu.Controllers
         /// <param name="query">検索条件</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<PostCrudCreateResult> Handle(PostCrudCreateQuery query, CancellationToken token)
+        public async Task<PostCrudResult> Handle(PostCrudCreateQuery query, CancellationToken token)
         {
-            var result = new PostCrudCreateResult();
+            var result = new PostCrudResult();
 
             try
             {
@@ -382,10 +484,9 @@ namespace RensyuRensyu.Controllers
 
     #region Update
 
-    // Getは他のGetと使いまわししたら？
     #region Post
     /// <summary>検索条件</summary>
-    public class PostCrudUpdateQuery : IRequest<PostCrudUpdateResult>
+    public class PostCrudUpdateQuery : IRequest<PostCrudResult>
     {
         public long Id { get; set; }
         public string Name { get; set; }
@@ -394,20 +495,20 @@ namespace RensyuRensyu.Controllers
         public List<string> Authorities { get; set; }
     }
 
-    /// <summary>検索結果</summary>
-    public class PostCrudUpdateResult
-    {
-        /// <summary>結果</summary> 
-        public bool IsSuccess { get; set; } = true;
+    ///// <summary>検索結果</summary>
+    //public class PostCrudUpdateResult
+    //{
+    //    /// <summary>結果</summary> 
+    //    public bool IsSuccess { get; set; } = true;
 
-        /// <summary>メッセージ</summary> 
-        public List<string> Messages { get; set; } = new List<string>();
-    }
+    //    /// <summary>メッセージ</summary> 
+    //    public List<string> Messages { get; set; } = new List<string>();
+    //}
 
     /// <summary> 
     /// ハンドラ
     /// </summary> 
-    public class PostCrudUpdateQueryHandler : IRequestHandler<PostCrudUpdateQuery, PostCrudUpdateResult>
+    public class PostCrudUpdateQueryHandler : IRequestHandler<PostCrudUpdateQuery, PostCrudResult>
     {
         private readonly ApplicationDbContext _db;
         private readonly IPasswordService _passwordService;
@@ -424,10 +525,10 @@ namespace RensyuRensyu.Controllers
         /// <param name="query">検索条件</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<PostCrudUpdateResult> Handle(PostCrudUpdateQuery query, CancellationToken token)
+        public async Task<PostCrudResult> Handle(PostCrudUpdateQuery query, CancellationToken token)
         {
 
-            var result = new PostCrudUpdateResult();
+            var result = new PostCrudResult();
 
             try
             {
@@ -469,26 +570,16 @@ namespace RensyuRensyu.Controllers
 
     #region Delete
     /// <summary>検索条件</summary>
-    public class PostDeleteCrudQuery : IRequest<PostDeleteCrudResult>
+    public class PostDeleteCrudQuery : IRequest<PostCrudResult>
     {
         public long Id { get; set; }
-    }
-
-    /// <summary>検索結果</summary>
-    public class PostDeleteCrudResult
-    {
-        /// <summary>結果</summary> 
-        public bool IsSuccess { get; set; } = true;
-
-        /// <summary>メッセージ</summary> 
-        public List<string> Messages { get; set; } = new List<string>();
     }
 
     /// <summary> 
     /// ハンドラ 
     /// PostDeleteCrudQueryをSendすると動作し、PostDeleteCrudResultを返す 
     /// </summary> 
-    public class PostDeleteCrudQueryHandler : IRequestHandler<PostDeleteCrudQuery, PostDeleteCrudResult>
+    public class PostDeleteCrudQueryHandler : IRequestHandler<PostDeleteCrudQuery, PostCrudResult>
     {
         private readonly ApplicationDbContext _db;
 
@@ -504,9 +595,9 @@ namespace RensyuRensyu.Controllers
         /// <param name="query">検索条件</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<PostDeleteCrudResult> Handle(PostDeleteCrudQuery query, CancellationToken token)
+        public async Task<PostCrudResult> Handle(PostDeleteCrudQuery query, CancellationToken token)
         {
-            var result = new PostDeleteCrudResult();
+            var result = new PostCrudResult();
             try
             {
                 // 削除
@@ -526,7 +617,6 @@ namespace RensyuRensyu.Controllers
             }
         }
     }
-
 
     #endregion
 

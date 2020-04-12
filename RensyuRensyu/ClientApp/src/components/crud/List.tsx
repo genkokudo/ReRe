@@ -1,7 +1,7 @@
 ﻿import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListCrudModule, ListState } from '../../store/crud/List';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Input } from 'reactstrap';
 import { useFetch } from '../../store/useFetch';
 import { useHistory } from 'react-router';
 
@@ -42,7 +42,8 @@ const ListCrud = () => {
                         <td key={`td_companyName_${i}`}>{currentState.cruds[i].companyName}</td>
                         <td key={`td_userAuthorities_${i}`}>{currentState.cruds[i].userAuthorities.join(', ')}</td>
                         <td key={`td_edit_${i}`}><button className={'btn btn-sm btn-primary'} onClick={() => alert('編集')}>編集</button></td>
-                        <td key={`td_delete_${i}`}><button className={'btn btn-sm btn-danger'} onClick={() => alert('削除')}>削除</button></td>
+                        <td key={`td_delete_${i}`}><button className={'btn btn-sm btn-danger'} value={i.toString()} onClick={(e) => dispatch(ListCrudModule.actions.removeLine(e.currentTarget.value))}>削除</button>
+                            <Input type="text" value={currentState.cruds[i].isDeleted.toString()} /></td>
                     </tr>
                 </tbody>
             );
@@ -74,7 +75,9 @@ const ListCrud = () => {
                         </thead>
                         {body()}
                     </table>
-                    <button className={'btn btn-warning disabled'} onClick={() => history.push('/crud/create')} disabled>確定</button>
+                    {/* <button className={'btn btn-warning disabled'} onClick={() => dispatch(ListCrudModule.actions.submitData(currentState))} disabled>確定</button> */}
+                    <button className={'btn btn-warning disabled'} onClick={() => dispatch(ListCrudModule.actions.submitData(currentState))}>確定</button>
+                    <Input type="text" value={currentState.aaaa} />
                 </React.Fragment>
             }
         </Container>
