@@ -24,11 +24,6 @@ const CreateCrud = () => {
     // state取得
     const currentState: CreateState = useSelector((state: any) => state.createCrud);
 
-    // ↓この辺いらんと思うので、登録できることを確認したら、消してみること。
-    const id: string = useSelector((state: any) => state.createCrud.id);
-    const password: string = useSelector((state: any) => state.createCrud.password);
-    const companyId: string = useSelector((state: any) => state.createCrud.companyId);  
-
     // 所属会社
     function renderCompany() {
         var list = [];
@@ -41,7 +36,7 @@ const CreateCrud = () => {
         return (
             <FormGroup>
                 <Label for="selectCompany">会社</Label>
-                <Input type="select" name="select" id="selectCompany" value={companyId} onChange={(e) => { dispatch(CreateCrudModule.actions.changeCompanyId(e.target.value)) }}>
+                <Input type="select" name="select" id="selectCompany" value={currentState.companyId} onChange={(e) => { dispatch(CreateCrudModule.actions.changeCompanyId(e.target.value)) }}>
                     {list}
                 </Input>
             </FormGroup>
@@ -83,12 +78,12 @@ const CreateCrud = () => {
                 <div>
                     <Form>
                         <FormGroup>
-                            <Label for="CrudId">ユーザID</Label>
-                            <Input type="text" name="id" id="CrudId" placeholder="" value={id} onChange={(e) => { dispatch(CreateCrudModule.actions.changeId(e.target.value)) }} />
+                            <Label for="CrudId">ユーザ名</Label>
+                            <Input type="text" name="name" id="CrudId" placeholder="" value={currentState.name} onChange={(e) => { dispatch(CreateCrudModule.actions.changeName(e.target.value)) }} />
                         </FormGroup>
                         <FormGroup>
                             <Label for="CrudPassword">Password</Label>
-                            <Input type="password" name="password" id="CrudPassword" placeholder="" value={password} onChange={(e) => { dispatch(CreateCrudModule.actions.changePassword(e.target.value)) }} />
+                            <Input type="password" name="password" id="CrudPassword" placeholder="" value={currentState.password} onChange={(e) => { dispatch(CreateCrudModule.actions.changePassword(e.target.value)) }} />
                         </FormGroup>
                         {renderCompany()}
                         {renderAuthority()}

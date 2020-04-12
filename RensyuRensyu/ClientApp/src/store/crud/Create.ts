@@ -5,7 +5,7 @@ export interface CreateState {
     companies: SelectListItem[];
     authorities: SelectListItem[];
 
-    id: string;
+    name: string;
     password: string;
     companyId: string;
     authority: string[];
@@ -22,7 +22,7 @@ const CreateInitialState: CreateState = {
     companies: [],
     authorities: [],
 
-    id: '',
+    name: '',
     password: '',
     companyId: '1',
     authority: []
@@ -44,14 +44,12 @@ export let CreateCrudModule = createSlice({
         },
         postData: (state) => {
             var formData = new FormData();
-            formData.append('id', state.id);
+            formData.append('name', state.name);
             formData.append('password', state.password);
             formData.append('companyId', state.companyId);
             state.authority.forEach((value) => {
                 formData.append('authorities', value);
             });
-            //formData.append('Ids', 2);
-            //formData.append('Addresses', '住所B');
 
             fetch('/Crud/PostCreate', {
                 method: 'post',
@@ -74,8 +72,8 @@ export let CreateCrudModule = createSlice({
 
             return state;
         },
-        changeId: (state, action: PayloadAction<string>) => {
-            state.id = action.payload;
+        changeName: (state, action: PayloadAction<string>) => {
+            state.name = action.payload;
         },
         changePassword: (state, action: PayloadAction<string>) => {
             state.password = action.payload;
