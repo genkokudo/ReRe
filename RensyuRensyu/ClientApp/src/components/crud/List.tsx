@@ -10,19 +10,20 @@ import { useHistory } from 'react-router';
  * ユーザ一覧画面の表示
  */
 const ListCrud = () => {
+
+    // fetchでデータ取得する
+    const { loading, error, data } = useFetch('/Crud/GetList'); // Getは省略できない
+
     useEffect(() => {
-        // stateにデータを反映させる
+        // 1回だけ実行、stateにデータを反映させる
         dispatch(ListCrudModule.actions.setData(data));
-    });
+    }, [data]); // 第2引数の値が変化すると実行
 
     // hooksセットアップ
     const dispatch = useDispatch();
 
     // 画面遷移
     const history = useHistory();
-
-    // fetchでデータ取得する
-    const { loading, error, data } = useFetch('/Crud/GetList'); // Getは省略できない
 
     // state取得
     const currentState: ListState = useSelector((state: any) => state.listCrud);
