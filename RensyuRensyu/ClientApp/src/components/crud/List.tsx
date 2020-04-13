@@ -1,4 +1,4 @@
-﻿import * as React from 'react';
+﻿import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListCrudModule, ListState } from '../../store/crud/List';
 import { Container, Row, Col, Input } from 'reactstrap';
@@ -10,6 +10,11 @@ import { useHistory } from 'react-router';
  * ユーザ一覧画面の表示
  */
 const ListCrud = () => {
+    useEffect(() => {
+        // stateにデータを反映させる
+        dispatch(ListCrudModule.actions.setData(data));
+    });
+
     // hooksセットアップ
     const dispatch = useDispatch();
 
@@ -18,10 +23,6 @@ const ListCrud = () => {
 
     // fetchでデータ取得する
     const { loading, error, data } = useFetch('/Crud/GetList'); // Getは省略できない
-
-    // stateにデータを反映させる
-    dispatch(ListCrudModule.actions.setData(data));
-    // ↑reduxは状態変化させたい場合、必ずdispatchメソッドを呼ぶ。
 
     // state取得
     const currentState: ListState = useSelector((state: any) => state.listCrud);
