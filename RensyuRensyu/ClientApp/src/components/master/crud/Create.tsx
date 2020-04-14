@@ -1,8 +1,8 @@
 ﻿import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CreateCrudModule, CreateState } from '../../store/crud/Create';
+import { CreateCrudModule, CreateState } from '../../../store/master/crud/Create';
 import { Container, Form, FormGroup, Label, Input, Button, CustomInput } from 'reactstrap';
-import { useFetch } from '../../store/useFetch';
+import { useFetch } from '../../../store/useFetch';
 import { useHistory } from 'react-router';
 
 /*

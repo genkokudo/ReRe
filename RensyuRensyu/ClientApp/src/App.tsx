@@ -4,8 +4,8 @@ import Layout from './components/Layout';
 import Home from './components/Home';
 import NazoMap from './components/leaflet/NazoMap';
 import Special from './components/Special';
-import ListCrud from './components/crud/List';
-import CreateCrud from './components/crud/Create';
+import ListCrud from './components/master/crud/List';
+import CreateCrud from './components/master/crud/Create';
 import 'leaflet/dist/leaflet.css'
 import './leaflet.css'  // ライブラリ付属のCSSを読み込んでから、本プロジェクトのカスタムCSSを読み込む
 import './custom.css'
