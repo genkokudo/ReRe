@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -39,9 +40,21 @@ namespace RensyuRensyu
                 .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
+                    // クッキーの名前を変える
+                    options.Cookie.Name = "auth";
+
+                    // リダイレクトするログインURLも小文字に変える
+                    // ~/Account/Login =＞ ~/account/login
+                    options.LoginPath = CookieAuthenticationDefaults.LoginPath.ToString().ToLower();
+
                     // リダイレクトするURL
-                    options.LoginPath = "/Login";
+                    options.LoginPath = "/login";
                 });
+
+            services.Configure<RouteOptions>(options => {
+                // URLは小文字にする
+                options.LowercaseUrls = true;
+            });
 
             services.AddRazorPages();
             services.AddControllersWithViews();
@@ -49,11 +62,14 @@ namespace RensyuRensyu
             // Core3.XはUseMvcの代わりにこれを使用する。 
             services.AddControllersWithViews(option =>
             {
-                var policy = new AuthorizationPolicyBuilder() // 認証の設定
+                // すべてのコントローラでログインが必要にしておく
+                // 認証が不要なコントローラを作成するには、[AllowAnonymous]を付ける。
+                var policy = new AuthorizationPolicyBuilder()
                                  .RequireAuthenticatedUser()
                                  .Build();
 
-                option.Filters.Add(new AuthorizeFilter(policy));            // デフォルトで認証が必要にする 
+                // グローバルフィルタに承認フィルタを追加
+                option.Filters.Add(new AuthorizeFilter(policy));
             })
             .AddRazorPagesOptions(options =>
             {
@@ -118,7 +134,10 @@ namespace RensyuRensyu
             // UseEndpointsによるルーティングを有効化
             app.UseRouting();
 
+            // パイプラインに認証のミドルウェアを追加する
+            // クッキーをもとに作ったプリンシパルをHttpContext.Userプロパティにセットする。
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
