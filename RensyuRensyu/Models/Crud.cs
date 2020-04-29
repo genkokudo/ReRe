@@ -51,5 +51,35 @@ namespace RensyuRensyu.Models
 				);
 		}
 
+		///// <summary>
+		///// 排他制御
+		///// </summary>
+		//[Timestamp]
+		//public byte[] Version { get; set; }
+
+		///// <summary>
+		///// 更新日時
+		///// </summary>
+		//public DateTime UpdatedDate { get; set; }
+
+		//public override int SaveChanges()
+		//{
+		//	var now = DateTime.Now;
+		//	SetCreateDateTime(now);
+		//	SetUpdateDateTime(now);
+		//	return base.SaveChanges();
+		//}
+
+		//private void SetUpdateDateTime(DateTime now)
+		//{
+		//	var entities = this.ChangeTracker.Entries()
+		//		.Where(e => (e.State == EntityState.Added || e.State == EntityState.Modified) && e.CurrentValues.PropertyNames.Contains("UpdateDateTime"))
+		//		.Select(e => e.Entity);
+
+		//	foreach (dynamic entity in entities)
+		//	{
+		//		entity.UpdateDateTime = now;
+		//	}
+		//}
 	}
 }

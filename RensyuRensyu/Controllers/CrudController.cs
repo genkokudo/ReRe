@@ -15,10 +15,6 @@ using RensyuRensyu.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using RensyuRensyu.ViewModels;
 
-// TODO:必須入力はなるべくクライアント側で判定
-// TODO:ユニーク制約つけなきゃいかん
-// TODO:CompanyIdなどの検索条件がある場合は？→クッキーから取ってくる
-
 // AutomapperとMediatorが必要
 namespace RensyuRensyu.Controllers
 {

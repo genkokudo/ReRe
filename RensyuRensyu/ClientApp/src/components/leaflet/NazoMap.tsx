@@ -1,6 +1,6 @@
 ﻿import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Map, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
+import { Map, TileLayer, Marker, Popup, Polyline, LayersControl, LayerGroup, FeatureGroup, Circle, Rectangle } from 'react-leaflet';
 import Control from 'react-leaflet-control';
 import NazoMapModule from "../../store/leaflet/NazoMap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,23 +27,83 @@ const NazoMap = () => {
         html: iconMarkup,
     });
 
+    // レイヤーを使用した地図の描画
+    const { BaseLayer, Overlay } = LayersControl;
+
+    // とりあえず使用する適当な座標
+    const center: [number, number] = [34.96841, 136.62732];
+    const rectangle: [number, number][] = [[51.49, -0.08], [51.5, -0.06]];
+
     // 描画処理
     return (
         <React.Fragment>
-            <Map center={[34.96841, 136.62732]} zoom={13}>
-                {/* 地図を提供しているサービスから画像を貰う、どこから貰っているかは右下に表示される */}
-                <TileLayer
-                    attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                {/* クリックしたらメッセージを吹き出し表示するようになる */}
-                {/* TODO:白い四角形消したい → 無理なので、ライブラリ使わずに普通にCDNして描画する方法を使う。 */}
-                <Marker position={[34.96841, 136.62732]} onClick={() => alert('マーカーのクリック')} icon={customMarkerIcon}>
-                    <Popup>
-                        <FontAwesomeIcon icon={['fas', 'minus-circle']} />
-                        ポップアップができるよ！ <br /> 改行もできるよ！
-                    </Popup>
-                </Marker>
+            <Map center={center} zoom={13}>
+
+                {/* 右上にレイヤー選択を作成 */}
+                <LayersControl position="topright">
+                    {/* 切替式レイヤー1 */}
+                    <BaseLayer checked name='OpenStreetMap.Mapnik'>
+                        {/* 地図を提供しているサービスから画像を貰う、どこから貰っているかは右下に表示される */}
+                        <TileLayer
+                            attribution='&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors'
+                            url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                        />
+                    </BaseLayer>
+                    {/* 切替式レイヤー2 */}
+                    <BaseLayer name='OpenStreetMap.BlackAndWhite'>
+                        <TileLayer
+                            attribution='&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors'
+                            url='https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png'
+                        />
+                    </BaseLayer>
+                    {/* 切替式レイヤー3 */}
+                    <BaseLayer name='Gsi.Cyberjapandata'>
+                        <TileLayer
+                            attribution="<a href='http://www.gsi.go.jp/kikakuchousei/kikakuchousei40182.html' target='_blank'>国土地理院</a>"
+                            url='http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png'
+                        />
+                    </BaseLayer>
+                    {/* 選択式レイヤー1 */}
+                    <Overlay checked name="Marker with popup">
+                        <Marker position={center} icon={customMarkerIcon}>
+                            <Popup>
+                                <FontAwesomeIcon icon={['fas', 'minus-circle']} />
+                                ポップアップができるよ！ <br /> 改行もできるよ！
+                            </Popup>
+                        </Marker>
+                    </Overlay>
+                    {/* 選択式レイヤー2 */}
+                    <Overlay checked name="Layer group with circles">
+                        <LayerGroup>
+                            <Circle center={center} fillColor="blue" radius={200} />
+                            <Circle
+                                center={center}
+                                fillColor="red"
+                                radius={100}
+                                stroke={false}
+                            />
+                            <LayerGroup>
+                                <Circle
+                                    center={center}
+                                    color="green"
+                                    fillColor="green"
+                                    radius={100}
+                                />
+                            </LayerGroup>
+                        </LayerGroup>
+                    </Overlay>
+                    {/* 選択式レイヤー3 */}
+                    <Overlay name="Feature group">
+                        <FeatureGroup color="purple">
+                            <Popup>
+                                <span>Popup in FeatureGroup</span>
+                            </Popup>
+                            <Circle center={center} radius={200} />
+                            <Rectangle bounds={rectangle} />
+                        </FeatureGroup>
+                    </Overlay>
+                </LayersControl>
+
 
                 {/* ボタン追加 */}
                 <Control position="topleft" >
@@ -55,6 +115,11 @@ const NazoMap = () => {
                     </button>
                 </Control>
                 <Control position="topleft" >
+                    <button onClick={() => alert('alert')}>
+                        <div><FontAwesomeIcon icon={['fab', 'github']} />アラート</div>
+                    </button>
+                </Control>
+                <Control position="topright" >
                     <button onClick={() => alert('alert')}>
                         <div><FontAwesomeIcon icon={['fab', 'github']} />アラート</div>
                     </button>
