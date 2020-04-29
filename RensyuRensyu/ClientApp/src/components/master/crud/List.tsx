@@ -1,8 +1,8 @@
 ﻿import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ListCrudModule, ListState } from '../../store/crud/List';
+import { ListCrudModule, ListState } from '../../../store/master/crud/List';
 import { Container, Row, Col, Input } from 'reactstrap';
-import { useFetch } from '../../store/useFetch';
+import { useFetch } from '../../../store/useFetch';
 import { useHistory } from 'react-router';
 
 // TODO:とりあえず一覧と新規追加だけ実装。編集と削除は後回し。
