@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RensyuRensyu.Models
+namespace RensyuRensyu.Entities
 {
 	// TODO:ユニーク制約が必要
 	// TODO:IsDeletedと、UpdatedDateが必要

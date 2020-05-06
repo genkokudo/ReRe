@@ -1,4 +1,4 @@
-﻿using RensyuRensyu.Models;
+﻿using RensyuRensyu.Entities;
 using System.Linq;
 
 namespace RensyuRensyu.Infrastructure.Database

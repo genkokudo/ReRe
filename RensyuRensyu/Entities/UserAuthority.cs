@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace RensyuRensyu.Models
+namespace RensyuRensyu.Entities
 {
 	public enum UserAuthorityTypes
 	{
