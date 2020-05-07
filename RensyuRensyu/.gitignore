@@ -181,7 +181,6 @@ ClientBin/
 orleans.codegen.cs
 
 /node_modules
-!/node_modules/@types/react-leaflet-draw
 
 # RIA/Silverlight projects
 Generated_Code/
