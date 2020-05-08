@@ -8,6 +8,7 @@ import ListCrud from './components/master/crud/List';
 import ListReportRefProbability from './components/master/reportRefProbability/List';
 import CreateCrud from './components/master/crud/Create';
 import 'leaflet/dist/leaflet.css'
+import 'leaflet-draw/dist/leaflet.draw.css'
 import './leaflet.css'  // ライブラリ付属のCSSを読み込んでから、本プロジェクトのカスタムCSSを読み込む
 import './custom.css'
 

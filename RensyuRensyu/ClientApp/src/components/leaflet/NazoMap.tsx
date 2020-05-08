@@ -6,7 +6,7 @@ import NazoMapModule from "../../store/leaflet/NazoMap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { divIcon } from 'leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';
-
+import { EditControl } from 'react-leaflet-draw';
 // レイヤーとか他のコンポーネントに分けれるかなと思ったけど、無駄。
 // 関数に分けるぐらいが良い。
 
@@ -145,6 +145,17 @@ const NazoMap = () => {
                     {selectLayer3()}
                 </LayersControl>
 
+                <FeatureGroup>
+                    <EditControl
+                        position='topright'
+                        //onEdited={this._onEditPath}
+                        //onCreated={this._onCreate}
+                        //onDeleted={this._onDeleted}
+                        draw={{
+                            //rectangle: false
+                        }}
+                    />
+                </FeatureGroup>
 
                 {/* ボタン追加 */}
                 <Control position="topleft" >
