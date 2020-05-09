@@ -42,8 +42,7 @@ namespace RensyuRensyu.Controllers.Master
         public async Task<GetReportRefProbabilityListResult> GetListAsync()
         {
             _logger.LogInformation("GetList");
-            //var companyId = long.Parse(User.FindFirst("CompanyId").Value);
-            var companyId = 1;
+            var companyId = long.Parse(User.FindFirst("CompanyId").Value);
             return await _mediator.Send(new GetReportRefProbabilityListQuery { CompanyId = companyId });
         }
 
@@ -57,10 +56,8 @@ namespace RensyuRensyu.Controllers.Master
         public async Task<GetReportRefProbabilityListResult> PostListTableAsync(List<long> ids, List<string> categories, List<string> conditions, List<decimal> probabilities, List<decimal> increaseProbabilities, List<int> isEdited, List<int> orders, List<long> versions)
         {
             _logger.LogInformation("PostList");
-            //var userId = long.Parse(User.FindFirst("UserId").Value);
-            //var userName = User.FindFirst("UserName").Value;
-            var userId = 1;
-            var userName = "ginpay";
+            var userId = long.Parse(User.FindFirst("UserId").Value);
+            var userName = User.FindFirst("UserName").Value;
 
             // トランザクション
             await _db.BeginTransactionAsync();
@@ -163,8 +160,15 @@ namespace RensyuRensyu.Controllers.Master
         public async Task<ActionResult> PostCreateAsync(int order, string category, string condition, decimal probability, decimal increaseProbability, long userId, string userName)
         {
             _logger.LogInformation($"PostCreate");
-            //var companyId = long.Parse(User.FindFirst("CompanyId").Value);
-            var companyId = 1;
+            var companyId = long.Parse(User.FindFirst("CompanyId").Value);
+            if (probability < 0)
+            {
+                return BadRequest(new { Message = $"登録に失敗しました。確率は0以上で入力してください。" });
+            }
+            if (increaseProbability < 0)
+            {
+                return BadRequest(new { Message = $"登録に失敗しました。10年後の確率増加値は0以上で入力してください。" });
+            }
 
             var result = await _mediator.Send(new PostReportRefProbabilityCreateQuery
             {
@@ -197,9 +201,15 @@ namespace RensyuRensyu.Controllers.Master
             _logger.LogInformation($"PostEdit");
 
             // 対象レコード以外の並び順の修正に必要
-            _logger.LogInformation($"PostCreate");
-            //var companyId = long.Parse(User.FindFirst("CompanyId").Value);
-            var companyId = 1;
+            var companyId = long.Parse(User.FindFirst("CompanyId").Value);
+            if (probability < 0)
+            {
+                return BadRequest(new { Message = $"登録に失敗しました。確率は0以上で入力してください。" });
+            }
+            if (increaseProbability < 0)
+            {
+                return BadRequest(new { Message = $"登録に失敗しました。10年後の確率増加値は0以上で入力してください。" });
+            }
 
             var result = await _mediator.Send(new PostReportRefProbabilityUpdateQuery
             {
@@ -372,7 +382,7 @@ namespace RensyuRensyu.Controllers.Master
                 });
                 await _db.SaveChangesAsync();
 
-                result.Messages.Add($"[表示順：{query.Order}, カテゴリ：{query.Category}, コンディション：{query.Condition}, 確率：{query.Probability}, 最終評価日から10年経過後の確率増加値：{query.IncreaseProbability}]");
+                result.Messages.Add($"[表示順：{query.Order}, カテゴリ：{query.Category}, コンディション：{query.Condition}, 確率：{query.Probability}, 10年後の確率増加値：{query.IncreaseProbability}]");
 
                 return await Task.FromResult(result);
             }
@@ -438,7 +448,7 @@ namespace RensyuRensyu.Controllers.Master
                     return await Task.FromResult(result);
                 }
 
-                var message = $"更新前[表示順：{target.Order}, カテゴリ：{target.Category}, コンディション：{target.Condition}, 確率：{target.Probability}, 最終評価日から10年経過後の確率増加値：{target.IncreaseProbability}]";
+                var message = $"更新前[表示順：{target.Order}, カテゴリ：{target.Category}, コンディション：{target.Condition}, 確率：{target.Probability}, 10年後の確率増加値：{target.IncreaseProbability}]";
 
                 // 更新
                 target.Category = query.Category;
@@ -453,7 +463,7 @@ namespace RensyuRensyu.Controllers.Master
 
                 await _db.SaveChangesAsync();
 
-                result.Messages.Add($"{message} 更新後[表示順：{query.Order}, カテゴリ：{query.Category}, コンディション：{query.Condition}, 確率：{query.Probability}, 最終評価日から10年経過後の確率増加値：{query.IncreaseProbability}]");
+                result.Messages.Add($"{message} 更新後[表示順：{query.Order}, カテゴリ：{query.Category}, コンディション：{query.Condition}, 確率：{query.Probability}, 10年後の確率増加値：{query.IncreaseProbability}]");
 
                 return await Task.FromResult(result);
             }
@@ -512,7 +522,7 @@ namespace RensyuRensyu.Controllers.Master
                 _db.ReportRefProbabilities.Remove(target);
                 await _db.SaveChangesAsync();
 
-                result.Messages.Add($"[表示順：{target.Order}, カテゴリ：{target.Category}, コンディション：{target.Condition}, 確率：{target.Probability}, 最終評価日から10年経過後の確率増加値：{target.IncreaseProbability}]");
+                result.Messages.Add($"[表示順：{target.Order}, カテゴリ：{target.Category}, コンディション：{target.Condition}, 確率：{target.Probability}, 10年後の確率増加値：{target.IncreaseProbability}]");
 
                 return await Task.FromResult(result);
             }

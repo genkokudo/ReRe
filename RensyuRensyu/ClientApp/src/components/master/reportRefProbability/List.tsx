@@ -71,11 +71,11 @@ const ListReportRefProbability = () => {
                         </td>
                         <td key={`td_probability_${i}`}>
                             {!isEdit && <p>{reportRefProbability.probability}</p>}
-                            {isEdit && <input type="number" max="9999.99" min="-9999.99" step="0.01" value={reportRefProbability.probability} onChange={(e) => dispatch(ListReportRefProbabilityModule.actions.editProbability({ id: index, text: Number(e.currentTarget.value) }))} />}
+                            {isEdit && <input type="number" max="9999.99" min="0" step="0.01" value={reportRefProbability.probability} onChange={(e) => dispatch(ListReportRefProbabilityModule.actions.editProbability({ id: index, text: Number(e.currentTarget.value) }))} />}
                         </td>
                         <td key={`td_increase_probability_${i}`}>
                             {!isEdit && <p>{reportRefProbability.increaseProbability}</p>}
-                            {isEdit && <input type="number" max="9999.99" min="-9999.99" step="0.01" value={reportRefProbability.increaseProbability} onChange={(e) => dispatch(ListReportRefProbabilityModule.actions.editIncreaseProbability({ id: index, text: Number(e.currentTarget.value) }))} />}
+                            {isEdit && <input type="number" max="9999.99" min="0" step="0.01" value={reportRefProbability.increaseProbability} onChange={(e) => dispatch(ListReportRefProbabilityModule.actions.editIncreaseProbability({ id: index, text: Number(e.currentTarget.value) }))} />}
                         </td>
                         <td key={`td_updated_by_${i}`}>
                             <p>{reportRefProbability.updatedBy}</p>
@@ -109,8 +109,9 @@ const ListReportRefProbability = () => {
                     {/* メッセージ */}
                     <Row><span className={'text-return'}>{currentState.message}</span></Row>
                     <Row><span className={'text-danger text-return'}>{currentState.error}</span></Row>
-                    <Row><span className={'text-return'}>確率は {Utils.calcMinValue(6, 2)} ～ {Utils.calcMaxValue(6, 2)} で入力してください。</span></Row>
-                    <Row><span className={'text-return'}>最終評価日から10年経過後の確率増加値は {Utils.calcMinValue(6, 2)} ～ {Utils.calcMaxValue(6, 2)} で入力してください。</span></Row>
+                    <Row><span className={'text-return'}>確率は {0} ～ {Utils.calcMaxValue(6, 2)} で入力してください。</span></Row>
+                    <Row><span className={'text-return'}>10年後の確率増加値は {0} ～ {Utils.calcMaxValue(6, 2)} で入力してください。</span></Row>
+                    <Row><span className={'text-return'}>確率は%ではなく小数で入力してください。（例：20%の場合"0.2", 5%の場合"0.05"）</span></Row>
                     {/* ボタン */}
                     <button className={'btn btn-primary mt-2'} onClick={() => dispatch(ListReportRefProbabilityModule.actions.addLine())}>新規追加</button>
                     {/* 一覧 */}
@@ -121,7 +122,7 @@ const ListReportRefProbability = () => {
                                 <th>カテゴリ</th>
                                 <th>コンディション</th>
                                 <th>確率</th>
-                                <th>最終評価日から10年経過後の確率増加値</th>
+                                <th>10年後の確率増加値</th>
                                 <th>更新者</th>
                                 <th>更新日時</th>
                                 <th>編集</th>
