@@ -4,11 +4,8 @@ import { Map, TileLayer, Marker, Popup, Polyline, LayersControl, LayerGroup, Fea
 import Control from 'react-leaflet-control';
 import NazoMapModule from "../../store/leaflet/NazoMap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { divIcon } from 'leaflet';
-import { renderToStaticMarkup } from 'react-dom/server';
-import { EditControl } from 'react-leaflet-draw';
-// レイヤーとか他のコンポーネントに分けれるかなと思ったけど、無駄。
-// 関数に分けるぐらいが良い。
+import NazoMapLayers, { NazoMapLayersProps } from './NazoMapLayers';
+import NazoMapDraw from './NazoMapDraw';
 
 /*
  * 地図画面の表示
@@ -24,109 +21,13 @@ const NazoMap = () => {
     //// store の state を取得する
     //const count = useSelector((state: any) => state.nazoMap.count);
 
-    // MarkerにFontawesomeを使用
-    const iconMarkup = renderToStaticMarkup(<FontAwesomeIcon icon={['fas', 'minus-circle']} />);
-    const customMarkerIcon = divIcon({
-        html: iconMarkup,
-    });
-
     // レイヤーを使用した地図の描画
     const { BaseLayer, Overlay } = LayersControl;
 
     // とりあえず使用する適当な座標
     const center: [number, number] = [34.96841, 136.62732];
     const rectangle: [number, number][] = [[51.49, -0.08], [51.5, -0.06]];
-
-    // 切替式レイヤー1
-    function toggleLayer1() {
-        // 地図を提供しているサービスから画像を貰う、どこから貰っているかは右下に表示される
-        return (
-            <BaseLayer checked name='OpenStreetMap.Mapnik'>
-                <TileLayer
-                    attribution='&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors'
-                    url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                />
-            </BaseLayer>
-            );
-    }
-
-    // 切替式レイヤー2
-    function toggleLayer2() {
-        return (
-            <BaseLayer name='OpenStreetMap.BlackAndWhite'>
-                <TileLayer
-                    attribution='&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors'
-                    url='https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png'
-                />
-            </BaseLayer>
-        );
-    }
-
-    // 切替式レイヤー3
-    function toggleLayer3() {
-        return (
-            <BaseLayer name='Gsi.Cyberjapandata'>
-                <TileLayer
-                    attribution="<a href='http://www.gsi.go.jp/kikakuchousei/kikakuchousei40182.html' target='_blank'>国土地理院</a>"
-                    url='http://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png'
-                />
-            </BaseLayer>
-        );
-    }
-
-    // 選択式レイヤー1
-    function selectLayer1() {
-        return (
-            <Overlay checked name="Marker with popup">
-                <Marker position={center} icon={customMarkerIcon}>
-                    <Popup>
-                        <FontAwesomeIcon icon={['fas', 'minus-circle']} />
-                        ポップアップができるよ！ <br /> 改行もできるよ！
-                            </Popup>
-                </Marker>
-            </Overlay>
-        );
-    }
-
-    // 選択式レイヤー2
-    function selectLayer2() {
-        return (
-            <Overlay checked name="Layer group with circles">
-                <LayerGroup>
-                    <Circle center={center} fillColor="blue" radius={200} />
-                    <Circle
-                        center={center}
-                        fillColor="red"
-                        radius={100}
-                        stroke={false}
-                    />
-                    <LayerGroup>
-                        <Circle
-                            center={center}
-                            color="green"
-                            fillColor="green"
-                            radius={100}
-                        />
-                    </LayerGroup>
-                </LayerGroup>
-            </Overlay>
-        );
-    }
-
-    // 選択式レイヤー3
-    function selectLayer3() {
-        return (
-            <Overlay name="Feature group">
-                <FeatureGroup color="purple">
-                    <Popup>
-                        <span>Popup in FeatureGroup</span>
-                    </Popup>
-                    <Circle center={center} radius={200} />
-                    <Rectangle bounds={rectangle} />
-                </FeatureGroup>
-            </Overlay>
-        );
-    }
+    const nazoMapLayersProps: NazoMapLayersProps = { center: center, rectangle: rectangle };
 
     // 描画処理
     return (
@@ -134,28 +35,10 @@ const NazoMap = () => {
             <Map center={center} zoom={13}>
 
                 {/* 右上にレイヤー選択を作成 */}
-                <LayersControl position="topright">
-                    {/* 切替式レイヤー */}
-                    {toggleLayer1()}
-                    {toggleLayer2()}
-                    {toggleLayer3()}
-                    {/* 選択式レイヤー */}
-                    {selectLayer1()}
-                    {selectLayer2()}
-                    {selectLayer3()}
-                </LayersControl>
+                <NazoMapLayers {...nazoMapLayersProps} />
 
-                <FeatureGroup>
-                    <EditControl
-                        position='topright'
-                        //onEdited={this._onEditPath}
-                        //onCreated={this._onCreate}
-                        //onDeleted={this._onDeleted}
-                        draw={{
-                            //rectangle: false
-                        }}
-                    />
-                </FeatureGroup>
+                {/* 描画ツールを作成 */}
+                <NazoMapDraw />
 
                 {/* ボタン追加 */}
                 <Control position="topleft" >

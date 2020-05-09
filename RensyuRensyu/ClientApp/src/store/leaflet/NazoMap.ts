@@ -5,15 +5,17 @@
 // state
 export interface NazoMapState {
     count: number;
+    is: boolean;
 }
 
 // 初期値
 const nazoMapInitialState: NazoMapState = {
-    count: 1
+    count: 1,
+    is: true
 };
 
 // createSlice() の中では、stateの更新を行っても良い（他ではだめ）
-const NazoMap = createSlice({
+const NazoMapModule = createSlice({
     name: 'nazoMap',
     initialState: nazoMapInitialState,
     reducers:   // 処理の定義
@@ -23,8 +25,17 @@ const NazoMap = createSlice({
         test: (state, action: PayloadAction<number>) => {   // PayloadActionで引数の型を指定する
             state.count = action.payload
         },
+        // 線の追加
+        createLines: (state, action: PayloadAction<number>) => {
+            state.is = !state.is;
+            alert(state.is);
+        }
+        //// 行を追加する
+        //addLine: (state, action: PayloadAction<ListState>) => {
+        //    return state;
+        //},
     }
 });
 
-export default NazoMap;
+export default NazoMapModule;
 
