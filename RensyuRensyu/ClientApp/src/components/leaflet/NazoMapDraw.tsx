@@ -1,6 +1,5 @@
 ﻿import React, { useEffect } from 'react';
 import { FeatureGroup } from 'react-leaflet';
-import { EditControl } from 'react-leaflet-draw';
 import { useSelector, useDispatch } from 'react-redux';
 import NazoMapModule, { NazoMapState } from '../../store/leaflet/NazoMap';
 
@@ -8,19 +7,22 @@ import NazoMapModule, { NazoMapState } from '../../store/leaflet/NazoMap';
  * 地図画面の図形描画ツール表示
  */
 const NazoMapDraw = () => {
-
+    const draw = require('react-leaflet-draw');
     const dispatch = useDispatch();
     const currentState = useSelector((state: NazoMapState) => state);
 
     // 作成したときの動作
-    function onCreated() {
+    function onCreated(e: any) {
+        //e.layer._latlngs.foreach
+        // ↑ここに座標が入る！
+
         alert('作成しました。');
         dispatch(NazoMapModule.actions.createLines(1));
     }
 
     return (
         <FeatureGroup>
-            <EditControl
+            <draw.EditControl
                 position='topright'
                 //onEdited={this._onEditPath}
                 onCreated={onCreated}
