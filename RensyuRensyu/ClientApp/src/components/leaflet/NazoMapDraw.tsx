@@ -14,10 +14,8 @@ const NazoMapDraw = () => {
     // 作成したときの動作
     function onCreated(e: any) {
         //e.layer._latlngs.foreach
-        // ↑ここに座標が入る！
 
-        alert('作成しました。');
-        dispatch(NazoMapModule.actions.createLines(1));
+        //dispatch(NazoMapModule.actions.createLines(1));
     }
 
     return (
@@ -30,7 +28,7 @@ const NazoMapDraw = () => {
                 draw={{
                     polyline: true,
                     polygon: false,
-                    rectangle: currentState.is,      // 反応するわけではないらしい
+                    rectangle: false,      // 反応するわけではないらしい
                     circle: false,
                     marker: false,
                     circlemarker: false

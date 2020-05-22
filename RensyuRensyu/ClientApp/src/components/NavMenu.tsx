@@ -23,6 +23,9 @@ const NavMenu = () => {
                             <NavLink tag={Link} className="" to="/nazo-map">NazoMap</NavLink>
                         </NavItem>
                         <NavItem>
+                            <NavLink tag={Link} className="" to="/nazo-chart">NazoChart</NavLink>
+                        </NavItem>
+                        <NavItem>
                             <NavLink tag={Link} className="" to="/reportRefProbability">なにかの登録</NavLink>
                         </NavItem>
                         {/* 管理者のみ表示 */}
