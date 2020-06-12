@@ -12,6 +12,7 @@ import 'leaflet-draw/dist/leaflet.draw.css'
 import './leaflet.css'  // ライブラリ付属のCSSを読み込んでから、本プロジェクトのカスタムCSSを読み込む
 import './custom.css'
 import NazoChart from './components/chart/NazoChart';
+import NavMenu from './components/NavMenu';
 
 /**
  * index.tsxから呼び出される
@@ -22,6 +23,8 @@ import NazoChart from './components/chart/NazoChart';
 export default () => (
     <Layout>
         <Route exact path='/' component={Home} />
+        {/* 現在のURLによって表示を変えるため、Layout.tsxではなくここで描画指定 */}
+        <Route path='/' component={NavMenu} />
         <Route path='/nazo-chart' component={NazoChart} />
         <Route path='/nazo-map' component={NazoMap} />
         <Route path='/special' render={props => <Special aaaa={34} {...props} />} />

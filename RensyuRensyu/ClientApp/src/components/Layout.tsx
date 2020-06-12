@@ -9,7 +9,6 @@ import NavMenu from './NavMenu';
  */
 export default (props: { children?: React.ReactNode }) => (
     <React.Fragment>
-        <NavMenu />
         {/* ‰æ–Ê‚¢‚Á‚Ï‚¢‚É‚·‚éê‡‚ÍAfluid={true} ‚ğ•t‚¯‚é */}
         <Container>
             {props.children}

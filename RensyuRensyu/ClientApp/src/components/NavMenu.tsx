@@ -9,6 +9,11 @@ import './NavMenu.css'; // CSSを読み込める
 const NavMenu = () => {
     // ハンバーガーメニューのトグル
     const [isOpen, setIsOpen] = React.useState(false);    // フィールド名、セッター名、初期値
+
+    // 現在のURL
+    // 画面変えても反映されないね。何で？
+    let url = window.location.href;
+
     // 描画処理
     return (
         <Navbar className="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
@@ -20,17 +25,17 @@ const NavMenu = () => {
                     <ul className="navbar-nav flex-grow">
                         {/* toでどのtsxコンポーネントに飛ぶかは、App.tsxで設定する。 */}
                         <NavItem>
-                            <NavLink tag={Link} className="" to="/nazo-map">NazoMap</NavLink>
+                            <NavLink tag={Link} className={url.indexOf('/nazo-map') != -1 ? 'active' : ''} to="/nazo-map">NazoMap</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={Link} className="" to="/nazo-chart">NazoChart</NavLink>
+                            <NavLink tag={Link} className={url.indexOf('/nazo-chart') != -1 ? 'active' : ''} to="/nazo-chart">NazoChart</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={Link} className="" to="/reportRefProbability">なにかの登録</NavLink>
+                            <NavLink tag={Link} className={url.indexOf('/reportRefProbability') != -1 ? 'active' : ''} to="/reportRefProbability">なにかの登録</NavLink>
                         </NavItem>
                         {/* 管理者のみ表示 */}
                         <NavItem>
-                            <NavLink tag={Link} className="" to="/react/user-register-index">ユーザ管理（未実装）</NavLink>
+                            <NavLink tag={Link} className={url.indexOf('/react/user-register-index') != -1 ? 'active' : ''} to="/react/user-register-index">ユーザ管理（未実装）</NavLink>
                         </NavItem>
                     </ul>
                     {/* TODO:うまくいかない、あとで。
