@@ -1,11 +1,14 @@
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,14 +33,37 @@ namespace RensyuRensyu
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // 認証ありにする（クッキーベース）
+            services
+                .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    // リダイレクトするURL
+                    options.LoginPath = "/Login";
+                });
+
             services.AddRazorPages();
-            services.AddControllersWithViews()
-            //    .AddRazorPagesOptions(options =>
-            //{
-            //    // Loginフォルダーは[AllowAnonymous]にする 
-            //    options.Conventions.AllowAnonymousToFolder("/Login");
-            //})
-                ;
+            services.AddControllersWithViews();
+
+            // Core3.XはUseMvcの代わりにこれを使用する。 
+            services.AddControllersWithViews(option =>
+            {
+                var policy = new AuthorizationPolicyBuilder() // 認証の設定
+                                 .RequireAuthenticatedUser()
+                                 .Build();
+
+                option.Filters.Add(new AuthorizeFilter(policy));            // デフォルトで認証が必要にする 
+            })
+            .AddRazorPagesOptions(options =>
+            {
+                //options.Conventions.AuthorizeFolder("/MembersOnly");
+                //options.Conventions.AuthorizePage("/Account/Logout");
+
+                //options.Conventions.AuthorizeFolder("/Pages/Admin", "Admins"); // with policy
+                //options.Conventions.AllowAnonymousToPage("/Pages/Admin/Login"); // excluded page
+                options.Conventions.AllowAnonymousToFolder("/Login");       // Loginフォルダーは[AllowAnonymous]にする 
+            });
 
             // 本番環境では、Reactファイルはこのディレクトリから提供されます
             services.AddSpaStaticFiles(configuration =>
@@ -59,6 +85,7 @@ namespace RensyuRensyu
         // このメソッドはランタイムによって呼び出されます。 このメソッドを使用して、HTTP要求パイプラインを構成します。
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // セキュリティ的な理由でレスポンスヘッダに情報追加
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add("X-Frame-Options", "deny");
@@ -68,6 +95,7 @@ namespace RensyuRensyu
                 await next.Invoke();
             });
 
+            // 開発環境ではエラー時にデバッグ画面を出す
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

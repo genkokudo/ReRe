@@ -43,5 +43,13 @@ namespace RensyuRensyu.Entities
 		/// ユーザ権限を取得、もしくは、設定します。
 		/// </summary>
 		public List<UserAuthority> UserAuthorities { get; set; }
+
+		//public class MappingProfiler : Profile
+		//{
+		//	public MappingProfiler() => CreateMap<UserEntity, UserIndexViewModel>(MemberList.Source)
+		//		.ForMember(dest => dest.UserCompanyName, opt => opt.MapFrom(src => src.Company.Name))
+		//		.ForMember(dest => dest.UserAuthoritiesName, opt => opt.MapFrom(src => src.UserAuthorities.Select(x => x.Authority.ToString()))
+		//		);
+		//}
 	}
 }

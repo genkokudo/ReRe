@@ -11,7 +11,6 @@ const NavMenu = () => {
     const [isOpen, setIsOpen] = React.useState(false);    // フィールド名、セッター名、初期値
 
     // 現在のURL
-    // 画面変えても反映されないね。何で？
     let url = window.location.href;
 
     // 描画処理

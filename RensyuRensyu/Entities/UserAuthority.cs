@@ -12,14 +12,9 @@ namespace RensyuRensyu.Entities
 		/// </summary>
 		Administrator,
 		/// <summary>
-		/// VrrからCmmpに送信できます。
-		/// この権限があるユーザのIDとパスワードはVRR送信時のBasic認証にも使用します。
+		/// Ginpayの画面表示ができます。
 		/// </summary>
-		Vrr,
-		/// <summary>
-		/// Cmmpの画面表示ができます。
-		/// </summary>
-		Cmmp
+		Ginpay
 	}
 
 	/// <summary>
