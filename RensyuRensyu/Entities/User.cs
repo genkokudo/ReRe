@@ -11,7 +11,7 @@ namespace RensyuRensyu.Entities
 	/// ユーザーです。
 	/// Basic認証にも使用します。
 	/// </summary>
-	public class UserEntity
+	public class User
 	{
 		/// <summary>
 		/// IDを取得、もしくは、設定します。

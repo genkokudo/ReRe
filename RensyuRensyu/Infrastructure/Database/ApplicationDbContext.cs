@@ -14,6 +14,7 @@ namespace RensyuRensyu.Infrastructure.Database
         {
 		}
 
+		public DbSet<User> Users { get; set; }
 		public DbSet<TestData> TestDatas { get; set; }
 		public DbSet<Crud> Cruds { get; set; }
 		public DbSet<ReportRefProbabilityEntity> ReportRefProbabilities { get; set; }
@@ -23,7 +24,7 @@ namespace RensyuRensyu.Infrastructure.Database
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			// ユーザ名はユニーク制約を付ける
-			modelBuilder.Entity<UserEntity>()
+			modelBuilder.Entity<User>()
 				.HasIndex(m => m.Name)
 				.IsUnique();
 

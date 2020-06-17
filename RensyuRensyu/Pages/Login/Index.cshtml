@@ -1,5 +1,5 @@
 ﻿@page
-@model RensyuRensyu.Pages.Login.IndexModel
+@*@model RensyuRensyu.Pages.Login.IndexModel*@
 @{
     Layout = null;
     ViewData["Title"] = "ログイン";
@@ -39,32 +39,27 @@
         </button>
     </nav>
 
-    @*<partial name="_CookieConsentPartial" />*@
-
     <div class="container body-content">
-        <div class="row" style="margin-top:40px;">
+        <div class="row" style="margin-top:80px;">
             <div class="col-md-12">
-                <form method="post" class="mx-auto no-ajax">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form id="LoginForm" method="post" class="mx-auto no-ajax">
                     <div class="form-group">
-                        <label asp-for="Name" class="col-sm-offset-3 col-sm-2 control-label"></label>
+                        <label class="col-sm-offset-3 col-sm-2 control-label">Name</label>
                         <div class="col-sm-4">
-                            <input asp-for="Name" class="form-control" />
-                            <span asp-validation-for="Name" class="text-danger"></span>
+                            <input id="Name" type="text" class="form-control" autocomplete="off" />
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label asp-for="Password" class="col-sm-offset-3 col-sm-2 control-label"></label>
+                        <label class="col-sm-offset-3 col-sm-2 control-label">Password</label>
                         <div class="col-sm-4">
-                            <input type="password" asp-for="Password" class="form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <input id="Password" type="password" class="form-control" autocomplete="off" />
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-offset-5 col-sm-4">
-                            <a class="btn btn-primary text-white" onclick="$('form').submit();"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;&nbsp;ログイン</a>
+                            <button id="Login" type="button" class="btn btn-primary text-white"><i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;&nbsp;ログイン</button>
                         </div>
                     </div>
                 </form>
@@ -89,9 +84,43 @@
         <script src="~/lib/lodash/lodash.min.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
+    <script>
+        $('#Login').on('click', function () {
+            var name = $('#Name').val();
+            var password = $('#Password').val();
+            var returnUrl = getParam("ReturnUrl");
+            if (returnUrl === null) {
+                returnUrl = '';
+            }
+            var formData = new FormData();
+            formData.append('name', name);
+            formData.append('password', password);
 
-    @*
-        @RenderSection("Scripts", required: false)
-    *@
+            $.ajax({
+                type: 'POST',
+                url: '/Login/OnLogin?ReturnUrl=' + returnUrl,
+                contentType: false,
+                processData: false,
+                data: formData
+            }).then(
+                function (data) {
+                    if (data == null || data.error == undefined) {
+                        alert('サーバの処理に失敗しました。');
+                    } else {
+                        if (data.error == '') {
+                            window.location.href = data.url;
+                        } else {
+                            alert(data.error);
+                        }
+                    }
+                },
+                function () {
+                    // メソッドが存在しない、またはOK以外
+                    alert('サーバの処理が実行できませんでした。');
+                }
+            );
+        });
+
+    </script>
 </body>
 </html> 
