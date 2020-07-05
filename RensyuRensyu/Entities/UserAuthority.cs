@@ -59,7 +59,7 @@ namespace RensyuRensyu.Entities
 		/// IDを取得、もしくは、設定します。
 		/// </summary>
 		[Key]
-		public long Id { get; set; }
+		public long UserAuthorityId { get; set; }
 
 		/// <summary>
 		/// 権限を取得、もしくは、設定します。
