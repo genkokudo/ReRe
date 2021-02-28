@@ -19,13 +19,13 @@ namespace RensyuRensyu.Controllers.Master
     /// 発生確率マスタメンテ
     /// </summary>
     //[Authorize(Roles = "Administrator")]
-    public class ReportRefProbabilityController : ControllerBase
+    public class WorldController : ControllerBase
     {
-        private readonly ILogger<ReportRefProbabilityController> _logger;
+        private readonly ILogger<WorldController> _logger;
         private readonly IMediator _mediator;
         private readonly ApplicationDbContext _db;
 
-        public ReportRefProbabilityController(ILogger<ReportRefProbabilityController> logger, IMediator mediator, ApplicationDbContext db)
+        public WorldController(ILogger<WorldController> logger, IMediator mediator, ApplicationDbContext db)
         {
             _logger = logger;
             _mediator = mediator;
@@ -34,26 +34,26 @@ namespace RensyuRensyu.Controllers.Master
 
         #region List
         /// <summary>
-        /// ReportRefProbability/GetList
+        /// World/GetList
         /// 発生確率一覧を取得します。
         /// （PostListTableAsyncが兼ねるので、直接画面から呼ぶ必要がなくなった）
         /// </summary>
         /// <returns></returns>
-        public async Task<GetReportRefProbabilityListResult> GetListAsync()
+        public async Task<GetWorldListResult> GetListAsync()
         {
             _logger.LogInformation("GetList");
             var companyId = long.Parse(User.FindFirst("CompanyId").Value);
-            return await _mediator.Send(new GetReportRefProbabilityListQuery { CompanyId = companyId });
+            return await _mediator.Send(new GetWorldListQuery { CompanyId = companyId });
         }
 
         /// <summary>
-        /// ReportRefProbability/PostListTable
+        /// World/PostListTable
         /// 発生確率一覧をDBに反映します。
         /// また、最新の状態を検索して結果を画面に返します。
         /// </summary>
         /// <param name="ids">0:追加</param>
         /// <returns></returns>
-        public async Task<GetReportRefProbabilityListResult> PostListTableAsync(List<long> ids, List<string> categories, List<string> conditions, List<decimal> probabilities, List<decimal> increaseProbabilities, List<int> isEdited, List<int> orders, List<long> versions)
+        public async Task<GetWorldListResult> PostListTableAsync(List<long> ids, List<string> names, List<decimal> probabilities, List<int> isEdited, List<int> orders, List<long> versions)
         {
             _logger.LogInformation("PostList");
             var userId = long.Parse(User.FindFirst("UserId").Value);
@@ -85,12 +85,12 @@ namespace RensyuRensyu.Controllers.Master
                     else if (ids[i] == 0)
                     {
                         // 追加
-                        tempResult = await PostCreateAsync(orders[i], categories[i], conditions[i], probabilities[i], increaseProbabilities[i], userId, userName) as ObjectResult;
+                        tempResult = await PostCreateAsync(orders[i], names[i], probabilities[i], userId, userName) as ObjectResult;
                     }
                     else
                     {
                         // 更新
-                        tempResult = await PostUpdateAsync(ids[i], categories[i], conditions[i], probabilities[i], increaseProbabilities[i], orders[i], versions[i], userId, userName) as ObjectResult;
+                        tempResult = await PostUpdateAsync(ids[i], names[i], probabilities[i], orders[i], versions[i], userId, userName) as ObjectResult;
                     }
                     // 実行結果
                     if (tempResult.StatusCode == 200)
@@ -110,7 +110,7 @@ namespace RensyuRensyu.Controllers.Master
                     }
                     else if (e.InnerException.Message.Contains("conflicted"))
                     {
-                        errors.Add($"このマスタを使用しているスタンプがあるため削除できません。");
+                        errors.Add($"このマスタを使用しているデータがあるため削除できません。");
                     }
                     else if (e.InnerException.Message.Contains("would be truncated"))
                     {
@@ -123,7 +123,7 @@ namespace RensyuRensyu.Controllers.Master
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError("ReportRefProbabilityマスタメンテで想定外のエラーが発生。");
+                    _logger.LogError("Worldマスタメンテで想定外のエラーが発生。");
                     _logger.LogError(e.ToString());
                     errors.Add($"想定されていないエラーが発生しました:{e}");
                 }
@@ -157,7 +157,7 @@ namespace RensyuRensyu.Controllers.Master
         /// 発生確率を作成します。
         /// </summary>
         /// <returns></returns>
-        public async Task<ActionResult> PostCreateAsync(int order, string category, string condition, decimal probability, decimal increaseProbability, long userId, string userName)
+        public async Task<ActionResult> PostCreateAsync(int order, string name, decimal probability, long userId, string userName)
         {
             _logger.LogInformation($"PostCreate");
             var companyId = long.Parse(User.FindFirst("CompanyId").Value);
@@ -165,17 +165,11 @@ namespace RensyuRensyu.Controllers.Master
             {
                 return BadRequest(new { Message = $"登録に失敗しました。確率は0以上で入力してください。" });
             }
-            if (increaseProbability < 0)
-            {
-                return BadRequest(new { Message = $"登録に失敗しました。10年後の確率増加値は0以上で入力してください。" });
-            }
 
-            var result = await _mediator.Send(new PostReportRefProbabilityCreateQuery
+            var result = await _mediator.Send(new PostWorldCreateQuery
             {
-                Category = category,
-                Condition = condition,
+                Name = name,
                 Probability = probability,
-                IncreaseProbability = increaseProbability,
                 CompanyId = companyId,
                 Order = order,
                 UserId = userId,
@@ -196,7 +190,7 @@ namespace RensyuRensyu.Controllers.Master
         /// 発生確率を更新します。
         /// </summary>
         /// <returns></returns>
-        public async Task<ActionResult> PostUpdateAsync(long id, string category, string condition, decimal probability, decimal increaseProbability, int order, long version, long userId, string userName)
+        public async Task<ActionResult> PostUpdateAsync(long id, string name, decimal probability, int order, long version, long userId, string userName)
         {
             _logger.LogInformation($"PostEdit");
 
@@ -206,18 +200,12 @@ namespace RensyuRensyu.Controllers.Master
             {
                 return BadRequest(new { Message = $"登録に失敗しました。確率は0以上で入力してください。" });
             }
-            if (increaseProbability < 0)
-            {
-                return BadRequest(new { Message = $"登録に失敗しました。10年後の確率増加値は0以上で入力してください。" });
-            }
 
-            var result = await _mediator.Send(new PostReportRefProbabilityUpdateQuery
+            var result = await _mediator.Send(new PostWorldUpdateQuery
             {
                 Id = id,
-                Category = category,
-                Condition = condition,
+                Name = name,
                 Probability = probability,
-                IncreaseProbability = increaseProbability,
                 CompanyId = companyId,
                 Order = order,
                 Version = version,
@@ -236,7 +224,7 @@ namespace RensyuRensyu.Controllers.Master
 
         #region Delete
         /// <summary>
-        /// ReportRefProbability/PostDelete
+        /// World/PostDelete
         /// 削除します。
         /// </summary>
         /// <param name="id"></param>
@@ -245,7 +233,7 @@ namespace RensyuRensyu.Controllers.Master
         {
             _logger.LogInformation($"PostDelete");
 
-            var result = await _mediator.Send(new PostDeleteReportRefProbabilityQuery
+            var result = await _mediator.Send(new PostDeleteWorldQuery
             {
                 Id = id,
                 Version = version
@@ -262,7 +250,7 @@ namespace RensyuRensyu.Controllers.Master
 
     #region List
     /// <summary>共通の処理結果</summary>
-    public class PostReportRefProbabilityResult
+    public class PostWorldResult
     {
         /// <summary>結果</summary> 
         public bool IsSuccess { get; set; } = true;
@@ -273,16 +261,16 @@ namespace RensyuRensyu.Controllers.Master
 
     #region Get
     /// <summary>検索条件</summary>
-    public class GetReportRefProbabilityListQuery : IRequest<GetReportRefProbabilityListResult>
+    public class GetWorldListQuery : IRequest<GetWorldListResult>
     {
         public long CompanyId { get; set; }
     }
 
     /// <summary>検索結果</summary>
-    public class GetReportRefProbabilityListResult
+    public class GetWorldListResult
     {
         /// <summary>検索した情報</summary> 
-        public ReportRefProbabilityModel[] ReportRefProbabilities { get; set; }
+        public WorldModel[] ReportRefProbabilities { get; set; }
         /// <summary>画面に表示する処理結果</summary> 
         public string Message { get; set; }
         /// <summary>画面に表示するエラー</summary> 
@@ -292,12 +280,12 @@ namespace RensyuRensyu.Controllers.Master
     /// <summary> 
     /// 発生確率一覧検索ハンドラ
     /// </summary> 
-    public class GetReportRefProbabilityListQueryHandler : IRequestHandler<GetReportRefProbabilityListQuery, GetReportRefProbabilityListResult>
+    public class GetWorldListQueryHandler : IRequestHandler<GetWorldListQuery, GetWorldListResult>
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
 
-        public GetReportRefProbabilityListQueryHandler(ApplicationDbContext db, IMapper mapper)
+        public GetWorldListQueryHandler(ApplicationDbContext db, IMapper mapper)
         {
             _db = db;
             _mapper = mapper;
@@ -309,15 +297,15 @@ namespace RensyuRensyu.Controllers.Master
         /// <param name="query">検索条件</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<GetReportRefProbabilityListResult> Handle(GetReportRefProbabilityListQuery query, CancellationToken token)
+        public async Task<GetWorldListResult> Handle(GetWorldListQuery query, CancellationToken token)
         {
             // DB検索
-            var reportRefProbabilities = _db.ReportRefProbabilities.Where(x => x.CompanyId == query.CompanyId).OrderBy(x => x.Order).AsNoTracking().ToArray();
+            var reportRefProbabilities = _db.Worlds.Where(x => x.Company.CompanyId == query.CompanyId).OrderBy(x => x.Order).AsNoTracking().ToArray();
 
             // 検索結果の格納
-            var result = new GetReportRefProbabilityListResult
+            var result = new GetWorldListResult
             {
-                ReportRefProbabilities = _mapper.Map<ReportRefProbabilityEntity[], ReportRefProbabilityModel[]>(reportRefProbabilities)
+                ReportRefProbabilities = _mapper.Map<WorldEntity[], WorldModel[]>(reportRefProbabilities)
             };
             return await Task.FromResult(result);
         }
@@ -330,12 +318,10 @@ namespace RensyuRensyu.Controllers.Master
 
     #region Post
     /// <summary>処理条件</summary>
-    public class PostReportRefProbabilityCreateQuery : IRequest<PostReportRefProbabilityResult>
+    public class PostWorldCreateQuery : IRequest<PostWorldResult>
     {
-        public string Category { get; set; }
-        public string Condition { get; set; }
+        public string Name { get; set; }
         public decimal Probability { get; set; }
-        public decimal IncreaseProbability { get; set; }
         public int Order { get; set; }
         public long CompanyId { get; set; }
         public long UserId { get; set; }
@@ -343,14 +329,13 @@ namespace RensyuRensyu.Controllers.Master
     }
 
     /// <summary> 
-    /// ハンドラ 
-    /// PostReportRefProbabilityCreateQueryをSendすると動作し、ReportRefProbabilityCreateResultを返す 
+    /// ハンドラ
     /// </summary> 
-    public class PostReportRefProbabilityCreateQueryHandler : IRequestHandler<PostReportRefProbabilityCreateQuery, PostReportRefProbabilityResult>
+    public class PostWorldCreateQueryHandler : IRequestHandler<PostWorldCreateQuery, PostWorldResult>
     {
         private readonly ApplicationDbContext _db;
 
-        public PostReportRefProbabilityCreateQueryHandler(ApplicationDbContext db)
+        public PostWorldCreateQueryHandler(ApplicationDbContext db)
         {
             _db = db;
         }
@@ -361,20 +346,18 @@ namespace RensyuRensyu.Controllers.Master
         /// <param name="query">処理条件</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<PostReportRefProbabilityResult> Handle(PostReportRefProbabilityCreateQuery query, CancellationToken token)
+        public async Task<PostWorldResult> Handle(PostWorldCreateQuery query, CancellationToken token)
         {
-            var result = new PostReportRefProbabilityResult();
+            var result = new PostWorldResult();
 
             try
             {
                 // 登録
-                _db.ReportRefProbabilities.Add(new ReportRefProbabilityEntity
+                _db.Worlds.Add(new WorldEntity
                 {
-                    Category = query.Category,
-                    Condition = query.Condition,
+                    Name = query.Name,
                     Probability = query.Probability,
-                    IncreaseProbability = query.IncreaseProbability,
-                    CompanyId = query.CompanyId,
+                    Company = _db.Companies.First(x => x.CompanyId == query.CompanyId),
                     Order = query.Order,
                     UpdatedUserId = query.UserId,
                     UpdatedBy = query.UserName,
@@ -382,7 +365,7 @@ namespace RensyuRensyu.Controllers.Master
                 });
                 await _db.SaveChangesAsync();
 
-                result.Messages.Add($"[表示順：{query.Order}, カテゴリ：{query.Category}, コンディション：{query.Condition}, 確率：{query.Probability}, 10年後の確率増加値：{query.IncreaseProbability}]");
+                result.Messages.Add($"[表示順：{query.Order}, 名前：{query.Name}, 確率：{query.Probability}]");
 
                 return await Task.FromResult(result);
             }
@@ -400,13 +383,11 @@ namespace RensyuRensyu.Controllers.Master
 
     #region Post
     /// <summary>検索条件</summary>
-    public class PostReportRefProbabilityUpdateQuery : IRequest<PostReportRefProbabilityResult>
+    public class PostWorldUpdateQuery : IRequest<PostWorldResult>
     {
         public long Id { get; set; }
-        public string Category { get; set; }
-        public string Condition { get; set; }
+        public string Name { get; set; }
         public decimal Probability { get; set; }
-        public decimal IncreaseProbability { get; set; }
         public int Order { get; set; }
         public long CompanyId { get; set; }
         public long Version { get; set; }
@@ -417,11 +398,11 @@ namespace RensyuRensyu.Controllers.Master
     /// <summary> 
     /// ハンドラ
     /// </summary> 
-    public class PostReportRefProbabilityUpdateQueryHandler : IRequestHandler<PostReportRefProbabilityUpdateQuery, PostReportRefProbabilityResult>
+    public class PostWorldUpdateQueryHandler : IRequestHandler<PostWorldUpdateQuery, PostWorldResult>
     {
         private readonly ApplicationDbContext _db;
 
-        public PostReportRefProbabilityUpdateQueryHandler(ApplicationDbContext db)
+        public PostWorldUpdateQueryHandler(ApplicationDbContext db)
         {
             _db = db;
         }
@@ -432,15 +413,15 @@ namespace RensyuRensyu.Controllers.Master
         /// <param name="query">検索条件</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<PostReportRefProbabilityResult> Handle(PostReportRefProbabilityUpdateQuery query, CancellationToken token)
+        public async Task<PostWorldResult> Handle(PostWorldUpdateQuery query, CancellationToken token)
         {
 
-            var result = new PostReportRefProbabilityResult();
+            var result = new PostWorldResult();
 
             try
             {
                 // データ作成
-                var target = _db.ReportRefProbabilities.FirstOrDefault(x => x.ReportRefProbabilityId == query.Id && x.Version == query.Version);
+                var target = _db.Worlds.FirstOrDefault(x => x.WorldId == query.Id && x.Version == query.Version);
                 if (target == null)
                 {
                     result.IsSuccess = false;
@@ -448,13 +429,11 @@ namespace RensyuRensyu.Controllers.Master
                     return await Task.FromResult(result);
                 }
 
-                var message = $"更新前[表示順：{target.Order}, カテゴリ：{target.Category}, コンディション：{target.Condition}, 確率：{target.Probability}, 10年後の確率増加値：{target.IncreaseProbability}]";
+                var message = $"更新前[表示順：{target.Order}, 名前：{target.Name}, 確率：{target.Probability}]";
 
                 // 更新
-                target.Category = query.Category;
-                target.Condition = query.Condition;
+                target.Name = query.Name;
                 target.Probability = query.Probability;
-                target.IncreaseProbability = query.IncreaseProbability;
                 target.UpdatedDate = DateTime.UtcNow;
                 target.UpdatedUserId = query.UserId;
                 target.UpdatedBy = query.UserName;
@@ -463,7 +442,7 @@ namespace RensyuRensyu.Controllers.Master
 
                 await _db.SaveChangesAsync();
 
-                result.Messages.Add($"{message} 更新後[表示順：{query.Order}, カテゴリ：{query.Category}, コンディション：{query.Condition}, 確率：{query.Probability}, 10年後の確率増加値：{query.IncreaseProbability}]");
+                result.Messages.Add($"{message} 更新後[表示順：{query.Order}, 名前：{query.Name}, 確率：{query.Probability}]");
 
                 return await Task.FromResult(result);
             }
@@ -480,7 +459,7 @@ namespace RensyuRensyu.Controllers.Master
 
     #region Delete
     /// <summary>検索条件</summary>
-    public class PostDeleteReportRefProbabilityQuery : IRequest<PostReportRefProbabilityResult>
+    public class PostDeleteWorldQuery : IRequest<PostWorldResult>
     {
         public long Id { get; set; }
         public long Version { get; set; }
@@ -488,13 +467,13 @@ namespace RensyuRensyu.Controllers.Master
 
     /// <summary> 
     /// ハンドラ 
-    /// PostDeleteReportRefProbabilityQueryをSendすると動作し、PostDeleteReportRefProbabilityResultを返す 
+    /// PostDeleteWorldQueryをSendすると動作し、PostDeleteWorldResultを返す 
     /// </summary> 
-    public class PostDeleteReportRefProbabilityQueryHandler : IRequestHandler<PostDeleteReportRefProbabilityQuery, PostReportRefProbabilityResult>
+    public class PostDeleteWorldQueryHandler : IRequestHandler<PostDeleteWorldQuery, PostWorldResult>
     {
         private readonly ApplicationDbContext _db;
 
-        public PostDeleteReportRefProbabilityQueryHandler(ApplicationDbContext db)
+        public PostDeleteWorldQueryHandler(ApplicationDbContext db)
         {
             _db = db;
         }
@@ -506,23 +485,23 @@ namespace RensyuRensyu.Controllers.Master
         /// <param name="query">検索条件</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<PostReportRefProbabilityResult> Handle(PostDeleteReportRefProbabilityQuery query, CancellationToken token)
+        public async Task<PostWorldResult> Handle(PostDeleteWorldQuery query, CancellationToken token)
         {
-            var result = new PostReportRefProbabilityResult();
+            var result = new PostWorldResult();
             try
             {
                 // 削除
-                var target = _db.ReportRefProbabilities.FirstOrDefault(x => x.ReportRefProbabilityId == query.Id && x.Version == query.Version);
+                var target = _db.Worlds.FirstOrDefault(x => x.WorldId == query.Id && x.Version == query.Version);
                 if (target == null)
                 {
                     result.IsSuccess = false;
                     result.Messages.Add($"既に他のユーザが更新したため、処理がキャンセルされました。\n画面をリロードしてやり直してください。");
                     return await Task.FromResult(result);
                 }
-                _db.ReportRefProbabilities.Remove(target);
+                _db.Worlds.Remove(target);
                 await _db.SaveChangesAsync();
 
-                result.Messages.Add($"[表示順：{target.Order}, カテゴリ：{target.Category}, コンディション：{target.Condition}, 確率：{target.Probability}, 10年後の確率増加値：{target.IncreaseProbability}]");
+                result.Messages.Add($"[表示順：{target.Order}, 名前：{target.Name}, 確率：{target.Probability}]");
 
                 return await Task.FromResult(result);
             }

@@ -17,7 +17,7 @@ namespace RensyuRensyu.Infrastructure.Database
 		public DbSet<User> Users { get; set; }
 		public DbSet<TestData> TestDatas { get; set; }
 		public DbSet<Crud> Cruds { get; set; }
-		public DbSet<ReportRefProbabilityEntity> ReportRefProbabilities { get; set; }
+		public DbSet<WorldEntity> Worlds { get; set; }
 		public DbSet<Company> Companies { get; set; }
 		public DbSet<UserAuthority> UserAuthorities { get; set; }
 
@@ -29,8 +29,8 @@ namespace RensyuRensyu.Infrastructure.Database
 				.IsUnique();
 
 			// ユニーク制約を付ける
-			modelBuilder.Entity<ReportRefProbabilityEntity>()
-				.HasIndex(x => new { x.CompanyId, x.Category, x.Condition, x.Probability, x.IncreaseProbability }).IsUnique();
+			modelBuilder.Entity<WorldEntity>()
+				.HasIndex(x => new { x.Name }).IsUnique();
 		}
 
 		#region トランザクション処理のラップ

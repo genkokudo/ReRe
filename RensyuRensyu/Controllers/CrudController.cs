@@ -388,7 +388,7 @@ namespace RensyuRensyu.Controllers
             var companySelectList = new List<SelectListItem>();
             foreach (var company in companies)
             {
-                companySelectList.Add(new SelectListItem(company.Name, company.Id.ToString()));
+                companySelectList.Add(new SelectListItem(company.Name, company.CompanyId.ToString()));
             }
 
             // 権限リストの取得
@@ -457,7 +457,7 @@ namespace RensyuRensyu.Controllers
                     Name = query.Name,
                     PassWord = hashedPassword,
                     Salt = salt,
-                    Company = _db.Companies.First(x => x.Id == query.CompanyId),
+                    Company = _db.Companies.First(x => x.CompanyId == query.CompanyId),
                     UserAuthorities = userAuthorities
                 });
                 await _db.SaveChangesAsync();
@@ -543,7 +543,7 @@ namespace RensyuRensyu.Controllers
                 target.Name = query.Name;
                 target.PassWord = hashedPassword;
                 target.Salt = salt;
-                target.Company = _db.Companies.First(x => x.Id == query.CompanyId);
+                target.Company = _db.Companies.First(x => x.CompanyId == query.CompanyId);
                 target.UserAuthorities = userAuthorities;
                 await _db.SaveChangesAsync();
 

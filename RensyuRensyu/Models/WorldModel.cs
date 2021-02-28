@@ -1,34 +1,31 @@
-﻿namespace RensyuRensyu.Models.Master
+﻿using RensyuRensyu.Entities;
+
+namespace RensyuRensyu.Models.Master
 {
     /// <summary>
-    /// 発生確率の画面モデルです。
+    /// 世界設定の画面モデルです。
     /// </summary>
-    public class ReportRefProbabilityModel
+    public class WorldModel
     {
         /// <summary>
         /// IDを取得、もしくは、設定します。
         /// </summary>
-        public long ReportRefProbabilityId { get; set; }
-        
+        public long WorldId { get; set; }
+
         /// <summary>
-        /// カテゴリを取得、もしくは、設定します。
+        /// 会社を取得、もしくは、設定します。
         /// </summary>
-        public string Category { get; set; }
-        
+        public Company Company { get; set; }
+
         /// <summary>
-        /// コンディションを取得、もしくは、設定します。
+        /// 名前を取得、もしくは、設定します。
         /// </summary>
-        public string Condition { get; set; }
-        
+        public string Name { get; set; }
+
         /// <summary>
         /// 確率を取得、もしくは、設定します。
         /// </summary>
         public decimal Probability { get; set; }
-        
-        /// <summary>
-        /// 最終評価日から10年経過後の確率増加値を取得、もしくは、設定します。
-        /// </summary>
-        public decimal IncreaseProbability { get; set; }
         
         /// <summary>
         /// 並び順を取得、もしくは、設定します。

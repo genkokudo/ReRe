@@ -98,7 +98,7 @@ namespace RensyuRensyu.Controllers
 			{
 				claims.Add(new Claim(ClaimTypes.Role, item.Authority.ToString()));
 			}
-			claims.Add(new Claim("CompanyId", user.Company.Id.ToString()));
+			claims.Add(new Claim("CompanyId", user.Company.CompanyId.ToString()));
 			claims.Add(new Claim("UserId", user.UserId.ToString()));
 			claims.Add(new Claim("UserName", user.Name.ToString()));
 
